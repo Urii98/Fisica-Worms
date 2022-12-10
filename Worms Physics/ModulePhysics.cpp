@@ -46,3 +46,23 @@ bool ModulePhysics::CleanUp()
 
 	return true;
 }
+
+
+PhysBody* ModulePhysics::CreateCircle(int x, int y, int r, int mass) {
+
+	PhysBody* circle = new PhysBody();
+
+	/*circle->app = App;*/
+
+	circle->data.posX = x;
+	circle->data.posY = y;
+	circle->data.radi = r;
+	circle->data.mass = mass;
+
+	circle->physicObject = true;
+
+	circle->isCircle = true;
+
+	return circle;
+
+}

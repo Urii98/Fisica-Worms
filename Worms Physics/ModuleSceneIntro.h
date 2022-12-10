@@ -54,4 +54,8 @@ public:
 	p2DynArray<Light> lights;
 
 	uint player_lose_fx;
+
+	//------------------------------------
+
+	PhysBody* circle;
 };

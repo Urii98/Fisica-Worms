@@ -33,24 +33,24 @@ class PhysBody
 {
 public:
 
+	PhysBody();
+	~PhysBody();
+
 	Data data;
 
 	bool physicObject = false;
 	bool physEnable = true;
 
-	bool circle = false;
-	bool rectangle = false;
-	bool player = false;
-	bool water = false;
+	bool isCircle = false;
+	bool isRectangle = false;
+	bool isPlayer = false;
+	bool isWater = false;
 
 	bool force = false;
 
 	bool colliding = false;
 
 private:
-
-	PhysBody();
-	~PhysBody();
 
 	float angleToRadiants(int angle);
 

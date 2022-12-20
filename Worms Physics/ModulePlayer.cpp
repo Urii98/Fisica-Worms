@@ -31,7 +31,7 @@ update_status ModulePlayer::Update()
 {
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		PhysBody* circle = App->physics->CreateCircle(100, 100, 10, 10);
+		/*PhysBody* circle = App->physics->CreateCircle(100, 100, 10, 10);*/
 	}
 	return UPDATE_CONTINUE;
 }

@@ -18,7 +18,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	circle = App->physics->CreateCircle(50, 50, 10, 10);
+	/*circle = App->physics->CreateCircle(50, 50, 10, 10);*/
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 

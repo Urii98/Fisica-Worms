@@ -87,7 +87,7 @@ update_status Collisions::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-bool Collisions::PostUpdate()
+update_status Collisions::PostUpdate()
 {
 	if (debug) DebugDraw();
 

@@ -27,7 +27,7 @@ bool ModulePhysics::Start()
 	ground->w = PIXELS_TO_METERS(500);
 	ground->h = PIXELS_TO_METERS(250);
 
-	ground->ground_col = App->col->AddCollider({ ground->x, ground->y, ground->w ,ground->h }, Collider::Type::GROUND, this);
+	ground->ground_col = App->collisions->AddCollider({ ground->x, ground->y, ground->w ,ground->h }, Collider::Type::GROUND, this);
 
 
 	platform = new Ground();
@@ -37,7 +37,7 @@ bool ModulePhysics::Start()
 	platform->w = PIXELS_TO_METERS(100);
 	platform->h = PIXELS_TO_METERS(250);
 
-	platform->ground_col = App->col->AddCollider({ platform->x, platform->y, platform->w ,platform->h }, Collider::Type::GROUND, this);
+	platform->ground_col = App->collisions->AddCollider({ platform->x, platform->y, platform->w ,platform->h }, Collider::Type::GROUND, this);
 
 
 	agua = new Ground();
@@ -55,7 +55,7 @@ bool ModulePhysics::Start()
 	isla->w = PIXELS_TO_METERS(200);
 	isla->h = PIXELS_TO_METERS(100);
 
-	isla->ground_col = app->col->AddCollider({ isla->x, isla->y, isla->w ,isla->h }, Collider::Type::GROUND, this);
+	isla->ground_col = App->collisions->AddCollider({ isla->x, isla->y, isla->w ,isla->h }, Collider::Type::GROUND, this);
 
 
 	win = new Ground();
@@ -100,21 +100,21 @@ bool ModulePhysics::CleanUp()
 }
 
 
-PhysBody* ModulePhysics::CreateCircle(int x, int y, int r, int mass) {
-
-	PhysBody* circle = new PhysBody();
-
-	/*circle->app = App;*/
-
-	circle->data.posX = x;
-	circle->data.posY = y;
-	circle->data.radi = r;
-	circle->data.mass = mass;
-
-	circle->physicObject = true;
-
-	circle->isCircle = true;
-
-	return circle;
-
-}
+//PhysBody* ModulePhysics::CreateCircle(int x, int y, int r, int mass) {
+//
+//	PhysBody* circle = new PhysBody();
+//
+//	/*circle->app = App;*/
+//
+//	circle->data.posX = x;
+//	circle->data.posY = y;
+//	circle->data.radi = r;
+//	circle->data.mass = mass;
+//
+//	circle->physicObject = true;
+//
+//	circle->isCircle = true;
+//
+//	return circle;
+//
+//}

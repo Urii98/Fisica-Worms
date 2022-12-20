@@ -7,8 +7,8 @@
 #define MAX_LISTENERS 5
 
 
-
-class Collider: public Module
+class Moudle;
+struct Collider
 {
 	enum Type
 	{

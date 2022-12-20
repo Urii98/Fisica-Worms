@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+struct Collider;
 struct Object
 {
 	SDL_Texture* graphic;
@@ -23,8 +24,7 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
-
-
+	void OnCollision(Collider* c1, Collider* c2) override;
 
 public:
 

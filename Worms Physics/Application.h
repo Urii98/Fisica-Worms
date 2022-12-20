@@ -13,10 +13,12 @@
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
 #include "Collider.h"
+#include "Collisions.h"
 #include "PerfTimer.h"
 #include "Timer.h"
 #include "List.h"
 #include "SString.h"
+#include "Fonts.h"
 
 class Application
 {
@@ -29,7 +31,8 @@ public:
 	ModulePlayer* player;
 	ModuleSceneIntro* scene_intro;
 	ModulePhysics* physics;
-	Collider* col;
+	Collisions* collisions;
+	Fonts* fonts;
 
 private:
 

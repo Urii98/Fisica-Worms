@@ -1,6 +1,7 @@
-#pragma once
+#ifndef __PHYSICS_H__
+#define __PHYSICS_H__
+
 #include "Module.h"
-#include "Globals.h"
 #include "Defs.h"
 #include "Log.h"
 #include "DynArray.h"
@@ -12,6 +13,7 @@
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXELS_TO_METERS(p) ((float) METERS_PER_PIXEL * p)
 #define GRAVITY 10.0f
+
 class Ball
 {
 public:
@@ -43,7 +45,7 @@ public:
 	double surface; // Effective wet surface
 	double cl; // Lift coefficient
 	double cd = 0.47f; // Drag coefficient
-
+	
 	//Hidrodinamic stuff
 	double density;
 	double volume; //volumen submergido
@@ -51,7 +53,7 @@ public:
 
 	// Has physics enabled?
 	bool physics_enabled = true;
-
+	
 
 	void SetVelocity(double vx, double vy);
 	void AddForce(double fx, double fy);
@@ -77,16 +79,25 @@ public:
 	Collider* ground_col = nullptr;
 };
 
-class ModulePhysics : public Module
+class Physics : public Module
 {
 public:
-	ModulePhysics(Application* app, bool start_enabled = true);
-	~ModulePhysics();
+	Physics();
+
+	virtual ~Physics();
+
+	bool Awake();
 
 	bool Start();
-	update_status PreUpdate();
-	update_status PostUpdate();
+
+	bool PreUpdate();
+
+	bool Update(float dt);
+
+	bool PostUpdate();
+
 	bool CleanUp();
+
 	void Integrator_velocity_verlet(Ball* ball, double dt);
 	void Integrator_forward_euler(Ball* ball, double dt);
 	void Integrator_backwards_euler(Ball* ball, double dt);
@@ -122,6 +133,7 @@ private:
 
 	int integer;
 
-
 	
 };
+
+#endif

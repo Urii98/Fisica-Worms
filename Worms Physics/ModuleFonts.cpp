@@ -158,6 +158,9 @@ update_status ModuleFonts::Update()
 
 	//URI - TO DO'S: Meter los parametros dentro del ground
 
+	//URI - TO DO'S - 2: Hacer que se puedan modificar a tiempo real todos estos parámetros
+
+	
 	//Gravity
 	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
 	const char* gravChar = gravString.c_str();

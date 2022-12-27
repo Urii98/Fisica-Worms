@@ -6,6 +6,11 @@
 
 #define BOUNCER_TIME 200
 
+#define MAX_FONTS 10
+#define MAX_FONT_CHARS 256
+
+struct SDL_Texture;
+
 struct Bouncer
 {
 	Bouncer() : body(NULL), texture(NULL), hit_timer(0), fx(0)
@@ -74,4 +79,6 @@ public:
 
 	PhysBody* player_lose;
 	uint player_lose_fx;
+
+	int textFont = -1;
 };

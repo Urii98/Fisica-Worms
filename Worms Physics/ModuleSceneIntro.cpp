@@ -20,27 +20,45 @@ bool ModuleSceneIntro::Start()
 
 	// Create ground
 	ground = Ground();
-	ground.x = 0.0f; // [m]
+	ground.x = 17.0f; // [m]
 	ground.y = 0.0f; // [m]
-	ground.w = 30.0f; // [m]
-	ground.h = 5.0f; // [m]
+	ground.w = 16.0f; // [m]
+	ground.h = 10.0f; // [m]
 
-	wall = Wall();
-	wall.x = 1.0f; // [m]
-	wall.y = 10.0f; // [m]
-	wall.w = 30.0f; // [m]
-	wall.h = 5.0f; // [m]
-	wall.bouncyness = 1.0f;
+	// Create walls
+	wall1 = Wall();
+	wall1.x = 12.f; // [m]
+	wall1.y = 0.0f; // [m]
+	wall1.w = 5.0f; // [m]
+	wall1.h = 15.0f; // [m]
+	wall1.bouncyness = 1.0f;
+
+	// Create walls
+	wall2 = Wall();
+	wall2.x = ground.x + ground.w; // [m]
+	wall2.y = 0.0f; // [m]
+	wall2.w = 5.0f; // [m]
+	wall2.h = 15.0f; // [m]
+	wall2.bouncyness = 1.0f;
 
 	// Create Water
-	water = Water();
-	water.x = ground.x + ground.w; // Start where ground ends [m]
-	water.y = 0.0f; // [m]
-	water.w = 30.0f; // [m]
-	water.h = 5.0f; // [m]
-	water.density = 50.0f; // [kg/m^3]
-	water.vx = -1.0f; // [m/s]
-	water.vy = 0.0f; // [m/s]
+	water1 = Water();
+	water1.x = 0.0f;
+	water1.y = 0.0f; // [m]
+	water1.w = 12.0f; // [m]
+	water1.h = 5.0f; // [m]
+	water1.density = 50.0f; // [kg/m^3]
+	water1.vx = 0.0f; // [m/s]
+	water1.vy = 0.0f; // [m/s]
+
+	water2 = Water();
+	water2.x = wall2.x + wall2.w; // Start where ground ends [m]
+	water2.y = 0.0f; // [m]
+	water2.w = 15.0f; // [m]
+	water2.h = 5.0f; // [m]
+	water2.density = 50.0f; // [kg/m^3]
+	water2.vx = -1.0f; // [m/s]
+	water2.vy = 0.0f; // [m/s]
 
 	// Create atmosphere
 	atmosphere = Atmosphere();

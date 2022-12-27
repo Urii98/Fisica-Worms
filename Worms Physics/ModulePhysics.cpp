@@ -50,7 +50,7 @@ update_status ModulePhysics::PreUpdate()
 		ball.fx += fgx; ball.fy += fgy; // Add this force to ball's total force
 
 		// Aerodynamic Drag force (only when not in water)
-		if (!is_colliding_with_water(ball, App->scene_intro->water))
+		if (!is_colliding_with_water(ball, App->scene_intro->water1))
 		{
 			float fdx = 0.0f; float fdy = 0.0f;
 			compute_aerodynamic_drag(fdx, fdy, ball, App->scene_intro->atmosphere);
@@ -58,16 +58,16 @@ update_status ModulePhysics::PreUpdate()
 		}
 
 		// Hydrodynamic forces (only when in water)
-		if (is_colliding_with_water(ball, App->scene_intro->water))
+		if (is_colliding_with_water(ball, App->scene_intro->water1))
 		{
 			// Hydrodynamic Drag force
 			float fhdx = 0.0f; float fhdy = 0.0f;
-			compute_hydrodynamic_drag(fhdx, fhdy, ball, App->scene_intro->water);
+			compute_hydrodynamic_drag(fhdx, fhdy, ball, App->scene_intro->water1);
 			ball.fx += fhdx; ball.fy += fhdy; // Add this force to ball's total force
 
 			// Hydrodynamic Buoyancy force
 			float fhbx = 0.0f; float fhby = 0.0f;
-			compute_hydrodynamic_buoyancy(fhbx, fhby, ball, App->scene_intro->water);
+			compute_hydrodynamic_buoyancy(fhbx, fhby, ball, App->scene_intro->water1);
 			ball.fx += fhbx; ball.fy += fhby; // Add this force to ball's total force
 		}
 
@@ -106,10 +106,10 @@ update_status ModulePhysics::PreUpdate()
 			ball.vy *= ball.coef_restitution;
 		}
 
-		if (is_colliding_with_wall(ball, App->scene_intro->wall))
+		if (is_colliding_with_wall(ball, App->scene_intro->wall1))
 		{
 			// Elastic bounce with wall
-			ball.vy = -ball.vy * App->scene_intro->wall.bouncyness;
+			ball.vy = -ball.vy * App->scene_intro->wall1.bouncyness;
 
 			// FUYM non-elasticity
 			ball.vx *= ball.coef_friction;
@@ -132,11 +132,19 @@ update_status ModulePhysics::PostUpdate()
 
 	// Draw wall
 	color_r = 0; color_g = 255; color_b = 155;
-	App->renderer->DrawQuad(App->scene_intro->wall.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall1.pixels(), color_r, color_g, color_b);
 
-	// Draw water
+	// Draw wall2
+	color_r = 0; color_g = 255; color_b = 155;
+	App->renderer->DrawQuad(App->scene_intro->wall2.pixels(), color_r, color_g, color_b);
+
+	// Draw water1
 	color_r = 0; color_g = 0; color_b = 255;
-	App->renderer->DrawQuad(App->scene_intro->water.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->water1.pixels(), color_r, color_g, color_b);
+
+	// Draw water2
+	color_r = 0; color_g = 0; color_b = 255;
+	App->renderer->DrawQuad(App->scene_intro->water2.pixels(), color_r, color_g, color_b);
 
 	// Draw all balls in the scenario
 	for (auto& ball : App->scene_intro->balls)

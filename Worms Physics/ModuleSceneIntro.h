@@ -80,6 +80,8 @@ public:
 	std::vector<PhysBall> balls{};
 	Atmosphere atmosphere{};
 	Ground ground{};
-	Wall wall{};
-	Water water{};
+	Wall wall1{};
+	Wall wall2{};
+	Water water1{};
+	Water water2{};
 };

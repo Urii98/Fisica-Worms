@@ -107,6 +107,8 @@ private:
 public:
 	float gravity;
 	float buoyancy;
+	float aeroDragX, aeroDragY;
+	float hidroDragX, hidroDragY;
 };
 
 // Compute modulus of a vector

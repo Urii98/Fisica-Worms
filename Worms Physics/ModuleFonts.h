@@ -51,7 +51,7 @@ public:
 	// Create a surface from text
 	void BlitText(int x, int y, int fontIndex, const char* text) const;
 
-	std::string PhysicsParamsToConstChar(float param, int decimales, const char* text);
+	std::string PhysicsParamsToString(float param, int decimales, const char* text);
 
 private:
 	// An array to keep track and store all loaded fonts

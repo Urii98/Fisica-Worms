@@ -137,7 +137,7 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 	}
 }
 
-std::string ModuleFonts::PhysicsParamsToConstChar(float param, int decimales, const char* text)
+std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const char* text)
 {
 	std::string paramToString = std::to_string(param);
 	std::string rounded = paramToString.substr(0, paramToString.find(".") + decimales +1);
@@ -147,41 +147,34 @@ std::string ModuleFonts::PhysicsParamsToConstChar(float param, int decimales, co
 	result.append(typeOfParam);
 	result.append(rounded);
 
-
 	return result;
-
 }
 
 update_status ModuleFonts::Update()
 {
-
-
-	std::string gravString = PhysicsParamsToConstChar(App->physics->gravity, 2, "Gravity  : ");
+	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity  : ");
 	const char* gravChar = gravString.c_str();
-	App->fonts->BlitText(0, 0, textFont, gravChar);
+	App->fonts->BlitText(0, 0, textFont, gravChar); //
 
-	std::string aDragXString = PhysicsParamsToConstChar(App->physics->gravity, 2, "A. Drag.x: ");
+	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
 	const char* aDragXChar = aDragXString.c_str();
 	App->fonts->BlitText(0, 17, textFont, aDragXChar);
 
-	std::string aDragYString = PhysicsParamsToConstChar(App->physics->gravity, 2, "A. Drag.y: ");
+	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
 	const char* aDragYChar = aDragYString.c_str();
 	App->fonts->BlitText(0, 34, textFont, aDragYChar);
 
-	std::string hDragXString = PhysicsParamsToConstChar(App->physics->gravity, 2, "H. Drag.x: ");
+	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
 	const char* hDragXChar = hDragXString.c_str();
 	App->fonts->BlitText(0, 51, textFont, hDragXChar);
 
-	std::string hDragYString = PhysicsParamsToConstChar(App->physics->gravity, 2, "H. Drag.y: ");
+	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
 	const char* hDragYChar = hDragYString.c_str();
 	App->fonts->BlitText(0, 68, textFont, hDragYChar);
 
-	std::string hBuoyancyString = PhysicsParamsToConstChar(App->physics->buoyancy, 2, "H. Buoya.: ");
+	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
-	App->fonts->BlitText(0, 85, textFont, hBuoyancyChar);
-
-
-
+	App->fonts->BlitText(0, 85, textFont, hBuoyancyChar); //
 
 
 	return UPDATE_CONTINUE;

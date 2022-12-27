@@ -22,6 +22,8 @@ bool ModulePhysics::Start()
 
 	gravity = -10.0f;
 	buoyancy = 0.0f;
+	aeroDragX, aeroDragY = 0.0f;
+	hidroDragX, hidroDragY = 0.0f;
 
 	return true;
 }
@@ -55,18 +57,18 @@ update_status ModulePhysics::PreUpdate()
 		// Aerodynamic Drag force (only when not in water)
 		if (!is_colliding_with_water(ball, App->scene_intro->water1))
 		{
-			float fdx = 0.0f; float fdy = 0.0f;
-			compute_aerodynamic_drag(fdx, fdy, ball, App->scene_intro->atmosphere);
-			ball.fx += fdx; ball.fy += fdy; // Add this force to ball's total force
+			aeroDragX = 0.0f; aeroDragY = 0.0f;
+			compute_aerodynamic_drag(aeroDragX, aeroDragY, ball, App->scene_intro->atmosphere);
+			ball.fx += aeroDragX; ball.fy += aeroDragY; // Add this force to ball's total force
 		}
 
 		// Hydrodynamic forces (only when in water)
 		if (is_colliding_with_water(ball, App->scene_intro->water1))
 		{
 			// Hydrodynamic Drag force
-			float fhdx = 0.0f; float fhdy = 0.0f;
-			compute_hydrodynamic_drag(fhdx, fhdy, ball, App->scene_intro->water1);
-			ball.fx += fhdx; ball.fy += fhdy; // Add this force to ball's total force
+			hidroDragX = 0.0f; hidroDragY = 0.0f;
+			compute_hydrodynamic_drag(hidroDragX, hidroDragY, ball, App->scene_intro->water1);
+			ball.fx += hidroDragX; ball.fy += hidroDragY; // Add this force to ball's total force
 
 			// Hydrodynamic Buoyancy force
 			float fhbx = 0.0f; buoyancy = 0.0f;

@@ -113,8 +113,35 @@ update_status ModulePhysics::PreUpdate()
 
 		if (is_colliding_with_wall(ball, App->scene_intro->wall1))
 		{
+			// if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
+			if (ball.x + ball.radius > App->scene_intro->wall1.x && ball.x < App->scene_intro->wall1.x && ball.y > App->scene_intro->wall1.y
+				&& ball.y + ball.radius < App->scene_intro->wall1.y + App->scene_intro->wall1.h)
+			{
+				// Elastic bounce with wall
+				ball.vx = -ball.vx * App->scene_intro->wall1.bouncyness;
+			}
+
 			// Elastic bounce with wall
 			ball.vy = -ball.vy * App->scene_intro->wall1.bouncyness;
+
+			// FUYM non-elasticity
+			ball.vx *= ball.coef_friction;
+			ball.vy *= ball.coef_restitution;
+		}
+
+		if (is_colliding_with_wall(ball, App->scene_intro->wall2))
+		{
+			// if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
+			if (ball.x + ball.radius > App->scene_intro->wall2.x && ball.x < App->scene_intro->wall2.x && ball.y > App->scene_intro->wall2.y
+				&& ball.y + ball.radius < App->scene_intro->wall2.y + App->scene_intro->wall2.h)
+			{
+				// Elastic bounce with wall
+				ball.vx = -ball.vx * App->scene_intro->wall2.bouncyness;
+				ball.vy = -ball.vy * App->scene_intro->wall2.bouncyness;
+			}
+
+			// Elastic bounce with wall
+			ball.vy = -ball.vy * App->scene_intro->wall2.bouncyness;
 
 			// FUYM non-elasticity
 			ball.vx *= ball.coef_friction;
@@ -135,13 +162,28 @@ update_status ModulePhysics::PostUpdate()
 	color_r = 0; color_g = 255; color_b = 0;
 	App->renderer->DrawQuad(App->scene_intro->ground.pixels(), color_r, color_g, color_b);
 
-	// Draw wall
-	color_r = 0; color_g = 255; color_b = 155;
+	// Draw walls
+	color_r = 0; color_g = 255; color_b = 0;
 	App->renderer->DrawQuad(App->scene_intro->wall1.pixels(), color_r, color_g, color_b);
-
-	// Draw wall2
-	color_r = 0; color_g = 255; color_b = 155;
 	App->renderer->DrawQuad(App->scene_intro->wall2.pixels(), color_r, color_g, color_b);
+
+	color_r = 255; color_g = 155; color_b = 0;
+	App->renderer->DrawQuad(App->scene_intro->wall3.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall4.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall5.pixels(), color_r, color_g, color_b);
+
+	App->renderer->DrawQuad(App->scene_intro->wall6.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall7.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall8.pixels(), color_r, color_g, color_b);
+
+	App->renderer->DrawQuad(App->scene_intro->wall9.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall10.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall11.pixels(), color_r, color_g, color_b);
+
+	// Draw bouncy walls
+	color_r = 50; color_g = 100; color_b = 50;
+	App->renderer->DrawQuad(App->scene_intro->wall12.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall13.pixels(), color_r, color_g, color_b);
 
 	// Draw water1
 	color_r = 0; color_g = 0; color_b = 255;

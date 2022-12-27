@@ -35,13 +35,94 @@ bool ModuleSceneIntro::Start()
 	wall1.h = 15.0f; // [m]
 	wall1.bouncyness = 1.0f;
 
-	// Create walls
 	wall2 = Wall();
 	wall2.x = ground.x + ground.w; // [m]
 	wall2.y = 0.0f; // [m]
 	wall2.w = 5.0f; // [m]
 	wall2.h = 15.0f; // [m]
 	wall2.bouncyness = 1.0f;
+
+	// Right Basket
+	wall3 = Wall();
+	wall3.x = 42.0f; // [m]
+	wall3.y = 18.0f; // [m]
+	wall3.w = 0.5f; // [m]
+	wall3.h = 3.0f; // [m]
+	wall3.bouncyness = 1.0f;
+
+	wall4 = Wall();
+	wall4.w = 5.0f; // [m]
+	wall4.h = 0.5f; // [m]
+	wall4.x = wall3.x + wall4.h; // [m]
+	wall4.y = wall3.y - wall4.h; // [m]
+	wall4.bouncyness = 1.0f;
+
+	wall5 = Wall();
+	wall5.x = wall4.x + wall4.w; // [m]
+	wall5.y = wall3.y; // [m]
+	wall5.w = wall3.w; // [m]
+	wall5.h = wall3.h; // [m]
+	wall5.bouncyness = 1.0f;
+
+	// Center Basket
+	wall6 = Wall();
+	wall6.x = 21.0f; // [m]
+	wall6.y = 30.0f; // [m]
+	wall6.w = 0.5f; // [m]
+	wall6.h = 3.0f; // [m]
+	wall6.bouncyness = 1.0f;
+
+	wall7 = Wall();
+	wall7.w = 8.0f; // [m]
+	wall7.h = 0.5f; // [m]
+	wall7.x = wall6.x + wall7.h; // [m]
+	wall7.y = wall6.y - wall7.h; // [m]
+	wall7.bouncyness = 1.0f;
+
+	wall8 = Wall();
+	wall8.x = wall7.x + wall7.w; // [m]
+	wall8.y = wall6.y; // [m]
+	wall8.w = wall6.w; // [m]
+	wall8.h = wall6.h; // [m]
+	wall8.bouncyness = 1.0f;
+
+	// Left Basket
+	wall9 = Wall();
+	wall9.x = 3.0f; // [m]
+	wall9.y = 18.0f; // [m]
+	wall9.w = 0.5f; // [m]
+	wall9.h = 3.0f; // [m]
+	wall9.bouncyness = 1.0f;
+
+	wall10 = Wall();
+	wall10.w = 5.0f; // [m]
+	wall10.h = 0.5f; // [m]
+	wall10.x = wall9.x + wall10.h; // [m]
+	wall10.y = wall9.y - wall10.h; // [m]
+	wall10.bouncyness = 1.0f;
+
+	wall11 = Wall();
+	wall11.x = wall10.x + wall10.w; // [m]
+	wall11.y = wall9.y; // [m]
+	wall11.w = wall9.w; // [m]
+	wall11.h = wall9.h; // [m]
+	wall11.bouncyness = 1.0f;
+
+	// Left Bouncy Wall
+	wall12 = Wall();
+	wall12.x = wall1.x; // [m]
+	wall12.y = 25.0f; // [m]
+	wall12.w = 0.5f; // [m]
+	wall12.h = 3.0f; // [m]
+	wall12.bouncyness = 2.0f;
+
+	// Right Bouncy Wall
+	wall13 = Wall();
+	wall13.x = wall2.x + wall2.w; // [m]
+	wall13.y = 25.0f; // [m]
+	wall13.w = 0.5f; // [m]
+	wall13.h = 3.0f; // [m]
+	wall13.bouncyness = 1.0f;
 
 	// Create Water
 	water1 = Water();
@@ -83,9 +164,9 @@ bool ModuleSceneIntro::Start()
 
 	// Set initial position and velocity of the ball
 	ball.x = 2.0f;
-	ball.y = (ground.y + ground.h) + 2.0f;
-	ball.vx = 5.0f;
-	ball.vy = 10.0f;
+	ball.y = (ground.y + ground.h) + 8.0f;
+	ball.vx = 15.0f;
+	ball.vy = 1.0f;
 
 	// Add ball to the collection
 	balls.emplace_back(ball);

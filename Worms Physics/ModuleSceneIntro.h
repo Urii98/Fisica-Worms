@@ -83,8 +83,35 @@ public:
 	std::vector<PhysBall> balls{};
 	Atmosphere atmosphere{};
 	Ground ground{};
+
+	// Base walls
 	Wall wall1{};
 	Wall wall2{};
+
+	// Right basket
+	Wall wall3{};
+	Wall wall4{};
+	Wall wall5{};
+
+	// Center basket
+	Wall wall6{};
+	Wall wall7{};
+	Wall wall8{};
+
+	// Left basket
+	Wall wall9{};
+	Wall wall10{};
+	Wall wall11{};
+
+	// Left bouncy wall
+	Wall wall12{};
+
+	// Right bouncy wall
+	Wall wall13{};
+
+
+	// Bounce wall 1
+
 	Water water1{};
 	Water water2{};
 

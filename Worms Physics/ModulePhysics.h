@@ -103,6 +103,8 @@ public:
 private:
 
 	bool debug;
+
+public:
 	float gravity;
 };
 

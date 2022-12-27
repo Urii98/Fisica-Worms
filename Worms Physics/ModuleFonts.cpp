@@ -4,7 +4,9 @@
 #include "ModuleRender.h"
 #include "ModuleFonts.h"
 
-#include<string.h>
+
+
+
 
 ModuleFonts::ModuleFonts(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -14,6 +16,17 @@ ModuleFonts::ModuleFonts(Application* app, bool start_enabled) : Module(app, sta
 ModuleFonts::~ModuleFonts()
 {
 
+}
+
+// Load assets
+bool ModuleFonts::Start()
+{
+	LOG("Loading Fonts");
+
+	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
+	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
+
+	return true;
 }
 
 // Load new texture from file path
@@ -122,4 +135,44 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 		// Advance the position where we blit the next character
 		x += spriteRect.w;
 	}
+}
+
+std::string ModuleFonts::PhysicsParamsToConstChar(float param, int decimales, const char* text)
+{
+	std::string paramToString = std::to_string(param);
+	std::string rounded = paramToString.substr(0, paramToString.find(".") + decimales +1);
+	std::string typeOfParam = text;
+
+	std::string result;
+	result.append(typeOfParam);
+	result.append(rounded);
+
+
+	return result;
+
+}
+
+update_status ModuleFonts::Update()
+{
+	
+	float Adrag;
+	float Hdrag;
+	float Hbuoyancy;
+
+	std::string gravString = PhysicsParamsToConstChar(App->physics->gravity, 2, "Gravity: ");
+	const char* gravChar = gravString.c_str();
+	App->fonts->BlitText(0, 0, textFont, gravChar);
+
+
+
+
+	App->fonts->BlitText(0, 17, textFont, "A. Drag: ");
+
+	App->fonts->BlitText(0, 32, textFont, "H. Drag: ");
+
+	App->fonts->BlitText(0, 47, textFont, "H. Buoyancy: ");
+
+
+
+	return UPDATE_CONTINUE;
 }

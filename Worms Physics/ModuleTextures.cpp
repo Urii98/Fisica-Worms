@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "ModuleTextures.h"
 
+#include <iostream>
+#include <string>
+
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
@@ -29,26 +32,10 @@ bool ModuleTextures::Init()
 		ret = false;
 	}
 
-	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
-	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
 
 	return ret;
 }
 
-update_status ModuleTextures::Update()
-{
-	App->fonts->BlitText(0, 0, textFont, "Gravity: ");
-
-	App->fonts->BlitText(0, 17, textFont, "A. Drag: ");
-
-	App->fonts->BlitText(0, 32, textFont, "H. Drag: ");
-
-	App->fonts->BlitText(0, 47, textFont, "H. Buoyancy: ");
-
-
-
-	return UPDATE_CONTINUE;
-}
 
 // Called before quitting
 bool ModuleTextures::CleanUp()

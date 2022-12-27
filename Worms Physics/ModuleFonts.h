@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Module.h"
+#include <iostream>
+#include <string>
+
 
 #define MAX_FONTS 10
 #define MAX_FONT_CHARS 256
@@ -30,6 +33,9 @@ public:
 
 	// Destructor
 	~ModuleFonts();
+	
+	bool Start();
+	update_status Update();
 
 	// Loads a font file from a texture
 	// Returns a font index from the fonts array
@@ -45,8 +51,13 @@ public:
 	// Create a surface from text
 	void BlitText(int x, int y, int fontIndex, const char* text) const;
 
+	std::string PhysicsParamsToConstChar(float param, int decimales, const char* text);
+
 private:
 	// An array to keep track and store all loaded fonts
 	Font fonts[MAX_FONTS];
+
+public:
+	int textFont = -1;
 };
 

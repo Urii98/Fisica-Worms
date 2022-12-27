@@ -60,6 +60,12 @@ public:
 	SDL_Rect pixels(); // Convert geometry to pixels to draw w/ SDL
 };
 
+class Wall : public Ground
+{
+public:
+	float bouncyness;
+};
+
 // Class: Water
 class Water : public Ground
 {
@@ -91,13 +97,6 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	// Physics objects
-	std::vector<PhysBall> balls{};
-	Atmosphere atmosphere{};
-	Ground ground{};
-	Ground wall{};
-	Water water{};
-
 	// Misc
 	float dt = 1.0 / 60.0;
 
@@ -121,12 +120,17 @@ void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, c
 // Integration scheme: Velocity Verlet
 void integrator_velocity_verlet(PhysBall& ball, float dt);
 
+// Integration scheme: Forward Euler
 void integrator_forward_euler(PhysBall& ball, double dt);
 
+// Integration scheme: Backwards Euler
 void integrator_backwards_euler(PhysBall& ball, double dt);
 
 // Detect collision with ground
 bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground);
+
+// Detect collision with wall
+bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall);
 
 // Detect collision with water
 bool is_colliding_with_water(const PhysBall& ball, const Water& water);

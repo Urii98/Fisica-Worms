@@ -20,6 +20,8 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 
+	gravity = -10.0f;
+
 	return true;
 }
 
@@ -46,7 +48,7 @@ update_status ModulePhysics::PreUpdate()
 
 		// Gravity force
 		float fgx = ball.mass * 0.0f;
-		float fgy = ball.mass * -10.0f; // Let's assume gravity is constant and downwards
+		float fgy = ball.mass * gravity; // Let's assume gravity is constant and downwards
 		ball.fx += fgx; ball.fy += fgy; // Add this force to ball's total force
 
 		// Aerodynamic Drag force (only when not in water)

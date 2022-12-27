@@ -7,9 +7,6 @@
 
 #define BOUNCER_TIME 200
 
-#define MAX_FONTS 10
-#define MAX_FONT_CHARS 256
-
 struct SDL_Texture;
 
 struct Bouncer
@@ -81,7 +78,7 @@ public:
 	PhysBody* player_lose;
 	uint player_lose_fx;
 
-	int textFont = -1;
+	
 	// Physics objects
 	std::vector<PhysBall> balls{};
 	Atmosphere atmosphere{};
@@ -90,4 +87,6 @@ public:
 	Wall wall2{};
 	Water water1{};
 	Water water2{};
+
+	
 };

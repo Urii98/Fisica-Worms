@@ -19,8 +19,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 
-	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ ������a��������a��������" };
-	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
+
 	// Create ground
 	ground = Ground();
 	ground.x = 17.0f; // [m]
@@ -108,15 +107,7 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 
-	App->fonts->BlitText(0, 0, textFont, "Gravity: ");
-
-	App->fonts->BlitText(0, 17, textFont, "Drag: ");
-
-	App->fonts->BlitText(0, 32, textFont, "H. Drag: ");
-
-	App->fonts->BlitText(0, 47, textFont, "H. Buoyancy: ");
-
-	
+		
 
 	return UPDATE_CONTINUE;
 }

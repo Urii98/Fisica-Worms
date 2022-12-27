@@ -103,6 +103,7 @@ public:
 private:
 
 	bool debug;
+	float gravity;
 };
 
 // Compute modulus of a vector

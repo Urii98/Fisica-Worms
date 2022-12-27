@@ -59,5 +59,6 @@ private:
 
 public:
 	int textFont = -1;
+
 };
 

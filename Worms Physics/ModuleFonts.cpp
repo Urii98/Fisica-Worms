@@ -3,6 +3,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleFonts.h"
+#include "ModuleSceneIntro.h"
 
 
 
@@ -25,6 +26,8 @@ bool ModuleFonts::Start()
 
 	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
 	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
+
+
 
 	return true;
 }
@@ -152,30 +155,60 @@ std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const
 
 update_status ModuleFonts::Update()
 {
-	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity  : ");
+	//Gravity
+	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
 	const char* gravChar = gravString.c_str();
-	App->fonts->BlitText(0, 0, textFont, gravChar); //
+	BlitText(0, 0, textFont, gravChar); 
 
-	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
+	//AeroDrag
+	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x  : ");
 	const char* aDragXChar = aDragXString.c_str();
-	App->fonts->BlitText(0, 17, textFont, aDragXChar);
+	BlitText(0, 17, textFont, aDragXChar);
 
-	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
+	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y  : ");
 	const char* aDragYChar = aDragYString.c_str();
-	App->fonts->BlitText(0, 34, textFont, aDragYChar);
+	BlitText(0, 34, textFont, aDragYChar);
 
-	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
+	//HidroDrag
+	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x  : ");
 	const char* hDragXChar = hDragXString.c_str();
-	App->fonts->BlitText(0, 51, textFont, hDragXChar);
+	BlitText(0, 51, textFont, hDragXChar);
 
-	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
+	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y  : ");
 	const char* hDragYChar = hDragYString.c_str();
-	App->fonts->BlitText(0, 68, textFont, hDragYChar);
+	BlitText(0, 68, textFont, hDragYChar);
 
-	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
+	//Hidro Buoyancy
+	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.  : ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
-	App->fonts->BlitText(0, 85, textFont, hBuoyancyChar); //
+	BlitText(0, 85, textFont, hBuoyancyChar); 
 
+
+	//Atmosphere Params
+	std::string windXString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
+	const char* windXChar = windXString.c_str();
+	BlitText(0, 112, textFont, windXChar);
+
+	std::string windYString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
+	const char* windYChar = windYString.c_str();
+	BlitText(0, 129, textFont, windYChar);
+
+	std::string atmosphDensityString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : "); 
+	const char* atmosphDensityChar = atmosphDensityString.c_str();
+	BlitText(0, 146, textFont, atmosphDensityChar);
+
+	//Water Params
+	std::string waterVelXString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
+	const char* waterVelXChar = waterVelXString.c_str();
+	BlitText(0, 163, textFont, waterVelXChar);
+
+	std::string waterVelYString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
+	const char* waterVelYChar = waterVelYString.c_str();
+	BlitText(0, 180, textFont, waterVelYChar);
+
+	std::string waterDensityString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
+	const char* waterDensityChar = waterDensityString.c_str();
+	BlitText(0, 197, textFont, waterDensityChar);
 
 	return UPDATE_CONTINUE;
 }

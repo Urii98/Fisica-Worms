@@ -140,6 +140,33 @@ update_status ModulePhysics::PreUpdate()
 				ball.vx = -ball.vx * App->scene_intro->wall2.bouncyness;
 				ball.vy = ball.vy * App->scene_intro->wall2.bouncyness;
 			}
+			//Right wall
+			//if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
+			else if (ball.x + ball.radius > App->scene_intro->wall2.x && ball.x < App->scene_intro->wall2.x &&
+				ball.y > App->scene_intro->wall2.y && ball.y + ball.radius < App->scene_intro->wall2.y + App->scene_intro->wall2.h)
+			{
+				// Elastic bounce with wall
+				ball.vx = -ball.vx * App->scene_intro->wall2.bouncyness;
+				ball.vy = ball.vy * App->scene_intro->wall2.bouncyness;
+			}
+			//Bottom wall
+			// if (ball is over the wall) &&  (ball is between the edges of the wall collider)
+			else if (ball.y + ball.radius > App->scene_intro->wall2.y && ball.y < App->scene_intro->wall2.y &&
+				ball.x > App->scene_intro->wall2.x - ball.radius && ball.x + ball.radius < App->scene_intro->wall2.x + App->scene_intro->wall2.w)
+			{
+				// Elastic bounce with wall
+				ball.vx = ball.vx * App->scene_intro->wall2.bouncyness;
+				ball.vy = -ball.vy * App->scene_intro->wall2.bouncyness;
+			}
+			//Top wall
+			// if (ball is under the wall) &&  (ball is between the edges of the wall collider)
+			else if (ball.y < App->scene_intro->wall2.y + App->scene_intro->wall2.h && ball.y + ball.radius >App->scene_intro->wall2.y + App->scene_intro->wall2.h &&
+				ball.x > App->scene_intro->wall2.x - ball.radius && ball.x + ball.radius < App->scene_intro->wall2.x + App->scene_intro->wall2.w)
+			{
+				// Elastic bounce with wall
+				ball.vx = ball.vx * App->scene_intro->wall2.bouncyness;
+				ball.vy = -ball.vy * App->scene_intro->wall2.bouncyness;
+			}
 
 			// FUYM non-elasticity
 			ball.vx *= ball.coef_friction;

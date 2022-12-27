@@ -155,6 +155,9 @@ std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const
 
 update_status ModuleFonts::Update()
 {
+
+	//URI - TO DO'S: Meter los parametros dentro del ground
+
 	//Gravity
 	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
 	const char* gravChar = gravString.c_str();

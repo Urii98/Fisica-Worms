@@ -116,8 +116,8 @@ update_status ModulePhysics::PreUpdate()
 		{
 			if (is_colliding_with_wall(ball, wall))
 			{
-				// Ball is on left
-				// if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
+				// Ball is on right
+				//if(wall is at the left of the ball)&&(ball is between the edges of the wall collider)
 				if (ball.x - ball.radius < wall.x + wall.w && ball.x + ball.radius > wall.x + wall.w && ball.y >wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					// Elastic bounce with wall
@@ -133,7 +133,7 @@ update_status ModulePhysics::PreUpdate()
 					ball.vx = -ball.vx * wall.bouncyness;
 					ball.vy = ball.vy * wall.bouncyness;
 				}
-				//Ball under wall
+				//Ball over wall
 				// if (ball is over the wall) &&  (ball is between the edges of the wall collider)
 				else if (ball.y + ball.radius > wall.y && ball.y < wall.y && ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
@@ -141,10 +141,9 @@ update_status ModulePhysics::PreUpdate()
 					ball.vx = ball.vx * wall.bouncyness;
 					ball.vy = -ball.vy * wall.bouncyness;
 				}
-				//
+				// Ball under wall
 				// if (ball is under the wall) &&  (ball is between the edges of the wall collider)
-				else if (ball.y + ball.radius < wall.y + wall.h && ball.y + ball.radius >wall.y + wall.h &&
-					ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
+				else if (ball.y - ball.radius < wall.y + wall.h && ball.y + ball.radius > wall.y + wall.h && ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
 					// Elastic bounce with wall
 					ball.vx = ball.vx * wall.bouncyness;

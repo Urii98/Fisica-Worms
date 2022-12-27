@@ -27,6 +27,12 @@ bool ModulePhysics::Start()
 	ground.w = 30.0f; // [m]
 	ground.h = 5.0f; // [m]
 
+	wall = Ground();
+	wall.x = 1.0f; // [m]
+	wall.y = 10.0f; // [m]
+	wall.w = 30.0f; // [m]
+	wall.h = 5.0f; // [m]
+
 	// Create Water
 	water = Water();
 	water.x = ground.x + ground.w; // Start where ground ends [m]
@@ -131,6 +137,8 @@ update_status ModulePhysics::PreUpdate()
 
 		// We will use the 2nd order "Velocity Verlet" method for integration.
 		integrator_velocity_verlet(ball, dt);
+		//integrator_backwards_euler(ball, dt);
+		//integrator_forward_euler(ball, dt);
 
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
@@ -143,6 +151,16 @@ update_status ModulePhysics::PreUpdate()
 
 			// Elastic bounce with ground
 			ball.vy = - ball.vy;
+
+			// FUYM non-elasticity
+			ball.vx *= ball.coef_friction;
+			ball.vy *= ball.coef_restitution;
+		}
+
+		if (is_colliding_with_ground(ball, wall))
+		{
+			// Elastic bounce with wall
+			ball.vy = -ball.vy;
 
 			// FUYM non-elasticity
 			ball.vx *= ball.coef_friction;
@@ -162,6 +180,10 @@ update_status ModulePhysics::PostUpdate()
 	// Draw ground
 	color_r = 0; color_g = 255; color_b = 0;
 	App->renderer->DrawQuad(ground.pixels(), color_r, color_g, color_b);
+
+	// Draw wall
+	color_r = 0; color_g = 255; color_b = 155;
+	App->renderer->DrawQuad(wall.pixels(), color_r, color_g, color_b);
 
 	// Draw water
 	color_r = 0; color_g = 0; color_b = 255;
@@ -250,6 +272,25 @@ void integrator_velocity_verlet(PhysBall& ball, float dt)
 	ball.vx += ball.ax * dt;
 	ball.vy += ball.ay * dt;
 }
+
+void integrator_forward_euler(PhysBall& ball, double dt)
+{
+	ball.vx = ball.vx + ball.ax * dt;
+	ball.vy = ball.vy + ball.ay * dt;
+
+	ball.x = ball.x + ball.vx * dt;
+	ball.y = ball.y + ball.vy * dt;
+}
+
+void integrator_backwards_euler(PhysBall& ball, double dt)
+{
+	ball.x = ball.x + ball.vx * dt;
+	ball.y = ball.y + ball.vy * dt;
+
+	ball.vx = ball.vx + ball.ax * dt;
+	ball.vy = ball.vy + ball.ay * dt;
+}
+
 
 // Detect collision with ground
 bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground)

@@ -95,6 +95,7 @@ public:
 	std::vector<PhysBall> balls{};
 	Atmosphere atmosphere{};
 	Ground ground{};
+	Ground wall{};
 	Water water{};
 
 	// Misc
@@ -119,6 +120,10 @@ void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, c
 
 // Integration scheme: Velocity Verlet
 void integrator_velocity_verlet(PhysBall& ball, float dt);
+
+void integrator_forward_euler(PhysBall& ball, double dt);
+
+void integrator_backwards_euler(PhysBall& ball, double dt);
 
 // Detect collision with ground
 bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground);

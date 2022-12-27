@@ -175,10 +175,10 @@ bool ModuleSceneIntro::Start()
 	ball.coef_restitution = 0.8f; // [-]
 
 	// Set initial position and velocity of the ball
-	ball.x = 2.0f;
-	ball.y = (ground.y + ground.h) + 8.0f;
-	ball.vx = 15.0f;
-	ball.vy = 1.0f;
+	ball.x = 25.0f;
+	ball.y = 15.0f;
+	ball.vx = 0.0f;
+	ball.vy = 0.0f;
 
 	// Add ball to the collection
 	balls.emplace_back(ball);

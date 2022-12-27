@@ -118,34 +118,32 @@ update_status ModulePhysics::PreUpdate()
 			{
 				// Ball is on left
 				// if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
-				if (ball.x + ball.radius > wall.x && ball.x < wall.x && ball.y > wall.y
-					&& ball.y + ball.radius < wall.y + wall.h)
+				if (ball.x - ball.radius < wall.x + wall.w && ball.x + ball.radius > wall.x + wall.w && ball.y >wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					// Elastic bounce with wall
 					ball.vx = -ball.vx * wall.bouncyness;
 					ball.vy = ball.vy * wall.bouncyness;
 				}
-				//Right wall
+				//Ball is on right
 				//if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
 				else if (ball.x + ball.radius > wall.x && ball.x < wall.x &&
-					ball.y > App->scene_intro->wall2.y && ball.y + ball.radius < wall.y + wall.h)
+					ball.y > wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					// Elastic bounce with wall
 					ball.vx = -ball.vx * wall.bouncyness;
 					ball.vy = ball.vy * wall.bouncyness;
 				}
-				//Bottom wall
+				//Ball under wall
 				// if (ball is over the wall) &&  (ball is between the edges of the wall collider)
-				else if (ball.y + ball.radius > wall.y && ball.y < wall.y &&
-					ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
+				else if (ball.y + ball.radius > wall.y && ball.y < wall.y && ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
 					// Elastic bounce with wall
 					ball.vx = ball.vx * wall.bouncyness;
 					ball.vy = -ball.vy * wall.bouncyness;
 				}
-				//Top wall
+				//
 				// if (ball is under the wall) &&  (ball is between the edges of the wall collider)
-				else if (ball.y < wall.y + wall.h && ball.y + ball.radius >wall.y + wall.h &&
+				else if (ball.y + ball.radius < wall.y + wall.h && ball.y + ball.radius >wall.y + wall.h &&
 					ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
 					// Elastic bounce with wall

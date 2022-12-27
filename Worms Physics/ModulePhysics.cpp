@@ -20,64 +20,13 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 
-	// Create ground
-	ground = Ground();
-	ground.x = 0.0f; // [m]
-	ground.y = 0.0f; // [m]
-	ground.w = 30.0f; // [m]
-	ground.h = 5.0f; // [m]
-
-	wall = Ground();
-	wall.x = 1.0f; // [m]
-	wall.y = 10.0f; // [m]
-	wall.w = 30.0f; // [m]
-	wall.h = 5.0f; // [m]
-
-	// Create Water
-	water = Water();
-	water.x = ground.x + ground.w; // Start where ground ends [m]
-	water.y = 0.0f; // [m]
-	water.w = 30.0f; // [m]
-	water.h = 5.0f; // [m]
-	water.density = 50.0f; // [kg/m^3]
-	water.vx = -1.0f; // [m/s]
-	water.vy = 0.0f; // [m/s]
-
-	// Create atmosphere
-	atmosphere = Atmosphere();
-	atmosphere.windx = 10.0f; // [m/s]
-	atmosphere.windy = 5.0f; // [m/s]
-	atmosphere.density = 1.0f; // [kg/m^3]
-
-	// Create a ball
-	PhysBall ball = PhysBall();
-
-	// Set static properties of the ball
-	ball.mass = 10.0f; // [kg]
-	ball.surface = 1.0f; // [m^2]
-	ball.radius = 0.5f; // [m]
-	ball.cd = 0.4f; // [-]
-	ball.cl = 1.2f; // [-]
-	ball.b = 10.0f; // [...]
-	ball.coef_friction = 0.9f; // [-]
-	ball.coef_restitution = 0.8f; // [-]
-
-	// Set initial position and velocity of the ball
-	ball.x = 2.0f;
-	ball.y = (ground.y + ground.h) + 2.0f;
-	ball.vx = 5.0f;
-	ball.vy = 10.0f;
-
-	// Add ball to the collection
-	balls.emplace_back(ball);
-
 	return true;
 }
 
 update_status ModulePhysics::PreUpdate()
 {
 	// Process all balls in the scenario
-	for (auto& ball : balls)
+	for (auto& ball : App->scene_intro->balls)
 	{
 		// Skip ball if physics not enabled
 		if (!ball.physics_enabled)
@@ -101,24 +50,24 @@ update_status ModulePhysics::PreUpdate()
 		ball.fx += fgx; ball.fy += fgy; // Add this force to ball's total force
 
 		// Aerodynamic Drag force (only when not in water)
-		if (!is_colliding_with_water(ball, water))
+		if (!is_colliding_with_water(ball, App->scene_intro->water))
 		{
 			float fdx = 0.0f; float fdy = 0.0f;
-			compute_aerodynamic_drag(fdx, fdy, ball, atmosphere);
+			compute_aerodynamic_drag(fdx, fdy, ball, App->scene_intro->atmosphere);
 			ball.fx += fdx; ball.fy += fdy; // Add this force to ball's total force
 		}
 
 		// Hydrodynamic forces (only when in water)
-		if (is_colliding_with_water(ball, water))
+		if (is_colliding_with_water(ball, App->scene_intro->water))
 		{
 			// Hydrodynamic Drag force
 			float fhdx = 0.0f; float fhdy = 0.0f;
-			compute_hydrodynamic_drag(fhdx, fhdy, ball, water);
+			compute_hydrodynamic_drag(fhdx, fhdy, ball, App->scene_intro->water);
 			ball.fx += fhdx; ball.fy += fhdy; // Add this force to ball's total force
 
 			// Hydrodynamic Buoyancy force
 			float fhbx = 0.0f; float fhby = 0.0f;
-			compute_hydrodynamic_buoyancy(fhbx, fhby, ball, water);
+			compute_hydrodynamic_buoyancy(fhbx, fhby, ball, App->scene_intro->water);
 			ball.fx += fhbx; ball.fy += fhby; // Add this force to ball's total force
 		}
 
@@ -144,10 +93,10 @@ update_status ModulePhysics::PreUpdate()
 		// ----------------------------------------------------------------------------------------
 
 		// Solve collision between ball and ground
-		if (is_colliding_with_ground(ball, ground))
+		if (is_colliding_with_ground(ball, App->scene_intro->ground))
 		{
 			// TP ball to ground surface
-			ball.y = ground.y + ground.h + ball.radius;
+			ball.y = App->scene_intro->ground.y + App->scene_intro->ground.h + ball.radius;
 
 			// Elastic bounce with ground
 			ball.vy = - ball.vy;
@@ -157,10 +106,10 @@ update_status ModulePhysics::PreUpdate()
 			ball.vy *= ball.coef_restitution;
 		}
 
-		if (is_colliding_with_ground(ball, wall))
+		if (is_colliding_with_wall(ball, App->scene_intro->wall))
 		{
 			// Elastic bounce with wall
-			ball.vy = -ball.vy;
+			ball.vy = -ball.vy * App->scene_intro->wall.bouncyness;
 
 			// FUYM non-elasticity
 			ball.vx *= ball.coef_friction;
@@ -179,18 +128,18 @@ update_status ModulePhysics::PostUpdate()
 
 	// Draw ground
 	color_r = 0; color_g = 255; color_b = 0;
-	App->renderer->DrawQuad(ground.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->ground.pixels(), color_r, color_g, color_b);
 
 	// Draw wall
 	color_r = 0; color_g = 255; color_b = 155;
-	App->renderer->DrawQuad(wall.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall.pixels(), color_r, color_g, color_b);
 
 	// Draw water
 	color_r = 0; color_g = 0; color_b = 255;
-	App->renderer->DrawQuad(water.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->water.pixels(), color_r, color_g, color_b);
 
 	// Draw all balls in the scenario
-	for (auto& ball : balls)
+	for (auto& ball : App->scene_intro->balls)
 	{
 		// Convert from physical magnitudes to geometrical pixels
 		int pos_x = METERS_TO_PIXELS(ball.x);
@@ -298,6 +247,14 @@ bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground)
 	float rect_x = (ground.x + ground.w / 2.0f); // Center of rectangle
 	float rect_y = (ground.y + ground.h / 2.0f); // Center of rectangle
 	return check_collision_circle_rectangle(ball.x, ball.y, ball.radius, rect_x, rect_y, ground.w, ground.h);
+}
+
+// Detect collision with wall
+bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall)
+{
+	float rect_x = (wall.x + wall.w / 2.0f); // Center of rectangle
+	float rect_y = (wall.y + wall.h / 2.0f); // Center of rectangle
+	return check_collision_circle_rectangle(ball.x, ball.y, ball.radius, rect_x, rect_y, wall.w, wall.h);
 }
 
 // Detect collision with water

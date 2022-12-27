@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "p2DynArray.h"
 #include "Globals.h"
+#include "ModulePhysics.h"
 
 #define BOUNCER_TIME 200
 
@@ -74,4 +75,11 @@ public:
 
 	PhysBody* player_lose;
 	uint player_lose_fx;
+
+	// Physics objects
+	std::vector<PhysBall> balls{};
+	Atmosphere atmosphere{};
+	Ground ground{};
+	Wall wall{};
+	Water water{};
 };

@@ -21,6 +21,7 @@ bool ModulePhysics::Start()
 	LOG("Creating Physics 2D environment");
 
 	gravity = -10.0f;
+	buoyancy = 0.0f;
 
 	return true;
 }
@@ -68,9 +69,9 @@ update_status ModulePhysics::PreUpdate()
 			ball.fx += fhdx; ball.fy += fhdy; // Add this force to ball's total force
 
 			// Hydrodynamic Buoyancy force
-			float fhbx = 0.0f; float fhby = 0.0f;
-			compute_hydrodynamic_buoyancy(fhbx, fhby, ball, App->scene_intro->water1);
-			ball.fx += fhbx; ball.fy += fhby; // Add this force to ball's total force
+			float fhbx = 0.0f; buoyancy = 0.0f;
+			compute_hydrodynamic_buoyancy(fhbx, buoyancy, ball, App->scene_intro->water1);
+			ball.fx += fhbx; ball.fy += buoyancy; // Add this force to ball's total force
 		}
 
 		// Other forces

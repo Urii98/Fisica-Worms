@@ -106,6 +106,7 @@ private:
 
 public:
 	float gravity;
+	float buoyancy;
 };
 
 // Compute modulus of a vector

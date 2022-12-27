@@ -216,5 +216,27 @@ update_status ModuleFonts::Update()
 	const char* waterDensityChar = waterDensityString.c_str();
 	BlitText(0, 197, textFont, waterDensityChar);
 
+
+	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
+
+	SDL_Event event; 
+	while (SDL_PollEvent(&event))
+	{
+		
+		if (event.type == SDL_MOUSEWHEEL) {
+			if (event.wheel.y > 0) {
+				// rueda del ratón giró hacia arriba
+				std::cout << "a" << std::endl;
+
+			}
+			else if (event.wheel.y < 0) {
+				// rueda del ratón giró hacia abajo
+				std::cout << "a" << std::endl;
+			}
+		}
+	}
+
+
+
 	return UPDATE_CONTINUE;
 }

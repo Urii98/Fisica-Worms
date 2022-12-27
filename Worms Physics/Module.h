@@ -1,6 +1,7 @@
 #pragma once
 
 class Application;
+class PhysBody;
 
 class Module
 {
@@ -54,7 +55,7 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status Update(float dt)
+	virtual update_status Update()
 	{
 		return UPDATE_CONTINUE;
 	}
@@ -68,9 +69,7 @@ public:
 	{ 
 		return true; 
 	}
-	virtual void OnCollision(Collider* c1, Collider* c2)
-	{
 
-	}
-
+	virtual void OnCollision(PhysBody* body1, PhysBody* body2)
+	{ }
 };

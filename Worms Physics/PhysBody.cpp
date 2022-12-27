@@ -1,60 +1,52 @@
+
 #include "Globals.h"
-#include "math.h"
-#include "PhysBody.h"
 #include "Application.h"
+#include "ModulePhysics.h"
+#include "Box2D/Box2D/Box2D.h"
 
-PhysBody::PhysBody() {
+PhysBody::PhysBody(b2Body* body, const SDL_Rect& rect, body_type type) : body(body), rect(rect), type(type), listener(NULL)
+{}
 
+PhysBody::~PhysBody()
+{
+	body->GetWorld()->DestroyBody(body);
+	body = NULL;
+	listener = NULL;
 }
 
-PhysBody::~PhysBody() {
-
+double PhysBody::GetAngle() const
+{
+	return RADTODEG * body->GetAngle();
 }
 
-float PhysBody::angleToRadiants(int angle) {
-
-	float radiants;
-
-	radiants = angle * M_PI / 180;
-	return radiants;
+void PhysBody::GetPosition(int& x, int& y) const
+{
+	b2Vec2 pos = body->GetPosition();
+	x = METERS_TO_PIXELS(pos.x)- rect.w / 2;
+	y = METERS_TO_PIXELS(pos.y)- rect.h / 2;
 }
 
-void PhysBody::SetPosition(int x, int y) {
-	data.posX = x;
-	data.posY = y;
-}
-void PhysBody::SetMass(int mass) {
-	data.mass = mass;
+void PhysBody::SetLinearSpeed(int x, int y)
+{
+	body->SetLinearVelocity(b2Vec2(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y)));
 }
 
-int PhysBody::GetMass() {
-	return data.mass;
+void PhysBody::SetAngularSpeed(float speed)
+{
+	body->SetAngularVelocity(speed * DEGTORAD);
 }
 
-void PhysBody::SetVelocity(int x, int y) {
-
-	data.velX = x;
-	data.velY = y;
+void PhysBody::Push(float x, float y)
+{
+	body->ApplyForceToCenter(b2Vec2(x, y), true);
 }
 
-
-void PhysBody::SetAcceleration(int x, int y) {
-	data.accX = x;
-	data.accY = y;
-
+void PhysBody::Turn(int degrees)
+{
+	body->ApplyAngularImpulse(DEGTORAD * degrees, true);
 }
 
-void PhysBody::SetForce(int x, int y) {
-
-	data.forceX = x;
-	data.forceY = y;
-};
-
-//void PhysBody::StopPhysics() {
-//	if (physEnable) {
-//		physEnable = false;
-//	}
-//	else if (!physEnable) {
-//		physEnable = true;
-//	}
-//}
+void PhysBody::SetPosition(int x, int y)
+{
+	body->SetTransform(b2Vec2(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y)), 0.0f);
+}

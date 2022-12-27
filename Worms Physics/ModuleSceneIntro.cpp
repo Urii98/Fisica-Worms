@@ -18,8 +18,6 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	/*circle = App->physics->CreateCircle(50, 50, 10, 10);*/
-
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	return ret;
@@ -36,6 +34,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+	
 
 	return UPDATE_CONTINUE;
 }

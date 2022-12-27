@@ -66,11 +66,7 @@ typedef struct SDL_Rect
     int x, y;
     int w, h;
 } SDL_Rect;
-typedef struct SDL_Rect_Double
-{
-    double x, y;
-    double w, h;
-} SDL_Rect_Double;
+
 /**
  *  \brief Returns true if point resides inside a rectangle.
  */

@@ -18,8 +18,6 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-
-
 	// Create ground
 	ground = Ground();
 	ground.x = 17.0f; // [m]
@@ -124,6 +122,20 @@ bool ModuleSceneIntro::Start()
 	wall13.h = 3.0f; // [m]
 	wall13.bouncyness = 1.0f;
 
+	walls.emplace_back(wall1);
+	walls.emplace_back(wall2);
+	walls.emplace_back(wall3);
+	walls.emplace_back(wall4);
+	walls.emplace_back(wall5);
+	walls.emplace_back(wall6);
+	walls.emplace_back(wall7);
+	walls.emplace_back(wall8);
+	walls.emplace_back(wall9);
+	walls.emplace_back(wall10);
+	walls.emplace_back(wall11);
+	walls.emplace_back(wall12);
+	walls.emplace_back(wall13);
+
 	// Create Water
 	water1 = Water();
 	water1.x = 0.0f;
@@ -187,7 +199,34 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		for (auto& ball : balls)
+		{
+			ball.vy += 50 * 0.016f;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		for (auto& ball : balls)
+		{
+			ball.vy -= 50 * 0.016f;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		for (auto& ball : balls)
+		{
+			ball.vx -= 50 * 0.016f;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		for (auto& ball : balls)
+		{
+			ball.vx += 50 * 0.016f;
+		}
+	}
 		
 
 	return UPDATE_CONTINUE;

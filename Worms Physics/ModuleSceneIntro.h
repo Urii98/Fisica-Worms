@@ -81,6 +81,7 @@ public:
 	
 	// Physics objects
 	std::vector<PhysBall> balls{};
+	std::vector<Wall> walls{};
 	Atmosphere atmosphere{};
 	Ground ground{};
 

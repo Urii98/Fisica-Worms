@@ -3,6 +3,8 @@
 #include "Module.h"
 #include <iostream>
 #include <string>
+#include <list>
+#include <vector>
 
 
 #define MAX_FONTS 10
@@ -59,6 +61,21 @@ private:
 
 public:
 	int textFont = -1;
+	int textFont2 = -1;
+
+	enum enumPhysParams {
+		GRAVITY,
+		ATMOWINDX,
+		ATMOWINDY,
+		ATMODENSITY,
+		WATERVX,
+		WATERVY,
+		WATERDENSITY
+	};
+
+	std::vector<int> physParams;
+	int iterador;
+	float toSum;
 
 };
 

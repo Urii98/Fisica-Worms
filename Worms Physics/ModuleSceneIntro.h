@@ -82,8 +82,18 @@ public:
 	// Physics objects
 	std::vector<PhysBall> balls{};
 	std::vector<Wall> walls{};
+	std::vector<SensorWall> sensorWalls{};
 	Atmosphere atmosphere{};
 	Ground ground{};
+
+	//Sensor esquerra
+	SensorWall sensor1{};
+
+	//Sensor mig
+	SensorWall sensor2{};
+
+	//Sensor dreta
+	SensorWall sensor3{};
 
 	// Base walls
 	Wall wall1{};

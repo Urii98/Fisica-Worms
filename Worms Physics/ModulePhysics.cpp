@@ -54,6 +54,7 @@ update_status ModulePhysics::PreUpdate()
 		float fgy = ball.mass * gravity; // Let's assume gravity is constant and downwards
 		ball.fx += fgx; ball.fy += fgy; // Add this force to ball's total force
 
+		// Water physics
 		for (auto& water : App->scene_intro->waters)
 		{
 			// Aerodynamic Drag force (only when not in water)

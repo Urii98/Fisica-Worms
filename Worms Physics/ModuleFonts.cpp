@@ -343,6 +343,8 @@ update_status ModuleFonts::Update()
 		break;
 	}
 
+	//----------------- Parámetros modificables: -----------------
+
 	//Gravity
 	if (iterador != 0)
 	{
@@ -397,9 +399,8 @@ update_status ModuleFonts::Update()
 	}
 
 
+	//----------------- Parámetros no modificables: -----------------
 
-
-	//Parámetros no modificables:
 	//AeroDrag
 	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
 	const char* aDragXChar = aDragXString.c_str();
@@ -422,13 +423,6 @@ update_status ModuleFonts::Update()
 	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
 	BlitText(705, 68, textFont, hBuoyancyChar);
-
-
-
-
-
-
-
 
 	return UPDATE_CONTINUE;
 }

@@ -424,5 +424,9 @@ update_status ModuleFonts::Update()
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
 	BlitText(705, 68, textFont, hBuoyancyChar);
 
+
+	std::cout << "Mouse.X" << App->input->GetMouseX() << std::endl;
+	std::cout << "Mouse.Y" << App->input->GetMouseY() << std::endl;
+
 	return UPDATE_CONTINUE;
 }

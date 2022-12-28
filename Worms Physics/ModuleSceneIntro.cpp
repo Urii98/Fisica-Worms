@@ -120,7 +120,7 @@ bool ModuleSceneIntro::Start()
 	wall13.y = 25.0f; // [m]
 	wall13.w = 0.5f; // [m]
 	wall13.h = 3.0f; // [m]
-	wall13.bouncyness = 1.0f;
+	wall13.bouncyness = 2.0f;
 
 	walls.emplace_back(wall1);
 	walls.emplace_back(wall2);

@@ -252,7 +252,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 112, textFont2, auxChar);
+		BlitText(0, 17, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -268,7 +268,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 129, textFont2, auxChar);
+		BlitText(0, 34, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -284,7 +284,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 146, textFont2, auxChar);
+		BlitText(0, 51, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -300,7 +300,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
 		auxChar = auxString.c_str();
-		BlitText(0, 163, textFont2, auxChar);
+		BlitText(0, 68, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -316,7 +316,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
 		auxChar = auxString.c_str();
-		BlitText(0, 180, textFont2, auxChar);
+		BlitText(0, 85, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -332,7 +332,7 @@ update_status ModuleFonts::Update()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 197, textFont2, auxChar);
+		BlitText(0, 102, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -356,21 +356,21 @@ update_status ModuleFonts::Update()
 	{
 		std::string windXString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
 		const char* windXChar = windXString.c_str();
-		BlitText(0, 112, textFont, windXChar);
+		BlitText(0, 17, textFont, windXChar);
 	}
 
 	if (iterador != 2)
 	{
 		std::string windYString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
 		const char* windYChar = windYString.c_str();
-		BlitText(0, 129, textFont, windYChar);
+		BlitText(0, 34, textFont, windYChar);
 	}
 
 	if (iterador != 3)
 	{
 		std::string atmosphDensityString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
 		const char* atmosphDensityChar = atmosphDensityString.c_str();
-		BlitText(0, 146, textFont, atmosphDensityChar);
+		BlitText(0, 51, textFont, atmosphDensityChar);
 	}
 
 
@@ -379,21 +379,21 @@ update_status ModuleFonts::Update()
 	{
 		std::string waterVelXString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
 		const char* waterVelXChar = waterVelXString.c_str();
-		BlitText(0, 163, textFont, waterVelXChar);
+		BlitText(0, 68, textFont, waterVelXChar);
 	}
 
 	if (iterador != 5)
 	{
 		std::string waterVelYString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
 		const char* waterVelYChar = waterVelYString.c_str();
-		BlitText(0, 180, textFont, waterVelYChar);
+		BlitText(0, 85, textFont, waterVelYChar);
 	}
 
 	if (iterador != 6)
 	{
 		std::string waterDensityString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
 		const char* waterDensityChar = waterDensityString.c_str();
-		BlitText(0, 197, textFont, waterDensityChar);
+		BlitText(0, 102, textFont, waterDensityChar);
 	}
 
 
@@ -401,27 +401,27 @@ update_status ModuleFonts::Update()
 
 	//Parámetros no modificables:
 	//AeroDrag
-	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x  : ");
+	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
 	const char* aDragXChar = aDragXString.c_str();
-	BlitText(0, 17, textFont, aDragXChar);
+	BlitText(705, 0, textFont, aDragXChar);
 
-	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y  : ");
+	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
 	const char* aDragYChar = aDragYString.c_str();
-	BlitText(0, 34, textFont, aDragYChar);
+	BlitText(705, 17, textFont, aDragYChar);
 
 	//HidroDrag
-	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x  : ");
+	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
 	const char* hDragXChar = hDragXString.c_str();
-	BlitText(0, 51, textFont, hDragXChar);
+	BlitText(705, 34, textFont, hDragXChar);
 
-	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y  : ");
+	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
 	const char* hDragYChar = hDragYString.c_str();
-	BlitText(0, 68, textFont, hDragYChar);
+	BlitText(705, 51, textFont, hDragYChar);
 
 	//Hidro Buoyancy
-	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.  : ");
+	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
-	BlitText(0, 85, textFont, hBuoyancyChar); 
+	BlitText(705, 68, textFont, hBuoyancyChar);
 
 
 

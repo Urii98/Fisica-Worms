@@ -27,7 +27,22 @@ bool ModuleFonts::Start()
 	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
 	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
 
+	char lookupTableChars2[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
+	textFont2 = App->fonts->Load("Assets/pixel_font_red.png", lookupTableChars, 8);
 
+	physParams.push_back(enumPhysParams::GRAVITY);
+	physParams.push_back(enumPhysParams::ATMOWINDX);
+	physParams.push_back(enumPhysParams::ATMOWINDY);
+	physParams.push_back(enumPhysParams::ATMODENSITY);
+	physParams.push_back(enumPhysParams::WATERVX);
+	physParams.push_back(enumPhysParams::WATERVY);
+	physParams.push_back(enumPhysParams::WATERDENSITY);
+	
+	iterador = 0;
+	toSum = 0;
+	
+	
+	
 
 	return true;
 }
@@ -157,15 +172,173 @@ update_status ModuleFonts::Update()
 {
 
 	//URI - TO DO'S: Meter los parametros dentro del ground
+	
+	//URI - Hacer iterador
+
+	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
+
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+
+		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+		{
+			std::cout << physParams.at(iterador) << std::endl;
+
+			iterador++;
+			if (physParams.size() <= iterador)
+			{
+				iterador = 0;
+			}
+		}
+
+		if (event.type == SDL_MOUSEWHEEL) {
+			if (event.wheel.y > 0) {
+				// rueda del ratón giró hacia arriba
+				toSum += 0.1f;
+
+			}
+			else if (event.wheel.y < 0) {
+				// rueda del ratón giró hacia abajo
+				toSum -= 0.1f;
+			}
+		}
+	}
 
 	//URI - TO DO'S - 2: Hacer que se puedan modificar a tiempo real todos estos parámetros
+	std::string auxString; 
+	const char* auxChar;
 
-	
+	switch (iterador)
+	{
+	case enumPhysParams::GRAVITY:
+		App->physics->gravity += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
+		auxChar = auxString.c_str();
+		BlitText(0, 0, textFont2, auxChar);
+
+		break;
+
+	case enumPhysParams::ATMOWINDX:
+		App->scene_intro->atmosphere.windx += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
+		auxChar = auxString.c_str();
+		BlitText(0, 112, textFont2, auxChar);
+
+		break;
+
+	case enumPhysParams::ATMOWINDY:
+		App->scene_intro->atmosphere.windy += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
+		auxChar = auxString.c_str();
+		BlitText(0, 129, textFont2, auxChar);
+
+		break;
+
+	case enumPhysParams::ATMODENSITY:
+		App->scene_intro->atmosphere.density += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
+		auxChar = auxString.c_str();
+		BlitText(0, 146, textFont2, auxChar);
+
+		break;
+		
+	case enumPhysParams::WATERVX:
+		App->scene_intro->water1.vx += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
+		auxChar = auxString.c_str();
+		BlitText(0, 163, textFont2, auxChar);
+
+		break;
+
+	case enumPhysParams::WATERVY:
+		App->scene_intro->water1.vy += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
+		auxChar = auxString.c_str();
+		BlitText(0, 180, textFont2, auxChar);
+
+		break;
+
+	case enumPhysParams::WATERDENSITY:
+		App->scene_intro->water1.density += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
+		auxChar = auxString.c_str();
+		BlitText(0, 197, textFont2, auxChar);
+
+		break;
+	}
+
 	//Gravity
-	std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
-	const char* gravChar = gravString.c_str();
-	BlitText(0, 0, textFont, gravChar); 
+	if (iterador != 0)
+	{
+		std::string gravString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
+		const char* gravChar = gravString.c_str();
+		BlitText(0, 0, textFont, gravChar);
+	}
 
+	//Atmosphere Params
+	if (iterador != 1)
+	{
+		std::string windXString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
+		const char* windXChar = windXString.c_str();
+		BlitText(0, 112, textFont, windXChar);
+	}
+
+	if (iterador != 2)
+	{
+		std::string windYString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
+		const char* windYChar = windYString.c_str();
+		BlitText(0, 129, textFont, windYChar);
+	}
+
+	if (iterador != 3)
+	{
+		std::string atmosphDensityString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
+		const char* atmosphDensityChar = atmosphDensityString.c_str();
+		BlitText(0, 146, textFont, atmosphDensityChar);
+	}
+
+
+	//Water Params
+	if (iterador != 4)
+	{
+		std::string waterVelXString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
+		const char* waterVelXChar = waterVelXString.c_str();
+		BlitText(0, 163, textFont, waterVelXChar);
+	}
+
+	if (iterador != 5)
+	{
+		std::string waterVelYString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
+		const char* waterVelYChar = waterVelYString.c_str();
+		BlitText(0, 180, textFont, waterVelYChar);
+	}
+
+	if (iterador != 6)
+	{
+		std::string waterDensityString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
+		const char* waterDensityChar = waterDensityString.c_str();
+		BlitText(0, 197, textFont, waterDensityChar);
+	}
+
+
+
+
+	//Parámetros no modificables:
 	//AeroDrag
 	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x  : ");
 	const char* aDragXChar = aDragXString.c_str();
@@ -190,51 +363,9 @@ update_status ModuleFonts::Update()
 	BlitText(0, 85, textFont, hBuoyancyChar); 
 
 
-	//Atmosphere Params
-	std::string windXString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
-	const char* windXChar = windXString.c_str();
-	BlitText(0, 112, textFont, windXChar);
-
-	std::string windYString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
-	const char* windYChar = windYString.c_str();
-	BlitText(0, 129, textFont, windYChar);
-
-	std::string atmosphDensityString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : "); 
-	const char* atmosphDensityChar = atmosphDensityString.c_str();
-	BlitText(0, 146, textFont, atmosphDensityChar);
-
-	//Water Params
-	std::string waterVelXString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
-	const char* waterVelXChar = waterVelXString.c_str();
-	BlitText(0, 163, textFont, waterVelXChar);
-
-	std::string waterVelYString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
-	const char* waterVelYChar = waterVelYString.c_str();
-	BlitText(0, 180, textFont, waterVelYChar);
-
-	std::string waterDensityString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
-	const char* waterDensityChar = waterDensityString.c_str();
-	BlitText(0, 197, textFont, waterDensityChar);
 
 
-	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
 
-	SDL_Event event; 
-	while (SDL_PollEvent(&event))
-	{
-		
-		if (event.type == SDL_MOUSEWHEEL) {
-			if (event.wheel.y > 0) {
-				// rueda del ratón giró hacia arriba
-				std::cout << "a" << std::endl;
-
-			}
-			else if (event.wheel.y < 0) {
-				// rueda del ratón giró hacia abajo
-				std::cout << "a" << std::endl;
-			}
-		}
-	}
 
 
 

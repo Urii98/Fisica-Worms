@@ -66,6 +66,12 @@ public:
 	float bouncyness;
 };
 
+class SensorWall : public Ground
+{
+public:
+	bool sbool;
+};
+
 // Class: Water
 class Water : public Ground
 {
@@ -145,5 +151,7 @@ bool is_colliding_with_water(const PhysBall& ball, const Water& water);
 
 // Detect collision between circle and rectange
 bool check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh);
+
+bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor);
 
 

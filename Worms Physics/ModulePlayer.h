@@ -43,4 +43,6 @@ public:
 	PhysBody* flipper_up2_wheel;
 
 	PhysBody* sensor1;
+
+	int score;
 };

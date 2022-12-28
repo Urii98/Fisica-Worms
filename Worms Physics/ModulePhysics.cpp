@@ -256,6 +256,14 @@ update_status ModulePhysics::PreUpdate()
 			//}
 			//printf("%f\n", ball.vx);
 		}
+		for (auto& sensor : App->scene_intro->sensorWalls)
+		{
+			if (is_colliding_with_sensor(ball, sensor))
+			{
+				if (sensor.sbool) App->player->score += 10;
+				sensor.sbool = false;
+			}
+		}
 		
 	}
 
@@ -276,6 +284,34 @@ update_status ModulePhysics::PostUpdate()
 {
 	// Colors
 	int color_r, color_g, color_b;
+
+	//Draw sensors
+	if (App->scene_intro->sensor1.sbool) {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
+	}
+	else {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
+	}
+
+	if (App->scene_intro->sensor2.sbool) {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	}
+	else {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	}
+
+	if (App->scene_intro->sensor2.sbool) {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	}
+	else {
+		color_r = 0; color_g = 255; color_b = 0;
+		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	}
 
 	// Draw ground
 	color_r = 0; color_g = 255; color_b = 0;
@@ -311,6 +347,12 @@ update_status ModulePhysics::PostUpdate()
 	// Draw water2
 	color_r = 0; color_g = 0; color_b = 255;
 	App->renderer->DrawQuad(App->scene_intro->water2.pixels(), color_r, color_g, color_b);
+
+	//// Draw Sensors
+	//color_r = 0; color_g = 255; color_b = 255;
+	//App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
+	//App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	//App->renderer->DrawQuad(App->scene_intro->sensor3.pixels(), color_r, color_g, color_b);
 
 	// Draw all balls in the scenario
 	for (auto& ball : App->scene_intro->balls)
@@ -429,6 +471,14 @@ bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall)
 	float rect_x = (wall.x + wall.w / 2.0f); // Center of rectangle
 	float rect_y = (wall.y + wall.h / 2.0f); // Center of rectangle
 	return check_collision_circle_rectangle(ball.x, ball.y, ball.radius, rect_x, rect_y, wall.w, wall.h);
+}
+
+// Detect collision with sensor
+bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor)
+{
+	float rect_x = (sensor.x + sensor.w / 2.0f); // Center of rectangle
+	float rect_y = (sensor.y + sensor.h / 2.0f); // Center of rectangle
+	return check_collision_circle_rectangle(ball.x, ball.y, ball.radius, rect_x, rect_y, sensor.w, sensor.h);
 }
 
 // Detect collision with water

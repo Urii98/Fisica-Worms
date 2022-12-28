@@ -63,6 +63,8 @@ private:
 	Font fonts[MAX_FONTS];
 
 public:
+	bool debug;
+
 	int textFont = -1;
 	int textFont2 = -1;
 
@@ -80,6 +82,7 @@ public:
 	int iterador;
 	float toSum;
 	bool reset;
+
 
 	float initialGravity;
 	float initialAtmoWindx, initialAtmoWindy, initialAtmoDensity;

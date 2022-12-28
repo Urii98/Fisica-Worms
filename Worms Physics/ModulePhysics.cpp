@@ -269,7 +269,7 @@ update_status ModulePhysics::PreUpdate()
 
 	// -------------------- ATTENTION ------------------------------------
 	// ------------------- ¡¡DANGER!! ------------------------------------
-	//ESTO TIENE QUE SER LO ULTIMO DEL PREUPDATE, NO PUEDE HABER NADA DESPUES
+	//ESTO TIENE QUE SER LO ULTIMO DEL PREUPDATE, NO PUEDE HABER NADA DESPUÉS
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
 		integrador++;

@@ -41,6 +41,7 @@ bool ModuleFonts::Start()
 	iterador = 0;
 	toSum = 0;
 	
+	debug = false;
 	reset = false;
 
 
@@ -214,9 +215,22 @@ update_status ModuleFonts::Update()
 			}
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		reset = true;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		if (debug == true)
 		{
-			reset = true;
+			debug = false;
+		}
+		else {
+			debug = true;
 		}
 	}
 
@@ -226,18 +240,8 @@ update_status ModuleFonts::Update()
 
 update_status ModuleFonts::PostUpdate()
 {
-	//URI - TO DO'S: Meter los parametros dentro del ground
-
-	//URI - Hacer iterador
-
-	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
-
-	
-
-	//URI - TO DO'S - 2: Hacer que se puedan modificar a tiempo real todos estos parámetros
 	std::string auxString;
 	const char* auxChar;
-
 
 	switch (iterador)
 	{

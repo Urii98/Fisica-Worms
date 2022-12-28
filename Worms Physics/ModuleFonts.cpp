@@ -37,6 +37,9 @@ bool ModuleFonts::Start()
 	physParams.push_back(enumPhysParams::WATERVX);
 	physParams.push_back(enumPhysParams::WATERVY);
 	physParams.push_back(enumPhysParams::WATERDENSITY);
+	physParams.push_back(enumPhysParams::WALLSBOUNCYNESS);
+	physParams.push_back(enumPhysParams::WALLSBOUNCYNESS2);
+
 	
 	iterador = 0;
 	toSum = 0;
@@ -57,6 +60,7 @@ void ModuleFonts::initialValuePhysParams()
 	initialWaterVelx = App->scene_intro->water1.vx;
 	initialWaterVely = App->scene_intro->water1.vy;
 	initialWaterDensity = App->scene_intro->water1.density;
+	initialWallBouncyness = App->scene_intro->walls[11].bouncyness;
 }
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
@@ -181,42 +185,6 @@ std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const
 
 update_status ModuleFonts::Update()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
-		{
-
-			iterador++;
-			if (physParams.size() <= iterador)
-			{
-				iterador = 0;
-			}
-		}
-
-		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
-		{
-			iterador--;
-			if (iterador < 0)
-			{
-				iterador = 6;
-			}
-		}
-
-		if (event.type == SDL_MOUSEWHEEL) {
-			if (event.wheel.y > 0) {
-				// rueda del ratón giró hacia arriba
-				toSum += 0.2f;
-
-			}
-			else if (event.wheel.y < 0) {
-				// rueda del ratón giró hacia abajo
-				toSum -= 0.2f;
-			}
-		}
-
-	}
-
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
@@ -356,6 +324,44 @@ update_status ModuleFonts::PostUpdate()
 		}
 
 		break;
+	case enumPhysParams::WALLSBOUNCYNESS:
+		App->scene_intro->walls[11].bouncyness += toSum;
+		toSum = 0.0f;
+		
+		BlitText(0, 119, textFont2, "Wall.Bouncy.:*");
+
+		auxString = PhysicsParamsToString(App->scene_intro->walls[11].bouncyness, 2, "*");
+		auxChar = auxString.c_str();
+		BlitText(204, 259, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->walls[11].bouncyness = initialWallBouncyness;
+			reset = false;
+		}
+
+		break;
+
+	case enumPhysParams::WALLSBOUNCYNESS2:
+		App->scene_intro->walls[12].bouncyness += toSum;
+		toSum = 0.0f;
+
+		BlitText(0, 119, textFont2, "Wall.Bouncy.:*");
+
+		auxString = PhysicsParamsToString(App->scene_intro->walls[12].bouncyness, 2, "*");
+		auxChar = auxString.c_str();
+		BlitText(722, 259, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->walls[12].bouncyness = initialWallBouncyness;
+			reset = false;
+		}
+
+		break;
+
+	default:
+		break;
 	}
 
 	//----------------- Parámetros modificables: -----------------
@@ -413,6 +419,29 @@ update_status ModuleFonts::PostUpdate()
 		BlitText(0, 102, textFont, waterDensityChar);
 	}
 
+	if (iterador != 7)
+	{
+
+		std::string wall1BouncynessString = PhysicsParamsToString(App->scene_intro->walls[11].bouncyness, 2, "*");
+		const char* wall1BouncynessChar = wall1BouncynessString.c_str();
+		BlitText(204, 259, textFont, wall1BouncynessChar);
+
+	}
+
+	if (iterador != 8)
+	{
+
+		std::string wall2BouncynessString = PhysicsParamsToString(App->scene_intro->walls[12].bouncyness, 2, "*");
+		const char* wall2BouncynessChar = wall2BouncynessString.c_str();
+		BlitText(722, 259, textFont, wall2BouncynessChar);
+
+	}
+
+	if (iterador != 7 && iterador != 8)
+	{
+		BlitText(0, 119, textFont, "Wall.Bouncy.:*");
+	}
+	
 
 	//----------------- Parámetros no modificables: -----------------
 
@@ -461,6 +490,10 @@ update_status ModuleFonts::PostUpdate()
 		
 		break;
 	}
+
+
+	/*std::cout << walls[11].bouncyness << std::endl;
+	std::cout << walls[12].bouncyness << std::endl;*/
 
 	return UPDATE_CONTINUE;
 }

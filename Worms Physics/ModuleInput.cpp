@@ -64,6 +64,43 @@ update_status ModuleInput::PreUpdate()
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
 
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+		{
+
+			App->fonts->iterador++;
+			if (App->fonts->physParams.size() <= App->fonts->iterador)
+			{
+				App->fonts->iterador = 0;
+			}
+		}
+
+		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+		{
+			App->fonts->iterador--;
+			if (App->fonts->iterador < 0)
+			{
+				App->fonts->iterador = 8;
+			}
+		}
+
+		if (event.type == SDL_MOUSEWHEEL) {
+			if (event.wheel.y > 0) {
+				// rueda del ratón giró hacia arriba
+				App->fonts->toSum += 0.2f;
+
+
+			}
+			else if (event.wheel.y < 0) {
+				// rueda del ratón giró hacia abajo
+				App->fonts->toSum -= 0.2f;
+			}
+		}
+
+	}
+
 	return UPDATE_CONTINUE;
 }
 

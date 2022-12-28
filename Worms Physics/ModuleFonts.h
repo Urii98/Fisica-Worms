@@ -75,7 +75,9 @@ public:
 		ATMODENSITY,
 		WATERVX,
 		WATERVY,
-		WATERDENSITY
+		WATERDENSITY,
+		WALLSBOUNCYNESS,
+		WALLSBOUNCYNESS2
 	};
 
 	std::vector<int> physParams;
@@ -87,6 +89,7 @@ public:
 	float initialGravity;
 	float initialAtmoWindx, initialAtmoWindy, initialAtmoDensity;
 	float initialWaterVelx, initialWaterVely, initialWaterDensity;
+	float initialWallBouncyness;
 
 };
 

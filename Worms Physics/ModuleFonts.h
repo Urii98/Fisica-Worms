@@ -67,6 +67,7 @@ public:
 
 	int textFont = -1;
 	int textFont2 = -1;
+	int textFont3 = -1;
 
 	enum enumPhysParams {
 		GRAVITY,
@@ -77,7 +78,10 @@ public:
 		WATERVY,
 		WATERDENSITY,
 		WALLSBOUNCYNESS,
-		WALLSBOUNCYNESS2
+		WALLSBOUNCYNESS2,
+		BALLMASS,
+		BALLFRICTION,
+		BALLRESTITUION,
 	};
 
 	std::vector<int> physParams;
@@ -90,6 +94,7 @@ public:
 	float initialAtmoWindx, initialAtmoWindy, initialAtmoDensity;
 	float initialWaterVelx, initialWaterVely, initialWaterDensity;
 	float initialWallBouncyness;
+	float initialBallMass, initialBallFriction, initialBallRestitution;
 
 };
 

@@ -25,10 +25,13 @@ bool ModuleFonts::Start()
 	LOG("Loading Fonts");
 
 	char lookupTableChars[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
-	textFont = App->fonts->Load("Assets/pixel_font.png", lookupTableChars, 8);
+	textFont = App->fonts->Load("Assets/pixel_font_25.png", lookupTableChars, 8);
+
+	char lookupTableChars3[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
+	textFont3 = App->fonts->Load("Assets/pixel_font_75.png", lookupTableChars, 8);
 
 	char lookupTableChars2[] = { " !'#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[/]^_ abcdefghijklmnopqrstuvwxyz{|}~ çüéâäàaçêëèïîìäaéÆæôöòûù" };
-	textFont2 = App->fonts->Load("Assets/pixel_font_red.png", lookupTableChars, 8);
+	textFont2 = App->fonts->Load("Assets/pixel_font_red_25.png", lookupTableChars, 8);
 
 	physParams.push_back(enumPhysParams::GRAVITY);
 	physParams.push_back(enumPhysParams::ATMOWINDX);
@@ -39,8 +42,10 @@ bool ModuleFonts::Start()
 	physParams.push_back(enumPhysParams::WATERDENSITY);
 	physParams.push_back(enumPhysParams::WALLSBOUNCYNESS);
 	physParams.push_back(enumPhysParams::WALLSBOUNCYNESS2);
+	physParams.push_back(enumPhysParams::BALLMASS);
+	physParams.push_back(enumPhysParams::BALLFRICTION);
+	physParams.push_back(enumPhysParams::BALLRESTITUION);
 
-	
 	iterador = 0;
 	toSum = 0;
 	
@@ -61,6 +66,9 @@ void ModuleFonts::initialValuePhysParams()
 	initialWaterVely = App->scene_intro->water1.vy;
 	initialWaterDensity = App->scene_intro->water1.density;
 	initialWallBouncyness = App->scene_intro->walls[11].bouncyness;
+	initialBallMass = App->scene_intro->balls[0].mass;
+	initialBallFriction = App->scene_intro->balls[0].coef_friction;
+	initialBallRestitution = App->scene_intro->balls[0].coef_restitution;
 }
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
@@ -173,7 +181,16 @@ void ModuleFonts::BlitText(int x, int y, int font_id, const char* text) const
 std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const char* text)
 {
 	std::string paramToString = std::to_string(param);
-	std::string rounded = paramToString.substr(0, paramToString.find(".") + decimales +1);
+	std::string rounded;
+	if (decimales == 0)
+	{
+		rounded = paramToString.substr(0, paramToString.find("."));
+	}
+	else
+	{
+		rounded = paramToString.substr(0, paramToString.find(".") + decimales + 1);
+	}
+	
 	std::string typeOfParam = text;
 
 	std::string result;
@@ -235,7 +252,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 17, textFont2, auxChar);
+		BlitText(0, 13, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -251,7 +268,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 34, textFont2, auxChar);
+		BlitText(0, 30, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -267,7 +284,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 51, textFont2, auxChar);
+		BlitText(0, 47, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -283,7 +300,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
 		auxChar = auxString.c_str();
-		BlitText(0, 68, textFont2, auxChar);
+		BlitText(0, 64, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -299,7 +316,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
 		auxChar = auxString.c_str();
-		BlitText(0, 85, textFont2, auxChar);
+		BlitText(0, 81, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -315,7 +332,7 @@ update_status ModuleFonts::PostUpdate()
 
 		auxString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
 		auxChar = auxString.c_str();
-		BlitText(0, 102, textFont2, auxChar);
+		BlitText(0, 98, textFont2, auxChar);
 
 		if (reset)
 		{
@@ -328,7 +345,7 @@ update_status ModuleFonts::PostUpdate()
 		App->scene_intro->walls[11].bouncyness += toSum;
 		toSum = 0.0f;
 		
-		BlitText(0, 119, textFont2, "Wall.Bouncy.:*");
+		BlitText(0, 115, textFont2, "Wall.Bouncy.:*");
 
 		auxString = PhysicsParamsToString(App->scene_intro->walls[11].bouncyness, 2, "*");
 		auxChar = auxString.c_str();
@@ -346,7 +363,7 @@ update_status ModuleFonts::PostUpdate()
 		App->scene_intro->walls[12].bouncyness += toSum;
 		toSum = 0.0f;
 
-		BlitText(0, 119, textFont2, "Wall.Bouncy.:*");
+		BlitText(0, 115, textFont2, "Wall.Bouncy.:*");
 
 		auxString = PhysicsParamsToString(App->scene_intro->walls[12].bouncyness, 2, "*");
 		auxChar = auxString.c_str();
@@ -358,6 +375,52 @@ update_status ModuleFonts::PostUpdate()
 			reset = false;
 		}
 
+		break;
+
+	case enumPhysParams::BALLMASS:
+		App->scene_intro->balls[0].mass += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 2, "Ball Mass : ");
+		auxChar = auxString.c_str();
+		BlitText(242, 600, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].mass = initialBallMass;
+			reset = false;
+		}
+		break;
+
+	case enumPhysParams::BALLFRICTION:
+		App->scene_intro->balls[0].coef_friction += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.: ");
+		auxChar = auxString.c_str();
+		BlitText(242, 614, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].coef_friction = initialBallFriction;
+			reset = false;
+		}
+		break;
+
+	case enumPhysParams::BALLRESTITUION:
+		App->scene_intro->balls[0].coef_restitution += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.: ");
+		auxChar = auxString.c_str();
+		BlitText(242, 628, textFont2, auxChar);
+
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].coef_restitution = initialBallRestitution;
+			reset = false;
+		}
 		break;
 
 	default:
@@ -379,21 +442,21 @@ update_status ModuleFonts::PostUpdate()
 	{
 		std::string windXString = PhysicsParamsToString(App->scene_intro->atmosphere.windx, 2, "Wind.x     : ");
 		const char* windXChar = windXString.c_str();
-		BlitText(0, 17, textFont, windXChar);
+		BlitText(0, 13, textFont, windXChar);
 	}
 
 	if (iterador != 2)
 	{
 		std::string windYString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
 		const char* windYChar = windYString.c_str();
-		BlitText(0, 34, textFont, windYChar);
+		BlitText(0, 30, textFont, windYChar);
 	}
 
 	if (iterador != 3)
 	{
 		std::string atmosphDensityString = PhysicsParamsToString(App->scene_intro->atmosphere.density, 2, "Atmsph.D.  : ");
 		const char* atmosphDensityChar = atmosphDensityString.c_str();
-		BlitText(0, 51, textFont, atmosphDensityChar);
+		BlitText(0, 47, textFont, atmosphDensityChar);
 	}
 
 
@@ -402,21 +465,21 @@ update_status ModuleFonts::PostUpdate()
 	{
 		std::string waterVelXString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
 		const char* waterVelXChar = waterVelXString.c_str();
-		BlitText(0, 68, textFont, waterVelXChar);
+		BlitText(0, 64, textFont, waterVelXChar);
 	}
 
 	if (iterador != 5)
 	{
 		std::string waterVelYString = PhysicsParamsToString(App->scene_intro->water1.vy, 2, "Water Vel.y: ");
 		const char* waterVelYChar = waterVelYString.c_str();
-		BlitText(0, 85, textFont, waterVelYChar);
+		BlitText(0, 81, textFont, waterVelYChar);
 	}
 
 	if (iterador != 6)
 	{
 		std::string waterDensityString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
 		const char* waterDensityChar = waterDensityString.c_str();
-		BlitText(0, 102, textFont, waterDensityChar);
+		BlitText(0, 98, textFont, waterDensityChar);
 	}
 
 	if (iterador != 7)
@@ -439,7 +502,37 @@ update_status ModuleFonts::PostUpdate()
 
 	if (iterador != 7 && iterador != 8)
 	{
-		BlitText(0, 119, textFont, "Wall.Bouncy.:*");
+		BlitText(0, 115, textFont, "Wall.Bouncy.:*");
+	}
+
+	BlitText(242, 570, textFont, "Ball ");
+	BlitText(242, 582, textFont, "__________________");
+	BlitText(510, 592, textFont, "|");
+	BlitText(510, 606, textFont, "|");
+	BlitText(510, 620, textFont, "|");
+	BlitText(510, 634, textFont, "|");
+
+	BlitText(242, 638, textFont, "__________________");
+
+	if (iterador != 9)
+	{
+		std::string ballMassString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 2, "Ball Mass : ");
+		const char* ballMassChar = ballMassString.c_str();
+		BlitText(242, 600, textFont, ballMassChar);
+	}
+
+	if (iterador != 10)
+	{
+		std::string ballFrictionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.: ");
+		const char* ballFrictionChar = ballFrictionString.c_str();
+		BlitText(242, 614, textFont, ballFrictionChar);
+	}
+
+	if (iterador != 11)
+	{
+		std::string ballRestitutionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.: ");
+		const char* ballRestitutionChar = ballRestitutionString.c_str();
+		BlitText(242, 628, textFont, ballRestitutionChar);
 	}
 	
 
@@ -448,25 +541,25 @@ update_status ModuleFonts::PostUpdate()
 	//AeroDrag
 	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
 	const char* aDragXChar = aDragXString.c_str();
-	BlitText(705, 0, textFont, aDragXChar);
+	BlitText(795, 0, textFont, aDragXChar);
 
 	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
 	const char* aDragYChar = aDragYString.c_str();
-	BlitText(705, 17, textFont, aDragYChar);
+	BlitText(795, 13, textFont, aDragYChar);
 
 	//HidroDrag
 	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
 	const char* hDragXChar = hDragXString.c_str();
-	BlitText(705, 34, textFont, hDragXChar);
+	BlitText(795, 30, textFont, hDragXChar);
 
 	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
 	const char* hDragYChar = hDragYString.c_str();
-	BlitText(705, 51, textFont, hDragYChar);
+	BlitText(795, 47, textFont, hDragYChar);
 
 	//Hidro Buoyancy
 	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
-	BlitText(705, 68, textFont, hBuoyancyChar);
+	BlitText(795, 64, textFont, hBuoyancyChar);
 	
 	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
 	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
@@ -476,24 +569,54 @@ update_status ModuleFonts::PostUpdate()
 	switch (App->physics->integrador)
 	{
 	case 0:
-		integradorChar = "Integrador:Verlet";
-		BlitText(238, 740, textFont, integradorChar);
+		integradorChar = "Integrador: Verlet";
+		BlitText(242, 740, textFont, integradorChar);
 		break;
 	case 1:
-		integradorChar = "Integrador:Backward Euler";
-		BlitText(238, 740, textFont, integradorChar);
+		integradorChar = "Integrador: Backward Euler";
+		BlitText(242, 740, textFont, integradorChar);
 		
 		break;
 	case 2:
-		integradorChar = "Integrador:Forward Euler";
-		BlitText(238, 740, textFont, integradorChar);
+		integradorChar = "Integrador: Forward Euler";
+		BlitText(242, 740, textFont, integradorChar);
 		
 		break;
 	}
 
+	//Ball Pos.x
+	std::string ballPosXString = PhysicsParamsToString(METERS_TO_PIXELS(App->scene_intro->balls[0].x), 0, "X.");
+	const char* ballPosXChar = ballPosXString.c_str();
+	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 758 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosXChar);
 
-	/*std::cout << walls[11].bouncyness << std::endl;
-	std::cout << walls[12].bouncyness << std::endl;*/
+	//Ball Pos.y
+	std::string ballPosYString = PhysicsParamsToString(METERS_TO_PIXELS(App->scene_intro->balls[0].y), 0, "Y.");
+	std::string ballPosYStringCut = ballPosYString.substr(0, 1);
+	const char* ballPosYChar = ballPosYStringCut.c_str();
+	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 698 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+
+	ballPosYStringCut = ballPosYString.substr(1, 1);
+	ballPosYChar = ballPosYStringCut.c_str();
+	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 708 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+
+	ballPosYStringCut = ballPosYString.substr(2, 1);
+	ballPosYChar = ballPosYStringCut.c_str();
+	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 718 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+
+	ballPosYStringCut = ballPosYString.substr(3, 1);
+	ballPosYChar = ballPosYStringCut.c_str();
+	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 728 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+
+	std::cout << ballPosYStringCut << std::endl;
+	if (METERS_TO_PIXELS(App->scene_intro->balls[0].y) > 100)
+	{
+		ballPosYStringCut = ballPosYString.substr(4, 1);
+		ballPosYChar = ballPosYStringCut.c_str();
+		BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 738 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+	}
+	
+
+
 
 	return UPDATE_CONTINUE;
 }

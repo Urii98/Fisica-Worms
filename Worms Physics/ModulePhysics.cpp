@@ -327,6 +327,12 @@ update_status ModulePhysics::PostUpdate()
 	color_r = 0; color_g = 0; color_b = 255;
 	App->renderer->DrawQuad(App->scene_intro->water2.pixels(), color_r, color_g, color_b);
 
+	//// Draw Sensors
+	//color_r = 0; color_g = 255; color_b = 255;
+	//App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
+	//App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	//App->renderer->DrawQuad(App->scene_intro->sensor3.pixels(), color_r, color_g, color_b);
+
 	// Draw all balls in the scenario
 	for (auto& ball : App->scene_intro->balls)
 	{

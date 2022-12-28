@@ -113,6 +113,7 @@ public:
 
 	// Bounce wall 1
 
+	std::vector<Water> waters{};
 	Water water1{};
 	Water water2{};
 

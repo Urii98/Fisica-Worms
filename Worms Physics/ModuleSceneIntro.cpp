@@ -155,6 +155,9 @@ bool ModuleSceneIntro::Start()
 	water2.vx = -1.0f; // [m/s]
 	water2.vy = 0.0f; // [m/s]
 
+	waters.emplace_back(water1);
+	waters.emplace_back(water2);
+
 	// Create atmosphere
 	atmosphere = Atmosphere();
 	atmosphere.windx = 10.0f; // [m/s]

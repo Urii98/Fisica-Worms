@@ -42,15 +42,15 @@ bool ModuleSceneIntro::Start()
 
 	// Right Basket
 	wall3 = Wall();
-	wall3.x = 42.0f; // [m]
+	wall3.x = 41.0f; // [m]
 	wall3.y = 18.0f; // [m]
-	wall3.w = 0.5f; // [m]
+	wall3.w = 1.5f; // [m]
 	wall3.h = 3.0f; // [m]
 	wall3.bouncyness = 1.0f;
 
 	wall4 = Wall();
 	wall4.w = 5.0f; // [m]
-	wall4.h = 0.5f; // [m]
+	wall4.h = 1.5f; // [m]
 	wall4.x = wall3.x + wall4.h; // [m]
 	wall4.y = wall3.y - wall4.h; // [m]
 	wall4.bouncyness = 1.0f;
@@ -64,15 +64,15 @@ bool ModuleSceneIntro::Start()
 
 	// Center Basket
 	wall6 = Wall();
-	wall6.x = 21.0f; // [m]
+	wall6.x = 20.0f; // [m]
 	wall6.y = 30.0f; // [m]
-	wall6.w = 0.5f; // [m]
+	wall6.w = 1.5f; // [m]
 	wall6.h = 3.0f; // [m]
 	wall6.bouncyness = 1.0f;
 
 	wall7 = Wall();
 	wall7.w = 8.0f; // [m]
-	wall7.h = 0.5f; // [m]
+	wall7.h = 1.5f; // [m]
 	wall7.x = wall6.x + wall7.h; // [m]
 	wall7.y = wall6.y - wall7.h; // [m]
 	wall7.bouncyness = 1.0f;
@@ -86,15 +86,15 @@ bool ModuleSceneIntro::Start()
 
 	// Left Basket
 	wall9 = Wall();
-	wall9.x = 3.0f; // [m]
+	wall9.x = 2.0f; // [m]
 	wall9.y = 18.0f; // [m]
-	wall9.w = 0.5f; // [m]
+	wall9.w = 1.5f; // [m]
 	wall9.h = 3.0f; // [m]
 	wall9.bouncyness = 1.0f;
 
 	wall10 = Wall();
 	wall10.w = 5.0f; // [m]
-	wall10.h = 0.5f; // [m]
+	wall10.h = 1.5f; // [m]
 	wall10.x = wall9.x + wall10.h; // [m]
 	wall10.y = wall9.y - wall10.h; // [m]
 	wall10.bouncyness = 1.0f;
@@ -110,7 +110,7 @@ bool ModuleSceneIntro::Start()
 	wall12 = Wall();
 	wall12.x = wall1.x; // [m]
 	wall12.y = 25.0f; // [m]
-	wall12.w = 0.5f; // [m]
+	wall12.w = 1.5f; // [m]
 	wall12.h = 3.0f; // [m]
 	wall12.bouncyness = 2.0f;
 
@@ -118,9 +118,9 @@ bool ModuleSceneIntro::Start()
 	wall13 = Wall();
 	wall13.x = wall2.x + wall2.w; // [m]
 	wall13.y = 25.0f; // [m]
-	wall13.w = 0.5f; // [m]
+	wall13.w = 1.5f; // [m]
 	wall13.h = 3.0f; // [m]
-	wall13.bouncyness = 1.0f;
+	wall13.bouncyness = 2.0f;
 
 	walls.emplace_back(wall1);
 	walls.emplace_back(wall2);

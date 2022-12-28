@@ -136,6 +136,34 @@ bool ModuleSceneIntro::Start()
 	walls.emplace_back(wall12);
 	walls.emplace_back(wall13);
 
+	//Sensor esquerra
+	sensor1 = SensorWall();
+	sensor1.w = 5.0f; // [m]
+	sensor1.h = 0.5f; // [m]
+	sensor1.x = 0.0f; // [m]
+	sensor1.y = 0.0f; // [m]
+	sensor1.sbool = true;
+
+	//Sensor mig
+	sensor2 = SensorWall();
+	sensor2.w = 5.0f; // [m]
+	sensor2.h = 0.5f; // [m]
+	sensor2.x = 0.0f; // [m]
+	sensor2.y = 0.0f; // [m]
+	sensor2.sbool = true;
+
+	//Sensor dreta
+	sensor3 = SensorWall();
+	sensor3.w = 5.0f; // [m]
+	sensor3.h = 0.5f; // [m]
+	sensor3.x = 0.0f; // [m]
+	sensor3.y = 0.0f; // [m]
+	sensor3.sbool = true;
+
+	sensorWalls.emplace_back(sensor1);
+	sensorWalls.emplace_back(sensor2);
+	sensorWalls.emplace_back(sensor3);
+
 	// Create Water
 	water1 = Water();
 	water1.x = 0.0f;

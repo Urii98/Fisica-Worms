@@ -66,6 +66,12 @@ public:
 	float bouncyness;
 };
 
+class SensorWall : public Ground
+{
+public:
+	bool sbool;
+};
+
 // Class: Water
 class Water : public Ground
 {

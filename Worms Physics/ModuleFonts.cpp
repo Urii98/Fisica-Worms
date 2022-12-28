@@ -41,8 +41,14 @@ bool ModuleFonts::Start()
 	iterador = 0;
 	toSum = 0;
 	
-	
-	
+	reset = false;
+	initialGravity = App->physics->gravity;
+	initialAtmoWindx = App->scene_intro->atmosphere.windx;
+	initialAtmoWindy = App->scene_intro->atmosphere.windy;
+	initialAtmoDensity = App->scene_intro->atmosphere.density;
+	initialWaterVelx = App->scene_intro->water1.vx;
+	initialWaterVely = App->scene_intro->water1.vy;
+	initialWaterDensity = App->scene_intro->water1.density;
 
 	return true;
 }
@@ -180,10 +186,8 @@ update_status ModuleFonts::Update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-
 		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
 		{
-			std::cout << physParams.at(iterador) << std::endl;
 
 			iterador++;
 			if (physParams.size() <= iterador)
@@ -192,16 +196,30 @@ update_status ModuleFonts::Update()
 			}
 		}
 
+		if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
+		{
+			iterador--;
+			if (iterador < 0)
+			{
+				iterador = 6;
+			}
+		}
+
 		if (event.type == SDL_MOUSEWHEEL) {
 			if (event.wheel.y > 0) {
 				// rueda del ratón giró hacia arriba
-				toSum += 0.1f;
+				toSum += 0.2f;
 
 			}
 			else if (event.wheel.y < 0) {
 				// rueda del ratón giró hacia abajo
-				toSum -= 0.1f;
+				toSum -= 0.2f;
 			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			reset = true;
 		}
 	}
 
@@ -209,6 +227,7 @@ update_status ModuleFonts::Update()
 	std::string auxString; 
 	const char* auxChar;
 
+	
 	switch (iterador)
 	{
 	case enumPhysParams::GRAVITY:
@@ -218,6 +237,12 @@ update_status ModuleFonts::Update()
 		auxString = PhysicsParamsToString(App->physics->gravity, 2, "Gravity    : ");
 		auxChar = auxString.c_str();
 		BlitText(0, 0, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->physics->gravity = initialGravity;
+			reset = false;
+		}
 
 		break;
 
@@ -229,6 +254,12 @@ update_status ModuleFonts::Update()
 		auxChar = auxString.c_str();
 		BlitText(0, 112, textFont2, auxChar);
 
+		if (reset)
+		{
+			App->scene_intro->atmosphere.windx = initialAtmoWindx;
+			reset = false;
+		}
+
 		break;
 
 	case enumPhysParams::ATMOWINDY:
@@ -238,6 +269,12 @@ update_status ModuleFonts::Update()
 		auxString = PhysicsParamsToString(App->scene_intro->atmosphere.windy, 2, "Wind.y     : ");
 		auxChar = auxString.c_str();
 		BlitText(0, 129, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->atmosphere.windy = initialAtmoWindy;
+			reset = false;
+		}
 
 		break;
 
@@ -249,6 +286,12 @@ update_status ModuleFonts::Update()
 		auxChar = auxString.c_str();
 		BlitText(0, 146, textFont2, auxChar);
 
+		if (reset)
+		{
+			App->scene_intro->atmosphere.density = initialAtmoDensity;
+			reset = false;
+		}
+
 		break;
 		
 	case enumPhysParams::WATERVX:
@@ -258,6 +301,12 @@ update_status ModuleFonts::Update()
 		auxString = PhysicsParamsToString(App->scene_intro->water1.vx, 2, "Water Vel.x: ");
 		auxChar = auxString.c_str();
 		BlitText(0, 163, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->water1.vx = initialWaterVelx;
+			reset = false;
+		}
 
 		break;
 
@@ -269,6 +318,12 @@ update_status ModuleFonts::Update()
 		auxChar = auxString.c_str();
 		BlitText(0, 180, textFont2, auxChar);
 
+		if (reset)
+		{
+			App->scene_intro->water1.vy = initialWaterVely;
+			reset = false;
+		}
+
 		break;
 
 	case enumPhysParams::WATERDENSITY:
@@ -278,6 +333,12 @@ update_status ModuleFonts::Update()
 		auxString = PhysicsParamsToString(App->scene_intro->water1.density, 2, "Water.D.   : ");
 		auxChar = auxString.c_str();
 		BlitText(0, 197, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->water1.density = initialWaterDensity;
+			reset = false;
+		}
 
 		break;
 	}

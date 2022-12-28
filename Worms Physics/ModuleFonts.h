@@ -76,6 +76,11 @@ public:
 	std::vector<int> physParams;
 	int iterador;
 	float toSum;
+	bool reset;
+
+	float initialGravity;
+	float initialAtmoWindx, initialAtmoWindy, initialAtmoDensity;
+	float initialWaterVelx, initialWaterVely, initialWaterDensity;
 
 };
 

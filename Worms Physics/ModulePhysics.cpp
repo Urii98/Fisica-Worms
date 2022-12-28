@@ -267,6 +267,9 @@ update_status ModulePhysics::PreUpdate()
 		
 	}
 
+	// -------------------- ATTENTION ------------------------------------
+	// ------------------- ¡¡DANGER!! ------------------------------------
+	//ESTO TIENE QUE SER LO ULTIMO DEL PREUPDATE, NO PUEDE HABER NADA DESPUES
 	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
 		integrador++;
@@ -275,6 +278,8 @@ update_status ModulePhysics::PreUpdate()
 			integrador = 0;
 		}
 	}
+	// -------------------- ATTENTION ------------------------------------
+	// ------------------- ¡¡DANGER!! ------------------------------------
 
 	// Continue game
 	return UPDATE_CONTINUE;

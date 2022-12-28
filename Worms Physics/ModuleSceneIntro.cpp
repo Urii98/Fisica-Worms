@@ -187,6 +187,7 @@ bool ModuleSceneIntro::Start()
 	balls.emplace_back(ball);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
+	App->fonts->initialValuePhysParams();
 
 	return ret;
 }

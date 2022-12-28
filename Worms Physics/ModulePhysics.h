@@ -109,6 +109,8 @@ public:
 	float buoyancy;
 	float aeroDragX, aeroDragY;
 	float hidroDragX, hidroDragY;
+
+	int integrador;
 };
 
 // Compute modulus of a vector

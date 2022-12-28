@@ -38,6 +38,9 @@ public:
 	
 	bool Start();
 	update_status Update();
+	update_status PostUpdate();
+
+	void initialValuePhysParams();
 
 	// Loads a font file from a texture
 	// Returns a font index from the fonts array

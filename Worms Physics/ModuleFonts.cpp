@@ -42,6 +42,13 @@ bool ModuleFonts::Start()
 	toSum = 0;
 	
 	reset = false;
+
+
+	return true;
+}
+
+void ModuleFonts::initialValuePhysParams()
+{
 	initialGravity = App->physics->gravity;
 	initialAtmoWindx = App->scene_intro->atmosphere.windx;
 	initialAtmoWindy = App->scene_intro->atmosphere.windy;
@@ -49,10 +56,7 @@ bool ModuleFonts::Start()
 	initialWaterVelx = App->scene_intro->water1.vx;
 	initialWaterVely = App->scene_intro->water1.vy;
 	initialWaterDensity = App->scene_intro->water1.density;
-
-	return true;
 }
-
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
 {
@@ -176,13 +180,6 @@ std::string ModuleFonts::PhysicsParamsToString(float param, int decimales, const
 
 update_status ModuleFonts::Update()
 {
-
-	//URI - TO DO'S: Meter los parametros dentro del ground
-	
-	//URI - Hacer iterador
-
-	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
-
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -223,11 +220,25 @@ update_status ModuleFonts::Update()
 		}
 	}
 
-	//URI - TO DO'S - 2: Hacer que se puedan modificar a tiempo real todos estos parámetros
-	std::string auxString; 
-	const char* auxChar;
+	return UPDATE_CONTINUE;
+}
+
+
+update_status ModuleFonts::PostUpdate()
+{
+	//URI - TO DO'S: Meter los parametros dentro del ground
+
+	//URI - Hacer iterador
+
+	//crear un vector de las variables en physica y al hacer click en raton que se vaya swapeando en la lista y con la rueda aumentar o disminuir
 
 	
+
+	//URI - TO DO'S - 2: Hacer que se puedan modificar a tiempo real todos estos parámetros
+	std::string auxString;
+	const char* auxChar;
+
+
 	switch (iterador)
 	{
 	case enumPhysParams::GRAVITY:
@@ -293,7 +304,7 @@ update_status ModuleFonts::Update()
 		}
 
 		break;
-		
+
 	case enumPhysParams::WATERVX:
 		App->scene_intro->water1.vx += toSum;
 		toSum = 0.0f;
@@ -423,10 +434,29 @@ update_status ModuleFonts::Update()
 	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 	const char* hBuoyancyChar = hBuoyancyString.c_str();
 	BlitText(705, 68, textFont, hBuoyancyChar);
+	
+	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
+	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
 
 
-	std::cout << "Mouse.X" << App->input->GetMouseX() << std::endl;
-	std::cout << "Mouse.Y" << App->input->GetMouseY() << std::endl;
+	const char* integradorChar;
+	switch (App->physics->integrador)
+	{
+	case 0:
+		integradorChar = "Integrador:Verlet";
+		BlitText(238, 740, textFont, integradorChar);
+		break;
+	case 1:
+		integradorChar = "Integrador:Backward Euler";
+		BlitText(238, 740, textFont, integradorChar);
+		
+		break;
+	case 2:
+		integradorChar = "Integrador:Forward Euler";
+		BlitText(238, 740, textFont, integradorChar);
+		
+		break;
+	}
 
 	return UPDATE_CONTINUE;
 }

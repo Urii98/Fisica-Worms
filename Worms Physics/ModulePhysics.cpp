@@ -24,6 +24,7 @@ bool ModulePhysics::Start()
 	buoyancy = 0.0f;
 	aeroDragX, aeroDragY = 0.0f;
 	hidroDragX, hidroDragY = 0.0f;
+	integrador = 0;
 
 	return true;
 }
@@ -95,9 +96,20 @@ update_status ModulePhysics::PreUpdate()
 		// ----------------------------------------------------------------------------------------
 
 		// We will use the 2nd order "Velocity Verlet" method for integration.
-		integrator_velocity_verlet(ball, dt);
-		//integrator_backwards_euler(ball, dt);
-		//integrator_forward_euler(ball, dt);
+
+		switch (integrador)
+		{
+		case 0:
+			integrator_velocity_verlet(ball, dt);
+			break;
+		case 1:
+			integrator_backwards_euler(ball, dt);
+			break;
+		case 2:
+			integrator_forward_euler(ball, dt);
+			break;
+		}
+
 
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
@@ -245,6 +257,15 @@ update_status ModulePhysics::PreUpdate()
 			//printf("%f\n", ball.vx);
 		}
 		
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+	{
+		integrador++;
+		if (integrador > 2)
+		{
+			integrador = 0;
+		}
 	}
 
 	// Continue game

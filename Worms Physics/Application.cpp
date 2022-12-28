@@ -19,17 +19,19 @@ Application::Application()
 	// Main Modules
 	AddModule(window);
 	AddModule(physics);
+	AddModule(fonts);
 	AddModule(renderer);
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
 	
+
 	// Scenes
 	AddModule(scene_intro);
 	
 	// Player
 	AddModule(player);
-	AddModule(fonts);
+	
 }
 
 Application::~Application()

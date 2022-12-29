@@ -98,8 +98,6 @@ public:
 	float windy; // Wind y
 };
 
-
-
 class ModulePhysics : public Module
 {
 public:
@@ -152,6 +150,8 @@ public:
 private:
 
 	bool debug;
+
+	
 
 public:
 	float gravity;

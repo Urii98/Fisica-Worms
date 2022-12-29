@@ -61,7 +61,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		moveType = POSITION;
-		body.physics_enabled = false;
+		//body.physics_enabled = false;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -113,11 +113,11 @@ update_status ModulePlayer::Update()
 		}*/
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.AddForce(0, 3000);
+			body.AddForce(-500, 0);
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.AddForce(0, 3000);
+			body.AddForce(500, 0);
 		}
 		break;
 	case VELOCITY:
@@ -133,14 +133,14 @@ update_status ModulePlayer::Update()
 		{
 			if (body.vx >= -15)
 			{
-				body.vx -= 50 * dt;
+				body.vx = -500 * dt;
 			}			
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
-				body.vx += 50 * dt;
+				body.vx = 500 * dt;
 			}
 		}
 		break;
@@ -148,7 +148,7 @@ update_status ModulePlayer::Update()
 		break;
 	}
 
-	printf("SPEED: %f", body.vx);
+	//printf("SPEED: %f", body.vx);
 
 	return UPDATE_CONTINUE;
 }

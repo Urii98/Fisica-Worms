@@ -852,8 +852,8 @@ update_status ModuleFonts::PostUpdate()
 	}
 
 	
-	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
-	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
+	/*std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
+	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;*/
 
 
 	const char* integradorChar;
@@ -898,7 +898,7 @@ update_status ModuleFonts::PostUpdate()
 	ballPosYChar = ballPosYStringCut.c_str();
 	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 728 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
 
-	std::cout << ballPosYStringCut << std::endl;
+	//std::cout << ballPosYStringCut << std::endl;
 	if (METERS_TO_PIXELS(App->scene_intro->balls[0].y) > 100)
 	{
 		ballPosYStringCut = ballPosYString.substr(4, 1);

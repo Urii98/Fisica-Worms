@@ -112,20 +112,8 @@ public:
 
 	// Compute Hydrodynamic Drag force
 	void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water);
-
-<<<<<<< Updated upstream
-	int integrador;
-
-	bool buoyancyEnabled;
-	bool aeroDragXEnabled;
-	bool aeroDragYEnabled;
-	bool hidroDragXEnabled;
-	bool hidroDragYEnabled;
-};
-=======
 	// Compute Hydrodynamic Buoyancy force
 	void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water);
->>>>>>> Stashed changes
 
 	// Integration scheme: Velocity Verlet
 	void integrator_velocity_verlet(PhysBall& ball, float dt);
@@ -164,4 +152,10 @@ public:
 	float hidroDragX, hidroDragY;
 
 	int integrador;
+
+	bool buoyancyEnabled;
+	bool aeroDragXEnabled;
+	bool aeroDragYEnabled;
+	bool hidroDragXEnabled;
+	bool hidroDragYEnabled;
 };

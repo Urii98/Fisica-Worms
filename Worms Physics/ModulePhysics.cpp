@@ -417,10 +417,7 @@ void ModulePhysics::compute_hydrodynamic_drag(float& fx, float& fy, const PhysBa
 // Compute Hydrodynamic Buoyancy force
 void ModulePhysics::compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water)
 {
-
-
-
-	// Compute submerged area (assume ball is a rectangle, for simplicity)
+		// Compute submerged area (assume ball is a rectangle, for simplicity)
 	float water_top_level = water.y + water.h; // Water top level y
 	float h = 2.0f * ball.radius; // Ball "hitbox" height
 	float surf = h * (water_top_level - ball.y); // Submerged surface

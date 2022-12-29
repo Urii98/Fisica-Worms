@@ -1,10 +1,19 @@
 #pragma once
 #include "Module.h"
 #include "Animation.h"
+#include "ModulePhysics.h"
 #include "Globals.h"
 #include "p2Point.h"
 
-class PhysBody;
+class PhysBall;
+
+enum MoveType
+{
+	NONE,
+	POSITION,
+	FORCES,
+	VELOCITY
+};
 
 class ModulePlayer : public Module
 {
@@ -17,6 +26,10 @@ public:
 	bool CleanUp();
 
 public:
+
+	PhysBall body;
+
+	MoveType moveType;
 
 	int score;
 };

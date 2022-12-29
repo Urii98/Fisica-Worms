@@ -258,10 +258,14 @@ update_status ModulePhysics::PreUpdate()
 		}
 		for (auto& sensor : App->scene_intro->sensorWalls)
 		{
+			
 			if (is_colliding_with_sensor(ball, sensor))
 			{
-				if (sensor.sbool) App->player->score += 10;
-				sensor.sbool = false;
+				if (sensor.sbool) {
+					App->player->score += 10;
+					sensor.sbool = false;
+					
+				}
 			}
 		}
 		
@@ -291,31 +295,16 @@ update_status ModulePhysics::PostUpdate()
 	int color_r, color_g, color_b;
 
 	//Draw sensors
-	if (App->scene_intro->sensor1.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
-	}
-
-	if (App->scene_intro->sensor2.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-
-	if (App->scene_intro->sensor2.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	for (auto& sensor : App->scene_intro->sensorWalls)
+	{
+			if (!sensor.sbool) {
+				color_r = 0; color_g = 255; color_b = 0;
+				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+			}
+			else {
+				color_r = 255; color_g = 0; color_b = 0;
+				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+			}
 	}
 
 	// Draw ground

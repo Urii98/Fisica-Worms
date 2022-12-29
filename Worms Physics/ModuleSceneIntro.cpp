@@ -139,25 +139,25 @@ bool ModuleSceneIntro::Start()
 	//Sensor esquerra
 	sensor1 = SensorWall();
 	sensor1.w = 5.0f; // [m]
-	sensor1.h = 0.5f; // [m]
-	sensor1.x = 0.0f; // [m]
-	sensor1.y = 0.0f; // [m]
+	sensor1.h = 1.3f; // [m]
+	sensor1.x = 3.5f; // [m]
+	sensor1.y = 18.0f; // [m]
 	sensor1.sbool = true;
 
 	//Sensor mig
 	sensor2 = SensorWall();
-	sensor2.w = 5.0f; // [m]
-	sensor2.h = 0.5f; // [m]
-	sensor2.x = 0.0f; // [m]
-	sensor2.y = 0.0f; // [m]
+	sensor2.w = 8.0f; // [m]
+	sensor2.h = 1.3f; // [m]
+	sensor2.x = 21.5f; // [m]
+	sensor2.y = 30.0f; // [m]
 	sensor2.sbool = true;
 
 	//Sensor dreta
 	sensor3 = SensorWall();
 	sensor3.w = 5.0f; // [m]
-	sensor3.h = 0.5f; // [m]
-	sensor3.x = 0.0f; // [m]
-	sensor3.y = 0.0f; // [m]
+	sensor3.h = 1.3f; // [m]
+	sensor3.x = 42.5f; // [m]
+	sensor3.y = 18.0f; // [m]
 	sensor3.sbool = true;
 
 	sensorWalls.emplace_back(sensor1);

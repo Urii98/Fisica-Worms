@@ -50,6 +50,7 @@ public:
 
 	// Has physics enabled?
 	bool physics_enabled = true;
+	
 };
 
 // Class: Ground
@@ -117,6 +118,12 @@ public:
 	float hidroDragX, hidroDragY;
 
 	int integrador;
+
+	bool buoyancyEnabled;
+	bool aeroDragXEnabled;
+	bool aeroDragYEnabled;
+	bool hidroDragXEnabled;
+	bool hidroDragYEnabled;
 };
 
 // Compute modulus of a vector

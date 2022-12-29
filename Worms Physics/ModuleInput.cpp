@@ -82,7 +82,7 @@ update_status ModuleInput::PreUpdate()
 			App->fonts->iterador--;
 			if (App->fonts->iterador < 0)
 			{
-				App->fonts->iterador = 11;
+				App->fonts->iterador = 19;
 			}
 		}
 

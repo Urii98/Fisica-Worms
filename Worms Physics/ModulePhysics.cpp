@@ -26,6 +26,12 @@ bool ModulePhysics::Start()
 	hidroDragX, hidroDragY = 0.0f;
 	integrador = 0;
 
+	buoyancyEnabled = true;
+	aeroDragXEnabled = true;
+	aeroDragYEnabled = true;
+	hidroDragXEnabled = true;
+	hidroDragYEnabled = true;
+
 	return true;
 }
 
@@ -421,6 +427,9 @@ void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const
 // Compute Hydrodynamic Buoyancy force
 void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water)
 {
+
+
+
 	// Compute submerged area (assume ball is a rectangle, for simplicity)
 	float water_top_level = water.y + water.h; // Water top level y
 	float h = 2.0f * ball.radius; // Ball "hitbox" height

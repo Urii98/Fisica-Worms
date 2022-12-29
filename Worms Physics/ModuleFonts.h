@@ -82,6 +82,15 @@ public:
 		BALLMASS,
 		BALLFRICTION,
 		BALLRESTITUION,
+		BALLAERODRAGCOEFF,
+		BALLHIDRODRAGCOEFF,
+		BALLSURFACE,
+		AERODRAGX,
+		AERODRAGY,
+		HIDRODRAGX, 
+		HIDRODRAGY,
+		BUOYANCY,
+
 	};
 
 	std::vector<int> physParams;
@@ -95,6 +104,7 @@ public:
 	float initialWaterVelx, initialWaterVely, initialWaterDensity;
 	float initialWallBouncyness;
 	float initialBallMass, initialBallFriction, initialBallRestitution;
+	float initialBallAeroDrag, initialBallHidroDrag, initialBallSurface;
 
 };
 

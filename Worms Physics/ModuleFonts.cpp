@@ -45,6 +45,15 @@ bool ModuleFonts::Start()
 	physParams.push_back(enumPhysParams::BALLMASS);
 	physParams.push_back(enumPhysParams::BALLFRICTION);
 	physParams.push_back(enumPhysParams::BALLRESTITUION);
+	physParams.push_back(enumPhysParams::BALLAERODRAGCOEFF);
+	physParams.push_back(enumPhysParams::BALLHIDRODRAGCOEFF);
+	physParams.push_back(enumPhysParams::BALLSURFACE);
+	physParams.push_back(enumPhysParams::AERODRAGX);//
+	physParams.push_back(enumPhysParams::AERODRAGY);//
+	physParams.push_back(enumPhysParams::HIDRODRAGX);//
+	physParams.push_back(enumPhysParams::HIDRODRAGY);//	
+	physParams.push_back(enumPhysParams::BUOYANCY);//
+
 
 	iterador = 0;
 	toSum = 0;
@@ -69,6 +78,10 @@ void ModuleFonts::initialValuePhysParams()
 	initialBallMass = App->scene_intro->balls[0].mass;
 	initialBallFriction = App->scene_intro->balls[0].coef_friction;
 	initialBallRestitution = App->scene_intro->balls[0].coef_restitution;
+	initialBallAeroDrag = App->scene_intro->balls[0].cd;
+	initialBallHidroDrag = App->scene_intro->balls[0].b;
+	initialBallHidroDrag = App->scene_intro->balls[0].surface;
+
 }
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
@@ -381,7 +394,7 @@ update_status ModuleFonts::PostUpdate()
 		App->scene_intro->balls[0].mass += toSum;
 		toSum = 0.0f;
 
-		auxString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 2, "Ball Mass : ");
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 1, "Ball Mass   : ");
 		auxChar = auxString.c_str();
 		BlitText(242, 600, textFont2, auxChar);
 
@@ -396,7 +409,7 @@ update_status ModuleFonts::PostUpdate()
 		App->scene_intro->balls[0].coef_friction += toSum;
 		toSum = 0.0f;
 
-		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.: ");
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.  : ");
 		auxChar = auxString.c_str();
 		BlitText(242, 614, textFont2, auxChar);
 
@@ -411,7 +424,7 @@ update_status ModuleFonts::PostUpdate()
 		App->scene_intro->balls[0].coef_restitution += toSum;
 		toSum = 0.0f;
 
-		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.: ");
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.  : ");
 		auxChar = auxString.c_str();
 		BlitText(242, 628, textFont2, auxChar);
 
@@ -423,6 +436,97 @@ update_status ModuleFonts::PostUpdate()
 		}
 		break;
 
+	case enumPhysParams::BALLAERODRAGCOEFF:
+		App->scene_intro->balls[0].cd += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].cd, 2, "Ball A.Drag.: ");
+		auxChar = auxString.c_str();
+		BlitText(242, 642, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].cd = initialBallAeroDrag;
+			reset = false;
+		}
+		break;
+	case enumPhysParams::BALLHIDRODRAGCOEFF:
+		App->scene_intro->balls[0].b += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].b, 2, "Ball H.Drag.: ");
+		auxChar = auxString.c_str();
+		BlitText(242, 656, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].b = initialBallHidroDrag;
+			reset = false;
+		}
+		break;
+	case enumPhysParams::BALLSURFACE:
+		App->scene_intro->balls[0].surface += toSum;
+		toSum = 0.0f;
+
+		auxString = PhysicsParamsToString(App->scene_intro->balls[0].surface, 2, "Ball Surface: ");
+		auxChar = auxString.c_str();
+		BlitText(242, 670, textFont2, auxChar);
+
+		if (reset)
+		{
+			App->scene_intro->balls[0].surface = initialBallSurface;
+			reset = false;
+		}
+		break;
+
+	case enumPhysParams::AERODRAGX:
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->physics->aeroDragXEnabled = false;
+		}
+		break;
+	case enumPhysParams::AERODRAGY:
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->physics->aeroDragYEnabled = false;
+		}
+		break;
+	case enumPhysParams::HIDRODRAGX:
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->physics->hidroDragXEnabled = false;
+		}
+		break;
+	case enumPhysParams::HIDRODRAGY:
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->physics->hidroDragYEnabled = false;
+		}
+		break;
+
+	case enumPhysParams::BUOYANCY:
+
+		if (App->physics->buoyancyEnabled)
+		{
+			auxString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
+			auxChar = auxString.c_str();
+			BlitText(795, 64, textFont2, auxChar);
+		}
+
+
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			if (App->physics->buoyancyEnabled)
+			{
+				App->physics->buoyancyEnabled = false;
+			}
+			else
+			{
+				App->physics->buoyancyEnabled = true;
+			}
+			
+		}
+		break;
 	default:
 		break;
 	}
@@ -505,36 +609,58 @@ update_status ModuleFonts::PostUpdate()
 		BlitText(0, 115, textFont, "Wall.Bouncy.:*");
 	}
 
-	BlitText(242, 570, textFont, "Ball ");
-	BlitText(242, 582, textFont, "__________________");
-	BlitText(510, 592, textFont, "|");
-	BlitText(510, 606, textFont, "|");
-	BlitText(510, 620, textFont, "|");
-	BlitText(510, 634, textFont, "|");
-
-	BlitText(242, 638, textFont, "__________________");
-
 	if (iterador != 9)
 	{
-		std::string ballMassString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 2, "Ball Mass : ");
+		std::string ballMassString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 1, "Ball Mass   : ");
 		const char* ballMassChar = ballMassString.c_str();
 		BlitText(242, 600, textFont, ballMassChar);
 	}
 
 	if (iterador != 10)
 	{
-		std::string ballFrictionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.: ");
+		std::string ballFrictionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.  : ");
 		const char* ballFrictionChar = ballFrictionString.c_str();
 		BlitText(242, 614, textFont, ballFrictionChar);
 	}
 
 	if (iterador != 11)
 	{
-		std::string ballRestitutionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.: ");
+		std::string ballRestitutionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.  : ");
 		const char* ballRestitutionChar = ballRestitutionString.c_str();
 		BlitText(242, 628, textFont, ballRestitutionChar);
 	}
 	
+	if (iterador != 12)
+	{
+		std::string ballAeroDragString = PhysicsParamsToString(App->scene_intro->balls[0].cd, 2, "Ball A.Drag.: ");
+		const char* ballAeroDragChar = ballAeroDragString.c_str();
+		BlitText(242, 642, textFont, ballAeroDragChar);
+	}
+
+	if (iterador != 13)
+	{
+		std::string ballHidroDragString = PhysicsParamsToString(App->scene_intro->balls[0].b, 2, "Ball H.Drag.: ");
+		const char* ballHidroDragChar = ballHidroDragString.c_str();
+		BlitText(242, 656, textFont, ballHidroDragChar);
+	}
+
+	if (iterador != 14)
+	{
+		std::string ballSurfaceString = PhysicsParamsToString(App->scene_intro->balls[0].surface, 2, "Ball Surface: ");
+		const char* ballSurfaceChar = ballSurfaceString.c_str();
+		BlitText(242, 670, textFont, ballSurfaceChar);
+	}
+
+
+	BlitText(242, 570, textFont, "Ball ");
+	BlitText(242, 582, textFont, "____________________");
+	BlitText(540, 598, textFont, "|");
+	BlitText(540, 612, textFont, "|");
+	BlitText(540, 626, textFont, "|");
+	BlitText(540, 640, textFont, "|");
+	BlitText(540, 654, textFont, "|");
+	BlitText(540, 668, textFont, "|");
+	BlitText(242, 680, textFont, "____________________");
 
 	//----------------- Parámetros no modificables: -----------------
 
@@ -557,9 +683,30 @@ update_status ModuleFonts::PostUpdate()
 	BlitText(795, 47, textFont, hDragYChar);
 
 	//Hidro Buoyancy
-	std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
-	const char* hBuoyancyChar = hBuoyancyString.c_str();
-	BlitText(795, 64, textFont, hBuoyancyChar);
+	if (App->physics->buoyancyEnabled)
+	{
+		if (iterador != 19)
+		{
+			std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
+			const char* hBuoyancyChar = hBuoyancyString.c_str();
+			BlitText(795, 64, textFont, hBuoyancyChar);
+		}
+	
+
+	}
+	else
+	{
+		if (iterador != 19)
+		{
+			BlitText(795, 64, textFont, "H. Buoya.:Dis.");
+		}
+		else
+		{
+			BlitText(795, 64, textFont2, "H. Buoya.:Dis.");
+		}
+		
+	}
+
 	
 	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
 	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;

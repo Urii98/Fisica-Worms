@@ -141,8 +141,8 @@ update_status ModulePhysics::PreUpdate()
 			{
 				// Ball is on right
 				//if(wall is at the left of the ball)&&(ball is between the edges of the wall collider)
-				if (ball.x - ball.radius*2 < wall.x + wall.w && ball.x + ball.radius*2 > wall.x + wall.w &&
-					ball.y >wall.y && ball.y + ball.radius*2 < wall.y + wall.h)
+				if (ball.x - ball.radius < wall.x + wall.w && ball.x + ball.radius > wall.x + wall.w &&
+					ball.y >wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					if (ball.vx > -0.1f && ball.vx < 0.1f)
 					{
@@ -160,8 +160,8 @@ update_status ModulePhysics::PreUpdate()
 				}
 				//Ball is on left
 				//if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
-				if (ball.x + ball.radius*2 > wall.x && ball.x < wall.x &&
-					ball.y > wall.y && ball.y + ball.radius*2 < wall.y + wall.h)
+				if (ball.x + ball.radius > wall.x && ball.x < wall.x &&
+					ball.y > wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					if (ball.vx > -0.1f && ball.vx < 0.1f)
 					{
@@ -178,7 +178,7 @@ update_status ModulePhysics::PreUpdate()
 				}
 				//Ball over wall
 				// if (ball is over the wall) &&  (ball is between the edges of the wall collider)
-				if (ball.y + ball.radius*2 > wall.y && ball.y < wall.y && ball.x > wall.x - ball.radius*2 && ball.x + ball.radius*2 < wall.x + wall.w)
+				if (ball.y + ball.radius > wall.y && ball.y < wall.y && ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
 					if (ball.vy > -0.1f && ball.vy < 0.1f)
 					{
@@ -195,8 +195,8 @@ update_status ModulePhysics::PreUpdate()
 				}
 				// Ball under wall
 				// if (ball is under the wall) &&  (ball is between the edges of the wall collider)
-				if (ball.y - ball.radius*2 < wall.y + wall.h && ball.y + ball.radius*2 > wall.y + wall.h &&
-					ball.x > wall.x - ball.radius*2 && ball.x + ball.radius*2 < wall.x + wall.w)
+				if (ball.y - ball.radius < wall.y + wall.h && ball.y + ball.radius > wall.y + wall.h &&
+					ball.x > wall.x - ball.radius && ball.x + ball.radius < wall.x + wall.w)
 				{
 					if (ball.vy > -0.1f && ball.vy < 0.1f)
 					{
@@ -264,13 +264,16 @@ update_status ModulePhysics::PreUpdate()
 		}
 		for (auto& sensor : App->scene_intro->sensorWalls)
 		{
+			
 			if (is_colliding_with_sensor(ball, sensor))
 			{
-				if (sensor.sbool) App->player->score += 10;
-				sensor.sbool = false;
+				if (sensor.sbool) {
+					App->player->score += 10;
+					sensor.sbool = false;
+					
+				}
 			}
-		}
-		
+		}		
 	}
 
 	// -------------------- ATTENTION ------------------------------------
@@ -297,31 +300,16 @@ update_status ModulePhysics::PostUpdate()
 	int color_r, color_g, color_b;
 
 	//Draw sensors
-	if (App->scene_intro->sensor1.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor1.pixels(), color_r, color_g, color_b);
-	}
-
-	if (App->scene_intro->sensor2.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-
-	if (App->scene_intro->sensor2.sbool) {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
-	}
-	else {
-		color_r = 0; color_g = 255; color_b = 0;
-		App->renderer->DrawQuad(App->scene_intro->sensor2.pixels(), color_r, color_g, color_b);
+	for (auto& sensor : App->scene_intro->sensorWalls)
+	{
+			if (!sensor.sbool) {
+				color_r = 0; color_g = 255; color_b = 0;
+				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+			}
+			else {
+				color_r = 255; color_g = 0; color_b = 0;
+				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+			}
 	}
 
 	// Draw ground

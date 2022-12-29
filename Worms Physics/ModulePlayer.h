@@ -29,6 +29,8 @@ public:
 
 	PhysBall body;
 
+	bool onGround;
+
 	MoveType moveType;
 
 	float dt;

@@ -41,6 +41,7 @@ bool ModulePlayer::Start()
 	moveType = VELOCITY;
 
 	isDead = false;
+	onGround = true;
 
 	return true;
 }
@@ -73,9 +74,10 @@ update_status ModulePlayer::Update()
 		body.physics_enabled = true;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && onGround)
 	{
-		body.vy += 100 * dt;
+		body.vy += 1000 * dt;
+		onGround = false;
 	}
 
 	switch (moveType)

@@ -85,11 +85,11 @@ update_status ModulePhysics::PreUpdate()
 		App->player->body.ax = App->player->body.fx / App->player->body.mass;
 		App->player->body.ay = App->player->body.fy / App->player->body.mass;
 
-		//Movimiento bola
-		App->player->body.fx += App->player->body.mfx;
-		App->player->body.fy += App->player->body.mfy;
-		App->player->body.mfx = 0;
-		App->player->body.mfy = 0;
+		////Movimiento bola
+		//App->player->body.fx += App->player->body.mfx;
+		//App->player->body.fy += App->player->body.mfy;
+		//App->player->body.mfx = 0;
+		//App->player->body.mfy = 0;
 		
 
 		// Step #3: Integrate --> from accel to new velocity & new position
@@ -117,6 +117,7 @@ update_status ModulePhysics::PreUpdate()
 		// Solve collision between App->player->body and ground
 		if (is_colliding_with_ground(App->player->body, App->scene_intro->ground))
 		{
+			App->player->onGround = true;
 			// TP App->player->body to ground surface
 			App->player->body.y = App->scene_intro->ground.y + App->scene_intro->ground.h + App->player->body.radius;
 
@@ -174,6 +175,7 @@ update_status ModulePhysics::PreUpdate()
 				// if (App->player->body is over the wall) &&  (App->player->body is between the edges of the wall collider)
 				if (App->player->body.y + App->player->body.radius > wall.y && App->player->body.y < wall.y && App->player->body.x > wall.x - App->player->body.radius && App->player->body.x + App->player->body.radius < wall.x + wall.w)
 				{
+					App->player->onGround = true;
 					if (App->player->body.vy > -0.1f && App->player->body.vy < 0.1f)
 					{
 						App->player->body.y = wall.y - App->player->body.radius;
@@ -524,14 +526,14 @@ update_status ModulePhysics::PostUpdate()
 	//Draw sensors
 	for (auto& sensor : App->scene_intro->sensorWalls)
 	{
-			if (!sensor.sbool) {
-				color_r = 0; color_g = 255; color_b = 0;
-				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
-			}
-			else {
-				color_r = 255; color_g = 0; color_b = 0;
-				App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
-			}
+		if (!sensor.sbool) {
+			color_r = 0; color_g = 255; color_b = 0;
+			App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+		}
+		else {
+			color_r = 255; color_g = 0; color_b = 0;
+			App->renderer->DrawQuad(sensor.pixels(), color_r, color_g, color_b);
+		}
 	}
 
 	// Draw ground

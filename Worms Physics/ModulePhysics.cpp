@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics.h"
+#include "ModuleSceneIntro.h"
+#include "ModulePlayer.h"
 #include "math.h"
 #include <cmath>
 
@@ -142,7 +144,7 @@ update_status ModulePhysics::PreUpdate()
 				// Ball is on right
 				//if(wall is at the left of the ball)&&(ball is between the edges of the wall collider)
 				if (ball.x - ball.radius < wall.x + wall.w && ball.x + ball.radius > wall.x + wall.w &&
-					ball.y >wall.y && ball.y + ball.radius < wall.y + wall.h)
+					ball.y > wall.y && ball.y + ball.radius < wall.y + wall.h)
 				{
 					if (ball.vx > -0.1f && ball.vx < 0.1f)
 					{
@@ -385,13 +387,13 @@ bool ModulePhysics::CleanUp()
 }
 
 // Compute modulus of a vector
-float modulus(float vx, float vy)
+float ModulePhysics::modulus(float vx, float vy)
 {
 	return std::sqrt(vx * vx + vy * vy);
 }
 
 // Compute Aerodynamic Drag force
-void compute_aerodynamic_drag(float &fx, float& fy, const PhysBall &ball, const Atmosphere &atmosphere)
+void ModulePhysics::compute_aerodynamic_drag(float &fx, float& fy, const PhysBall &ball, const Atmosphere &atmosphere)
 {
 	float rel_vel[2] = { ball.vx - atmosphere.windx, ball.vy - atmosphere.windy }; // Relative velocity
 	float speed = modulus(rel_vel[0], rel_vel[1]); // Modulus of the relative velocity
@@ -402,7 +404,7 @@ void compute_aerodynamic_drag(float &fx, float& fy, const PhysBall &ball, const 
 }
 
 // Compute Hydrodynamic Drag force
-void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water)
+void ModulePhysics::compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water)
 {
 	float rel_vel[2] = { ball.vx - water.vx, ball.vy - water.vy }; // Relative velocity
 	float speed = modulus(rel_vel[0], rel_vel[1]); // Modulus of the relative velocity
@@ -413,7 +415,7 @@ void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const
 }
 
 // Compute Hydrodynamic Buoyancy force
-void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water)
+void ModulePhysics::compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water)
 {
 
 
@@ -432,7 +434,7 @@ void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, c
 }
 
 // Integration scheme: Velocity Verlet
-void integrator_velocity_verlet(PhysBall& ball, float dt)
+void ModulePhysics::integrator_velocity_verlet(PhysBall& ball, float dt)
 {
 	ball.x += ball.vx * dt + 0.5f * ball.ax * dt * dt;
 	ball.y += ball.vy * dt + 0.5f * ball.ay * dt * dt;
@@ -440,7 +442,7 @@ void integrator_velocity_verlet(PhysBall& ball, float dt)
 	ball.vy += ball.ay * dt;
 }
 
-void integrator_forward_euler(PhysBall& ball, double dt)
+void ModulePhysics::integrator_forward_euler(PhysBall& ball, double dt)
 {
 	ball.vx = ball.vx + ball.ax * dt;
 	ball.vy = ball.vy + ball.ay * dt;
@@ -449,7 +451,7 @@ void integrator_forward_euler(PhysBall& ball, double dt)
 	ball.y = ball.y + ball.vy * dt;
 }
 
-void integrator_backwards_euler(PhysBall& ball, double dt)
+void ModulePhysics::integrator_backwards_euler(PhysBall& ball, double dt)
 {
 	ball.x = ball.x + ball.vx * dt;
 	ball.y = ball.y + ball.vy * dt;
@@ -460,7 +462,7 @@ void integrator_backwards_euler(PhysBall& ball, double dt)
 
 
 // Detect collision with ground
-bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground)
+bool ModulePhysics::is_colliding_with_ground(const PhysBall& ball, const Ground& ground)
 {
 	float rect_x = (ground.x + ground.w / 2.0f); // Center of rectangle
 	float rect_y = (ground.y + ground.h / 2.0f); // Center of rectangle
@@ -468,7 +470,7 @@ bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground)
 }
 
 // Detect collision with wall
-bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall)
+bool ModulePhysics::is_colliding_with_wall(const PhysBall& ball, const Wall& wall)
 {
 	float rect_x = (wall.x + wall.w / 2.0f); // Center of rectangle
 	float rect_y = (wall.y + wall.h / 2.0f); // Center of rectangle
@@ -476,7 +478,7 @@ bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall)
 }
 
 // Detect collision with sensor
-bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor)
+bool ModulePhysics::is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor)
 {
 	float rect_x = (sensor.x + sensor.w / 2.0f); // Center of rectangle
 	float rect_y = (sensor.y + sensor.h / 2.0f); // Center of rectangle
@@ -484,7 +486,7 @@ bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor)
 }
 
 // Detect collision with water
-bool is_colliding_with_water(const PhysBall& ball, const Water& water)
+bool ModulePhysics::is_colliding_with_water(const PhysBall& ball, const Water& water)
 {
 	float rect_x = (water.x + water.w / 2.0f); // Center of rectangle
 	float rect_y = (water.y + water.h / 2.0f); // Center of rectangle
@@ -492,7 +494,7 @@ bool is_colliding_with_water(const PhysBall& ball, const Water& water)
 }
 
 // Detect collision between circle and rectange
-bool check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh)
+bool ModulePhysics::check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh)
 {
 	// Algorithm taken from https://stackoverflow.com/a/402010
 
@@ -526,5 +528,3 @@ SDL_Rect Ground::pixels()
 	pos_px.h = METERS_TO_PIXELS(-h); // Can I do this? LOL
 	return pos_px;
 }
-
-

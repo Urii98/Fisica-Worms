@@ -104,6 +104,52 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	// Compute modulus of a vector
+	float modulus(float vx, float vy);
+
+	// Compute Aerodynamic Drag force
+	void compute_aerodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Atmosphere& atmosphere);
+
+	// Compute Hydrodynamic Drag force
+	void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water);
+
+<<<<<<< Updated upstream
+	int integrador;
+
+	bool buoyancyEnabled;
+	bool aeroDragXEnabled;
+	bool aeroDragYEnabled;
+	bool hidroDragXEnabled;
+	bool hidroDragYEnabled;
+};
+=======
+	// Compute Hydrodynamic Buoyancy force
+	void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water);
+>>>>>>> Stashed changes
+
+	// Integration scheme: Velocity Verlet
+	void integrator_velocity_verlet(PhysBall& ball, float dt);
+
+	// Integration scheme: Forward Euler
+	void integrator_forward_euler(PhysBall& ball, double dt);
+
+	// Integration scheme: Backwards Euler
+	void integrator_backwards_euler(PhysBall& ball, double dt);
+
+	// Detect collision with ground
+	bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground);
+
+	// Detect collision with wall
+	bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall);
+
+	// Detect collision with water
+	bool is_colliding_with_water(const PhysBall& ball, const Water& water);
+
+	// Detect collision between circle and rectange
+	bool check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh);
+
+	bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor);
+
 	// Misc
 	float dt = 1.0 / 60.0;
 
@@ -118,47 +164,4 @@ public:
 	float hidroDragX, hidroDragY;
 
 	int integrador;
-
-	bool buoyancyEnabled;
-	bool aeroDragXEnabled;
-	bool aeroDragYEnabled;
-	bool hidroDragXEnabled;
-	bool hidroDragYEnabled;
 };
-
-// Compute modulus of a vector
-float modulus(float vx, float vy);
-
-// Compute Aerodynamic Drag force
-void compute_aerodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Atmosphere& atmosphere);
-
-// Compute Hydrodynamic Drag force
-void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water);
-
-// Compute Hydrodynamic Buoyancy force
-void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water);
-
-// Integration scheme: Velocity Verlet
-void integrator_velocity_verlet(PhysBall& ball, float dt);
-
-// Integration scheme: Forward Euler
-void integrator_forward_euler(PhysBall& ball, double dt);
-
-// Integration scheme: Backwards Euler
-void integrator_backwards_euler(PhysBall& ball, double dt);
-
-// Detect collision with ground
-bool is_colliding_with_ground(const PhysBall& ball, const Ground& ground);
-
-// Detect collision with wall
-bool is_colliding_with_wall(const PhysBall& ball, const Wall& wall);
-
-// Detect collision with water
-bool is_colliding_with_water(const PhysBall& ball, const Water& water);
-
-// Detect collision between circle and rectange
-bool check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh);
-
-bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor);
-
-

@@ -39,6 +39,228 @@ bool ModulePhysics::Start()
 
 update_status ModulePhysics::PreUpdate()
 {
+	// Process player in the scenario
+	if (App->player->body.physics_enabled)
+	{
+		// Step #0: Clear old values
+	// ----------------------------------------------------------------------------------------
+
+	// Reset total acceleration and total accumulated force of the App->player->body
+		App->player->body.fx = App->player->body.fy = 0.0f;
+		App->player->body.ax = App->player->body.ay = 0.0f;
+
+		// Step #1: Compute forces
+		// ----------------------------------------------------------------------------------------
+
+		// Gravity force
+		float fgx = App->player->body.mass * 0.0f;
+		float fgy = App->player->body.mass * gravity; // Let's assume gravity is constant and downwards
+		App->player->body.fx += fgx; App->player->body.fy += fgy; // Add this force to App->player->body's total force
+
+		// Water physics
+		for (auto& water : App->scene_intro->waters)
+		{
+			// Aerodynamic Drag force (only when not in water)
+			if (!is_colliding_with_water(App->player->body, water))
+			{
+				aeroDragX = 0.0f; aeroDragY = 0.0f;
+				compute_aerodynamic_drag(aeroDragX, aeroDragY, App->player->body, App->scene_intro->atmosphere);
+				App->player->body.fx += aeroDragX; App->player->body.fy += aeroDragY; // Add this force to App->player->body's total force
+			}
+
+			// Hydrodynamic forces (only when in water)
+			if (is_colliding_with_water(App->player->body, water))
+			{
+				// Hydrodynamic Drag force
+				hidroDragX = 0.0f; hidroDragY = 0.0f;
+				compute_hydrodynamic_drag(hidroDragX, hidroDragY, App->player->body, water);
+				App->player->body.fx += hidroDragX; App->player->body.fy += hidroDragY; // Add this force to App->player->body's total force
+
+				// Hydrodynamic Buoyancy force
+				float fhbx = 0.0f; buoyancy = 0.0f;
+				compute_hydrodynamic_buoyancy(fhbx, buoyancy, App->player->body, water);
+				App->player->body.fx += fhbx; App->player->body.fy += buoyancy; // Add this force to App->player->body's total force
+			}
+		}
+
+
+		// Other forces
+		// ...
+
+		// Step #2: 2nd Newton's Law
+		// ----------------------------------------------------------------------------------------
+
+		// SUM_Forces = mass * accel --> accel = SUM_Forces / mass
+		App->player->body.ax = App->player->body.fx / App->player->body.mass;
+		App->player->body.ay = App->player->body.fy / App->player->body.mass;
+
+		// Step #3: Integrate --> from accel to new velocity & new position
+		// ----------------------------------------------------------------------------------------
+
+		// We will use the 2nd order "Velocity Verlet" method for integration.
+
+		switch (integrador)
+		{
+		case 0:
+			integrator_velocity_verlet(App->player->body, dt);
+			break;
+		case 1:
+			integrator_backwards_euler(App->player->body, dt);
+			break;
+		case 2:
+			integrator_forward_euler(App->player->body, dt);
+			break;
+		}
+
+
+		// Step #4: solve collisions
+		// ----------------------------------------------------------------------------------------
+
+		// Solve collision between App->player->body and ground
+		if (is_colliding_with_ground(App->player->body, App->scene_intro->ground))
+		{
+			// TP App->player->body to ground surface
+			App->player->body.y = App->scene_intro->ground.y + App->scene_intro->ground.h + App->player->body.radius;
+
+			// Elastic bounce with ground
+			App->player->body.vy = -App->player->body.vy;
+
+			// FUYM non-elasticity
+			App->player->body.vx *= App->player->body.coef_friction;
+			App->player->body.vy *= App->player->body.coef_restitution;
+		}
+
+		// Solve collision between App->player->body and wall (and window borders)
+		for (auto& wall : App->scene_intro->walls)
+		{
+			if (is_colliding_with_wall(App->player->body, wall))
+			{
+				// App->player->body is on right
+				//if(wall is at the left of the App->player->body)&&(App->player->body is between the edges of the wall collider)
+				if (App->player->body.x - App->player->body.radius < wall.x + wall.w && App->player->body.x + App->player->body.radius > wall.x + wall.w &&
+					App->player->body.y > wall.y && App->player->body.y + App->player->body.radius < wall.y + wall.h)
+				{
+					if (App->player->body.vx > -0.1f && App->player->body.vx < 0.1f)
+					{
+						App->player->body.x = wall.x + wall.w + App->player->body.radius;
+						App->player->body.vx = 0;
+					}
+					else
+					{
+						App->player->body.x = (wall.x + wall.w) + App->player->body.radius;
+						// Elastic bounce with wall
+						App->player->body.vx = -App->player->body.vx * wall.bouncyness;
+						App->player->body.vy = App->player->body.vy * wall.bouncyness;
+					}
+
+				}
+				//App->player->body is on left
+				//if (wall is at the right of the App->player->body) && (App->player->body is between the edges of the wall collider)
+				if (App->player->body.x + App->player->body.radius > wall.x && App->player->body.x < wall.x &&
+					App->player->body.y > wall.y && App->player->body.y + App->player->body.radius < wall.y + wall.h)
+				{
+					if (App->player->body.vx > -0.1f && App->player->body.vx < 0.1f)
+					{
+						App->player->body.x = wall.x - App->player->body.radius;
+						App->player->body.vx = 0;
+					}
+					else
+					{
+						App->player->body.x = wall.x - App->player->body.radius;
+						// Elastic bounce with wall
+						App->player->body.vx = -App->player->body.vx * wall.bouncyness;
+						App->player->body.vy = App->player->body.vy * wall.bouncyness;
+					}
+				}
+				//App->player->body over wall
+				// if (App->player->body is over the wall) &&  (App->player->body is between the edges of the wall collider)
+				if (App->player->body.y + App->player->body.radius > wall.y && App->player->body.y < wall.y && App->player->body.x > wall.x - App->player->body.radius && App->player->body.x + App->player->body.radius < wall.x + wall.w)
+				{
+					if (App->player->body.vy > -0.1f && App->player->body.vy < 0.1f)
+					{
+						App->player->body.y = wall.y - App->player->body.radius;
+						App->player->body.vy = 0;
+					}
+					else
+					{
+						App->player->body.y = wall.y - App->player->body.radius;
+						// Elastic bounce with wall
+						App->player->body.vx = App->player->body.vx * wall.bouncyness;
+						App->player->body.vy = -App->player->body.vy * wall.bouncyness;
+					}
+				}
+				// App->player->body under wall
+				// if (App->player->body is under the wall) &&  (App->player->body is between the edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && App->player->body.y + App->player->body.radius > wall.y + wall.h &&
+					App->player->body.x > wall.x - App->player->body.radius && App->player->body.x + App->player->body.radius < wall.x + wall.w)
+				{
+					if (App->player->body.vy > -0.1f && App->player->body.vy < 0.1f)
+					{
+						App->player->body.y = wall.y + wall.h + App->player->body.radius;
+						App->player->body.vy = 0;
+					}
+					else
+					{
+						App->player->body.y = wall.y + wall.h + App->player->body.radius;
+						// Elastic bounce with wall
+						App->player->body.vx = App->player->body.vx * wall.bouncyness;
+						App->player->body.vy = -App->player->body.vy * wall.bouncyness;
+					}
+
+				}
+
+				// FUYM non-elasticity
+				App->player->body.vx *= App->player->body.coef_friction;
+				App->player->body.vy *= App->player->body.coef_restitution;
+			}
+
+			// Left Border
+			if (App->player->body.x + App->player->body.radius <= 0)
+			{
+				App->player->body.x = 0 + App->player->body.radius;
+				App->player->body.vx = -App->player->body.vx * 0.5f;
+			}
+			// Right Border
+			if (App->player->body.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
+			{
+				App->player->body.x = PIXEL_TO_METERS(SCREEN_WIDTH) - App->player->body.radius;
+				App->player->body.vx = -App->player->body.vx * 0.5f;
+			}
+			// Top Border
+			if (App->player->body.y <= 0)
+			{
+				App->player->body.y = 0 + App->player->body.radius;
+				App->player->body.vy = -App->player->body.vy * 0.5f;
+			}
+			// Bottom Border
+			if (App->player->body.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+			{
+				App->player->body.vy = -App->player->body.vy * 0.5f;
+			}
+
+
+			//// Hem decidit limitar la velocitat per evitar tunneling amb les colisions
+			//if (App->player->body.vx > 20.0f)
+			//{
+			//	App->player->body.vx = 19.99f;
+			//}
+			//if (App->player->body.vx < -20.0f)
+			//{
+			//	App->player->body.vx = -19.99f;
+			//}
+			//if (App->player->body.vy > 20.0f)
+			//{
+			//	App->player->body.vy = 19.99f;
+			//}
+			//if (App->player->body.vy < -20.0f)
+			//{
+			//	App->player->body.vy = -19.99f;
+			//}
+			//printf("%f\n", App->player->body.vx);
+		}
+	}
+	
+
 	// Process all balls in the scenario
 	for (auto& ball : App->scene_intro->balls)
 	{
@@ -376,6 +598,16 @@ update_status ModulePhysics::PostUpdate()
 		// Draw ball
 		App->renderer->DrawCircle(pos_x, pos_y, size_r, color_r, color_g, color_b);
 	}
+
+	// Draw Player
+	// Convert from physical magnitudes to geometrical pixels
+	int pos_x = METERS_TO_PIXELS(App->player->body.x);
+	int pos_y = SCREEN_HEIGHT - METERS_TO_PIXELS(App->player->body.y);
+	int size_r = METERS_TO_PIXELS(App->player->body.radius);
+
+	color_r = 0; color_g = 50; color_b = 255;
+	// Draw ball
+	App->renderer->DrawCircle(pos_x, pos_y, size_r, color_r, color_g, color_b);
 
 	return UPDATE_CONTINUE;
 }

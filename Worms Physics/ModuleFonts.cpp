@@ -480,27 +480,95 @@ update_status ModuleFonts::PostUpdate()
 		break;
 
 	case enumPhysParams::AERODRAGX:
+
+		if (App->physics->aeroDragXEnabled)
+		{
+			auxString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
+			auxChar = auxString.c_str();
+			BlitText(795, 0, textFont2, auxChar);
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->aeroDragXEnabled = false;
+	
+			if (App->physics->aeroDragXEnabled)
+			{
+				App->physics->aeroDragXEnabled = false;
+			}
+			else
+			{
+				App->physics->aeroDragXEnabled = true;
+			}
 		}
 		break;
+
 	case enumPhysParams::AERODRAGY:
+
+		if (App->physics->aeroDragYEnabled)
+		{
+			auxString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
+			auxChar = auxString.c_str();
+			BlitText(795, 14, textFont2, auxChar);
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->aeroDragYEnabled = false;
+		
+			if (App->physics->aeroDragYEnabled)
+			{
+				App->physics->aeroDragYEnabled = false;
+			}
+			else
+			{
+				App->physics->aeroDragYEnabled = true;
+			}
 		}
 		break;
+
 	case enumPhysParams::HIDRODRAGX:
+
+		if (App->physics->hidroDragXEnabled)
+		{
+			auxString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
+			auxChar = auxString.c_str();
+			BlitText(795, 28, textFont2, auxChar);
+		}
+
+
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->hidroDragXEnabled = false;
+			
+			if (App->physics->hidroDragXEnabled)
+			{
+				App->physics->hidroDragXEnabled = false;
+			}
+			else
+			{
+				App->physics->hidroDragXEnabled = true;
+			}
 		}
 		break;
+
 	case enumPhysParams::HIDRODRAGY:
+
+		if (App->physics->hidroDragYEnabled)
+		{
+			auxString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
+			auxChar = auxString.c_str();
+			BlitText(795, 42, textFont2, auxChar);
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->hidroDragYEnabled = false;
+		
+			if (App->physics->hidroDragYEnabled)
+			{
+				App->physics->hidroDragYEnabled = false;
+			}
+			else
+			{
+				App->physics->hidroDragYEnabled = true;
+			}
 		}
 		break;
 
@@ -510,7 +578,7 @@ update_status ModuleFonts::PostUpdate()
 		{
 			auxString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 			auxChar = auxString.c_str();
-			BlitText(795, 64, textFont2, auxChar);
+			BlitText(795, 56, textFont2, auxChar);
 		}
 
 
@@ -527,6 +595,7 @@ update_status ModuleFonts::PostUpdate()
 			
 		}
 		break;
+
 	default:
 		break;
 	}
@@ -664,23 +733,98 @@ update_status ModuleFonts::PostUpdate()
 
 	//----------------- Parámetros no modificables: -----------------
 
-	//AeroDrag
-	std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
-	const char* aDragXChar = aDragXString.c_str();
-	BlitText(795, 0, textFont, aDragXChar);
+	//AeroDragX
+	if (App->physics->aeroDragXEnabled)
+	{
+		if (iterador != 15)
+		{
+			std::string aDragXString = PhysicsParamsToString(App->physics->aeroDragX, 2, "A. Drag.x: ");
+			const char* aDragXChar = aDragXString.c_str();
+			BlitText(795, 0, textFont, aDragXChar);
+		}
 
-	std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
-	const char* aDragYChar = aDragYString.c_str();
-	BlitText(795, 13, textFont, aDragYChar);
+	}
+	else
+	{
+		if (iterador != 15)
+		{
+			BlitText(795, 0, textFont, "A. DragX.:Dis.");
 
-	//HidroDrag
-	std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
-	const char* hDragXChar = hDragXString.c_str();
-	BlitText(795, 30, textFont, hDragXChar);
+		}
+		else
+		{
+			BlitText(795, 0, textFont2, "A. DragX.:Dis.");
+		}
+	}
 
-	std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
-	const char* hDragYChar = hDragYString.c_str();
-	BlitText(795, 47, textFont, hDragYChar);
+	//AeroDragY
+	if (App->physics->aeroDragYEnabled)
+	{
+		if (iterador != 16)
+		{
+			std::string aDragYString = PhysicsParamsToString(App->physics->aeroDragY, 2, "A. Drag.y: ");
+			const char* aDragYChar = aDragYString.c_str();
+			BlitText(795, 14, textFont, aDragYChar);
+		}
+
+	}
+	else
+	{
+		if (iterador != 16)
+		{
+			BlitText(795, 14, textFont, "A. DragY.:Dis.");
+
+		}
+		else
+		{
+			BlitText(795, 14, textFont2, "A. DragY.:Dis.");
+		}
+	}
+
+	if (App->physics->hidroDragXEnabled)
+	{
+		if (iterador != 17)
+		{
+			std::string hDragXString = PhysicsParamsToString(App->physics->hidroDragX, 2, "H. Drag.x: ");
+			const char* hDragXChar = hDragXString.c_str();
+			BlitText(795, 28, textFont, hDragXChar);
+		}
+	}
+	else
+	{
+		if (iterador != 17)
+		{
+			BlitText(795, 28, textFont, "H. DragX.:Dis.");
+
+		}
+		else
+		{
+			BlitText(795, 28, textFont2, "H. DragX.:Dis.");
+		}
+	}
+
+	if (App->physics->hidroDragYEnabled)
+	{
+
+		if (iterador != 18)
+		{
+			std::string hDragYString = PhysicsParamsToString(App->physics->hidroDragY, 2, "H. Drag.y: ");
+			const char* hDragYChar = hDragYString.c_str();
+			BlitText(795, 42, textFont, hDragYChar);
+		}
+	}
+	else
+	{
+		if (iterador != 18)
+		{
+			BlitText(795, 42, textFont, "H. DragY.:Dis.");
+		}
+		else
+		{
+			BlitText(795, 42, textFont2, "H. DragY.:Dis.");
+		}
+	}
+
 
 	//Hidro Buoyancy
 	if (App->physics->buoyancyEnabled)
@@ -689,7 +833,7 @@ update_status ModuleFonts::PostUpdate()
 		{
 			std::string hBuoyancyString = PhysicsParamsToString(App->physics->buoyancy, 2, "H. Buoya.: ");
 			const char* hBuoyancyChar = hBuoyancyString.c_str();
-			BlitText(795, 64, textFont, hBuoyancyChar);
+			BlitText(795, 56, textFont, hBuoyancyChar);
 		}
 	
 
@@ -698,11 +842,11 @@ update_status ModuleFonts::PostUpdate()
 	{
 		if (iterador != 19)
 		{
-			BlitText(795, 64, textFont, "H. Buoya.:Dis.");
+			BlitText(795, 56, textFont, "H. Buoya.:Dis.");
 		}
 		else
 		{
-			BlitText(795, 64, textFont2, "H. Buoya.:Dis.");
+			BlitText(795, 56, textFont2, "H. Buoya.:Dis.");
 		}
 		
 	}

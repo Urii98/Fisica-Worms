@@ -31,5 +31,8 @@ public:
 
 	MoveType moveType;
 
+	float dt;
+	bool isDead;
+
 	int score;
 };

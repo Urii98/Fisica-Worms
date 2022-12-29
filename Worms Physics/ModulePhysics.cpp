@@ -55,44 +55,42 @@ update_status ModulePhysics::PreUpdate()
 		// Gravity force
 		float fgx = App->player->body.mass * 0.0f;
 		float fgy = App->player->body.mass * gravity; // Let's assume gravity is constant and downwards
-		App->player->body.fx += fgx; App->player->body.fy += fgy; // Add this force to App->player->body's total force
+		App->player->body.fx += fgx; 
+		App->player->body.fy += fgy;
+		// Add this force to App->player->body's total force
 
-		// Water physics
+		// Water kills the player
 		for (auto& water : App->scene_intro->waters)
 		{
-			// Aerodynamic Drag force (only when not in water)
-			if (!is_colliding_with_water(App->player->body, water))
-			{
-				aeroDragX = 0.0f; aeroDragY = 0.0f;
-				compute_aerodynamic_drag(aeroDragX, aeroDragY, App->player->body, App->scene_intro->atmosphere);
-				App->player->body.fx += aeroDragX; App->player->body.fy += aeroDragY; // Add this force to App->player->body's total force
-			}
-
 			// Hydrodynamic forces (only when in water)
 			if (is_colliding_with_water(App->player->body, water))
 			{
-				// Hydrodynamic Drag force
-				hidroDragX = 0.0f; hidroDragY = 0.0f;
-				compute_hydrodynamic_drag(hidroDragX, hidroDragY, App->player->body, water);
-				App->player->body.fx += hidroDragX; App->player->body.fy += hidroDragY; // Add this force to App->player->body's total force
-
-				// Hydrodynamic Buoyancy force
-				float fhbx = 0.0f; buoyancy = 0.0f;
-				compute_hydrodynamic_buoyancy(fhbx, buoyancy, App->player->body, water);
-				App->player->body.fx += fhbx; App->player->body.fy += buoyancy; // Add this force to App->player->body's total force
+				App->player->isDead = true;
 			}
 		}
-
-
-		// Other forces
-		// ...
 
 		// Step #2: 2nd Newton's Law
 		// ----------------------------------------------------------------------------------------
 
 		// SUM_Forces = mass * accel --> accel = SUM_Forces / mass
+		if (App->player->moveType != FORCES)
+		{
+
+		}
+		else
+		{
+			
+		}
+
 		App->player->body.ax = App->player->body.fx / App->player->body.mass;
 		App->player->body.ay = App->player->body.fy / App->player->body.mass;
+
+		//Movimiento bola
+		App->player->body.fx += App->player->body.mfx;
+		App->player->body.fy += App->player->body.mfy;
+		App->player->body.mfx = 0;
+		App->player->body.mfy = 0;
+		
 
 		// Step #3: Integrate --> from accel to new velocity & new position
 		// ----------------------------------------------------------------------------------------
@@ -111,7 +109,7 @@ update_status ModulePhysics::PreUpdate()
 			integrator_forward_euler(App->player->body, dt);
 			break;
 		}
-
+		printf("\nPLAYER ACCEL: %f, %f\n", App->player->body.ax, App->player->body.ay);
 
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
@@ -756,4 +754,10 @@ SDL_Rect Ground::pixels()
 	pos_px.w = METERS_TO_PIXELS(w);
 	pos_px.h = METERS_TO_PIXELS(-h); // Can I do this? LOL
 	return pos_px;
+}
+
+void PhysBall::AddForce(double forX, double forY)
+{
+	mfx = forX;
+	mfy = forY;
 }

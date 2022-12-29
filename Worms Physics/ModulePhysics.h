@@ -15,6 +15,10 @@
 class PhysBall
 {
 public:
+
+	void AddForce(double fx, double fy);
+
+
 	// Position
 	// You could also use an array/vector
 	float x;
@@ -45,12 +49,15 @@ public:
 	float coef_friction;
 	float coef_restitution;
 
+	double mfx;
+	double mfy;
+
 	// Shape
 	float radius;
 
 	// Has physics enabled?
 	bool physics_enabled = true;
-	
+
 };
 
 // Class: Ground

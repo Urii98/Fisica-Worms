@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePlayer.h"
+#include "ModulePhysics.h"
 #include "PhysBody.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -13,8 +14,9 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-
 	LOG("Loading player");
+
+	dt = App->physics->dt;
 
 	score = 0;
 
@@ -37,6 +39,8 @@ bool ModulePlayer::Start()
 	body.vy = 0.0f;
 
 	moveType = VELOCITY;
+
+	isDead = false;
 
 	return true;
 }
@@ -69,67 +73,80 @@ update_status ModulePlayer::Update()
 		body.physics_enabled = true;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		body.vy += 100 * dt;
+	}
+
 	switch (moveType)
 	{
 	case NONE:
 		break;
 	case POSITION:
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			body.y += 50 * 0.016f;
+			body.y += 50 * dt;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
-			body.y -= 50 * 0.016f;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			body.y -= 50 * dt;
+		}*/
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.x -= 50 * 0.016f;
+			body.x -= 50 * dt;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.x += 50 * 0.016f;
+			body.x += 50 * dt;
 		}
 		break;
 	case FORCES:
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			body.ay += 50 * 0.016f;
+			body.AddForce(0, 3000);
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
-			body.ay -= 50 * 0.016f;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			body.AddForce(0, -3000);
+		}*/
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.ax -= 50 * 0.016f;
+			body.AddForce(0, 3000);
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.ax += 50 * 0.016f;
+			body.AddForce(0, 3000);
 		}
 		break;
 	case VELOCITY:
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		{
-			body.vy += 50 * 0.016f;
+			body.vy += 50 * dt;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
-			body.vy -= 50 * 0.016f;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			body.vy -= 50 * dt;
+		}*/
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.vx -= 50 * 0.016f;
+			if (body.vx >= -15)
+			{
+				body.vx -= 50 * dt;
+			}			
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.vx += 50 * 0.016f;
+			if (body.vx <= 15)
+			{
+				body.vx += 50 * dt;
+			}
 		}
 		break;
 	default:
 		break;
 	}
+
+	printf("SPEED: %f", body.vx);
 
 	return UPDATE_CONTINUE;
 }

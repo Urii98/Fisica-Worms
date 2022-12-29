@@ -13,6 +13,7 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
+	score = 0;
 	LOG("Loading player");
 	return true;
 }

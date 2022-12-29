@@ -119,6 +119,7 @@ public:
 
 	// Compute Hydrodynamic Drag force
 	void compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water);
+
 	// Compute Hydrodynamic Buoyancy force
 	void compute_hydrodynamic_buoyancy(float& fx, float& fy, const PhysBall& ball, const Water& water);
 

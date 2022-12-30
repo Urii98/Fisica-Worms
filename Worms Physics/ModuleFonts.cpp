@@ -48,11 +48,11 @@ bool ModuleFonts::Start()
 	physParams.push_back(enumPhysParams::BALLAERODRAGCOEFF);
 	physParams.push_back(enumPhysParams::BALLHIDRODRAGCOEFF);
 	physParams.push_back(enumPhysParams::BALLSURFACE);
-	physParams.push_back(enumPhysParams::AERODRAGX);//
-	physParams.push_back(enumPhysParams::AERODRAGY);//
-	physParams.push_back(enumPhysParams::HIDRODRAGX);//
-	physParams.push_back(enumPhysParams::HIDRODRAGY);//	
-	physParams.push_back(enumPhysParams::BUOYANCY);//
+	physParams.push_back(enumPhysParams::AERODRAGX);
+	physParams.push_back(enumPhysParams::AERODRAGY);
+	physParams.push_back(enumPhysParams::HIDRODRAGX);
+	physParams.push_back(enumPhysParams::HIDRODRAGY);
+	physParams.push_back(enumPhysParams::BUOYANCY);
 
 
 	iterador = 0;

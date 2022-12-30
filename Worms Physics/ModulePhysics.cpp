@@ -627,23 +627,50 @@ float ModulePhysics::modulus(float vx, float vy)
 // Compute Aerodynamic Drag force
 void ModulePhysics::compute_aerodynamic_drag(float &fx, float& fy, const PhysBall &ball, const Atmosphere &atmosphere)
 {
+	if (!aeroDragXEnabled && !aeroDragYEnabled)
+	{
+		return;
+	}
+
 	float rel_vel[2] = { ball.vx - atmosphere.windx, ball.vy - atmosphere.windy }; // Relative velocity
 	float speed = modulus(rel_vel[0], rel_vel[1]); // Modulus of the relative velocity
 	float rel_vel_unitary[2] = { rel_vel[0] / speed, rel_vel[1] / speed }; // Unitary vector of relative velocity
 	float fdrag_modulus = 0.5f * atmosphere.density * speed * speed * ball.surface * ball.cd; // Drag force (modulus)
-	fx = -rel_vel_unitary[0] * fdrag_modulus; // Drag is antiparallel to relative velocity
-	fy = -rel_vel_unitary[1] * fdrag_modulus; // Drag is antiparallel to relative velocity
+	if (aeroDragXEnabled)
+	{
+		fx = -rel_vel_unitary[0] * fdrag_modulus; // Drag is antiparallel to relative velocity
+	}
+	if (aeroDragYEnabled)
+	{
+		fy = -rel_vel_unitary[1] * fdrag_modulus; // Drag is antiparallel to relative velocity
+	}
+	
 }
 
 // Compute Hydrodynamic Drag force
 void ModulePhysics::compute_hydrodynamic_drag(float& fx, float& fy, const PhysBall& ball, const Water& water)
 {
+
+	if (!hidroDragXEnabled && !hidroDragYEnabled)
+	{
+		return;
+	}
+
 	float rel_vel[2] = { ball.vx - water.vx, ball.vy - water.vy }; // Relative velocity
 	float speed = modulus(rel_vel[0], rel_vel[1]); // Modulus of the relative velocity
 	float rel_vel_unitary[2] = { rel_vel[0] / speed, rel_vel[1] / speed }; // Unitary vector of relative velocity
 	float fdrag_modulus = ball.b * speed; // Drag force (modulus)
-	fx = -rel_vel_unitary[0] * fdrag_modulus; // Drag is antiparallel to relative velocity
-	fy = -rel_vel_unitary[1] * fdrag_modulus; // Drag is antiparallel to relative velocity
+
+	if (hidroDragXEnabled)
+	{
+		fx = -rel_vel_unitary[0] * fdrag_modulus; // Drag is antiparallel to relative velocity
+	}
+	
+	if (hidroDragYEnabled)
+	{
+		fy = -rel_vel_unitary[1] * fdrag_modulus; // Drag is antiparallel to relative velocity
+	}
+	
 }
 
 // Compute Hydrodynamic Buoyancy force

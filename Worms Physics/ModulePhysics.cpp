@@ -69,33 +69,23 @@ update_status ModulePhysics::PreUpdate()
 			}
 		}
 
+		//Movimiento bola
+		App->player->body.fx += App->player->body.mfx;
+		App->player->body.fy += App->player->body.mfy;
+		App->player->body.mfx = 0;
+		App->player->body.mfy = 0;
+
 		// Step #2: 2nd Newton's Law
 		// ----------------------------------------------------------------------------------------
-
-		// SUM_Forces = mass * accel --> accel = SUM_Forces / mass
-		if (App->player->moveType != FORCES)
-		{
-
-		}
-		else
-		{
-			
-		}
 
 		App->player->body.ax = App->player->body.fx / App->player->body.mass;
 		App->player->body.ay = App->player->body.fy / App->player->body.mass;
 
-		////Movimiento bola
-		//App->player->body.fx += App->player->body.mfx;
-		//App->player->body.fy += App->player->body.mfy;
-		//App->player->body.mfx = 0;
-		//App->player->body.mfy = 0;
+		
 		
 
 		// Step #3: Integrate --> from accel to new velocity & new position
 		// ----------------------------------------------------------------------------------------
-
-		// We will use the 2nd order "Velocity Verlet" method for integration.
 
 		switch (integrador)
 		{
@@ -284,6 +274,8 @@ update_status ModulePhysics::PreUpdate()
 		float fgx = ball.mass * 0.0f;
 		float fgy = ball.mass * gravity; // Let's assume gravity is constant and downwards
 		ball.fx += fgx; ball.fy += fgy; // Add this force to ball's total force
+
+
 
 		// Water physics
 		for (auto& water : App->scene_intro->waters)

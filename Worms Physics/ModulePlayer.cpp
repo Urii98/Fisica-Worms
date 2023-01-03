@@ -29,8 +29,8 @@ bool ModulePlayer::Start()
 	body.cd = 0.4f; // [-]
 	body.cl = 1.2f; // [-]
 	body.b = 10.0f; // [...]
-	body.coef_friction = 0.9f; // [-]
-	body.coef_restitution = 0.8f; // [-]
+	body.coef_friction = 0.7f; // [-]
+	body.coef_restitution = 0.0f; // [-]
 
 	// Set initial position and velocity of the ball
 	body.x = 25.0f;

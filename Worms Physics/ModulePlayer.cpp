@@ -61,7 +61,6 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		moveType = POSITION;
-		//body.physics_enabled = false;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -85,14 +84,6 @@ update_status ModulePlayer::Update()
 	case NONE:
 		break;
 	case POSITION:
-		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		{
-			body.y += 50 * dt;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		{
-			body.y -= 50 * dt;
-		}*/
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
 			body.x -= 20 * dt;
@@ -103,32 +94,22 @@ update_status ModulePlayer::Update()
 		}
 		break;
 	case FORCES:
-		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		{
-			body.AddForce(0, 3000);
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		{
-			body.AddForce(0, -3000);
-		}*/
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.AddForce(-500, 0);
+			if (body.vx >= -15)
+			{
+				body.AddForce(-500, 0);
+			}
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.AddForce(500, 0);
+			if (body.vx <= 15)
+			{
+				body.AddForce(500, 0);
+			}
 		}
 		break;
 	case VELOCITY:
-		/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		{
-			body.vy += 50 * dt;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		{
-			body.vy -= 50 * dt;
-		}*/
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
 			if (body.vx >= -15)
@@ -147,8 +128,6 @@ update_status ModulePlayer::Update()
 	default:
 		break;
 	}
-
-	//printf("SPEED: %f", body.vx);
 
 	return UPDATE_CONTINUE;
 }

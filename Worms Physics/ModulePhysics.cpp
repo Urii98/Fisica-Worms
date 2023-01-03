@@ -124,81 +124,55 @@ update_status ModulePhysics::PreUpdate()
 		{
 			if (is_colliding_with_wall(App->player->body, wall))
 			{
-				App->player->onGround = true;
-
-				// App->player->body is on right
-				//if(wall is at the left of the App->player->body)&&(App->player->body is between the edges of the wall collider)
-				if (App->player->body.x - App->player->body.radius < wall.x + wall.w && App->player->body.x + App->player->body.radius > wall.x + wall.w &&
-					App->player->body.y > wall.y && App->player->body.y + App->player->body.radius < wall.y + wall.h)
+				// Ball on right of wall
+				//if(ball is at the right of the wall) && (ball is between the vertical edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x + wall.w && //Ball's right-side is > wall's right-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
 				{
-					if (App->player->body.vx > -0.1f && App->player->body.vx < 0.1f)
-					{
-						App->player->body.x = wall.x + wall.w + App->player->body.radius;
-						App->player->body.vx = 0;
-					}
-					else
-					{
-						App->player->body.x = (wall.x + wall.w) + App->player->body.radius;
-						// Elastic bounce with wall
-						App->player->body.vx = -App->player->body.vx * wall.bouncyness;
-						App->player->body.vy = App->player->body.vy * wall.bouncyness;
-					}
-
+					App->player->body.x = wall.x + wall.w + App->player->body.radius;
+					// Elastic bounce with wall
+					App->player->body.vx = -App->player->body.vx * wall.bouncyness;
+					App->player->body.vy = App->player->body.vy * wall.bouncyness;
 				}
-				//App->player->body is on left
-				//if (wall is at the right of the App->player->body) && (App->player->body is between the edges of the wall collider)
-				if (App->player->body.x + App->player->body.radius > wall.x && App->player->body.x < wall.x &&
-					App->player->body.y > wall.y && App->player->body.y + App->player->body.radius < wall.y + wall.h)
+				// Ball on left of wall
+				//if (ball is at the left of the wall) && (ball is between the edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x) // Ball's left-side is < wall's left-side
 				{
-					if (App->player->body.vx > -0.1f && App->player->body.vx < 0.1f)
-					{
-						App->player->body.x = wall.x - App->player->body.radius;
-						App->player->body.vx = 0;
-					}
-					else
-					{
-						App->player->body.x = wall.x - App->player->body.radius;
-						// Elastic bounce with wall
-						App->player->body.vx = -App->player->body.vx * wall.bouncyness;
-						App->player->body.vy = App->player->body.vy * wall.bouncyness;
-					}
+					App->player->body.x = wall.x - App->player->body.radius;
+					// Elastic bounce with wall
+					App->player->body.vx = -App->player->body.vx * wall.bouncyness;
+					App->player->body.vy = App->player->body.vy * wall.bouncyness;
 				}
-				//App->player->body over wall
-				// if (App->player->body is over the wall) &&  (App->player->body is between the edges of the wall collider)
-				if (App->player->body.y + App->player->body.radius > wall.y && App->player->body.y < wall.y && App->player->body.x > wall.x - App->player->body.radius && App->player->body.x + App->player->body.radius < wall.x + wall.w)
+				// Ball above wall
+				// if (ball is above the wall) && (ball is between the horizontal edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y + wall.h && // Ball's top-side is above wall's top-side
+					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
 				{
+					// Jump bool to true
 					App->player->onGround = true;
-					if (App->player->body.vy > -0.1f && App->player->body.vy < 0.1f)
-					{
-						App->player->body.y = wall.y - App->player->body.radius;
-						App->player->body.vy = 0;
-					}
-					else
-					{
-						App->player->body.y = wall.y - App->player->body.radius;
-						// Elastic bounce with wall
-						App->player->body.vx = App->player->body.vx * wall.bouncyness;
-						App->player->body.vy = -App->player->body.vy * wall.bouncyness;
-					}
+					App->player->body.y = wall.y + wall.h + App->player->body.radius;
+					// Elastic bounce with wall
+					App->player->body.vx = App->player->body.vx * wall.bouncyness;
+					App->player->body.vy = -App->player->body.vy * wall.bouncyness;
 				}
-				// App->player->body under wall
-				// if (App->player->body is under the wall) &&  (App->player->body is between the edges of the wall collider)
-				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && App->player->body.y + App->player->body.radius > wall.y + wall.h &&
-					App->player->body.x > wall.x - App->player->body.radius && App->player->body.x + App->player->body.radius < wall.x + wall.w)
+				// Ball under wall
+				// if (ball is under the wall) &&  (ball is between the horizontal edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y && //Ball's bottom-side is below wall's bottom-side
+					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
 				{
-					if (App->player->body.vy > -0.1f && App->player->body.vy < 0.1f)
-					{
-						App->player->body.y = wall.y + wall.h + App->player->body.radius;
-						App->player->body.vy = 0;
-					}
-					else
-					{
-						App->player->body.y = wall.y + wall.h + App->player->body.radius;
-						// Elastic bounce with wall
-						App->player->body.vx = App->player->body.vx * wall.bouncyness;
-						App->player->body.vy = -App->player->body.vy * wall.bouncyness;
-					}
-
+					App->player->body.y = wall.y - App->player->body.radius;
+					// Elastic bounce with wall
+					App->player->body.vx = App->player->body.vx * wall.bouncyness;
+					App->player->body.vy = -App->player->body.vy * wall.bouncyness;
 				}
 
 				// FUYM non-elasticity
@@ -358,42 +332,29 @@ update_status ModulePhysics::PreUpdate()
 			// Wall - ball collision solver OLD code:
 			if (is_colliding_with_wall(ball, wall))
 			{
-				// Ball is on right
-				//if(wall is at the left of the ball)&&(ball is between the edges of the wall collider)
-				if (ball.x - ball.radius < wall.x + wall.w && ball.x + ball.radius > wall.x + wall.w &&
-					ball.y > wall.y && ball.y + ball.radius < wall.y + wall.h)
+				// Ball on right of wall
+				//if(ball is at the right of the wall) && (ball is between the vertical edges of the wall collider)
+				if (ball.y - ball.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
+					ball.y + ball.radius > wall.y && // Ball's top-side is above wall's bottom-side
+					ball.x + ball.radius > wall.x + wall.w && //Ball's right-side is > wall's right-side
+					ball.x - ball.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
 				{
-					if (ball.vx > -0.1f && ball.vx < 0.1f)
-					{
-						ball.x = wall.x + wall.w + ball.radius;
-						ball.vx = 0;
-					}
-					else
-					{
-						ball.x = (wall.x + wall.w) + ball.radius;
-						// Elastic bounce with wall
-						ball.vx = -ball.vx * wall.bouncyness;
-						ball.vy = ball.vy * wall.bouncyness;
-					}
-
+					ball.x = wall.x + wall.w + ball.radius;
+					// Elastic bounce with wall
+					ball.vx = -ball.vx * wall.bouncyness;
+					ball.vy = ball.vy * wall.bouncyness;
 				}
-				//Ball is on left
-				//if (wall is at the right of the ball) && (ball is between the edges of the wall collider)
-				if (ball.x + ball.radius > wall.x && ball.x < wall.x &&
-					ball.y > wall.y && ball.y + ball.radius < wall.y + wall.h)
+				// Ball on left of wall
+				//if (ball is at the left of the wall) && (ball is between the edges of the wall collider)
+				if (ball.y - ball.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
+					ball.y + ball.radius > wall.y && // Ball's top-side is above wall's bottom-side
+					ball.x + ball.radius > wall.x && //Ball's right-side is > wall's left-side
+					ball.x - ball.radius < wall.x) // Ball's left-side is < wall's left-side
 				{
-					if (ball.vx > -0.1f && ball.vx < 0.1f)
-					{
-						ball.x = wall.x - ball.radius;
-						ball.vx = 0;
-					}
-					else
-					{
-						ball.x = wall.x - ball.radius;
-						// Elastic bounce with wall
-						ball.vx = -ball.vx * wall.bouncyness;
-						ball.vy = ball.vy * wall.bouncyness;
-					}
+					ball.x = wall.x - ball.radius;
+					// Elastic bounce with wall
+					ball.vx = -ball.vx * wall.bouncyness;
+					ball.vy = ball.vy * wall.bouncyness;
 				}
 				// Ball above wall
 				// if (ball is above the wall) && (ball is between the horizontal edges of the wall collider)

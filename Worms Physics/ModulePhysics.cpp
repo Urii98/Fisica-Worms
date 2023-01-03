@@ -414,19 +414,10 @@ update_status ModulePhysics::PreUpdate()
 					ball.x + ball.radius > wall.x && //Ball's right-side is > wall's left-side
 					ball.x - ball.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
 				{
-					if (ball.vy > -0.1f && ball.vy < 0.1f)
-					{
-						ball.y = wall.y + wall.h + ball.radius;
-						ball.vy = 0;
-					}
-					else
-					{
-						ball.y = wall.y + wall.h + ball.radius;
-						// Elastic bounce with wall
-						ball.vx = ball.vx * wall.bouncyness;
-						ball.vy = -ball.vy * wall.bouncyness;
-					}
-
+					ball.y = wall.y - ball.radius;
+					// Elastic bounce with wall
+					ball.vx = ball.vx * wall.bouncyness;
+					ball.vy = -ball.vy * wall.bouncyness;
 				}
 
 				// FUYM non-elasticity

@@ -124,36 +124,36 @@ update_status ModulePhysics::PreUpdate()
 		{
 			if (is_colliding_with_wall(App->player->body, wall))
 			{
-				// Ball on right of wall
-				//if(ball is at the right of the wall) && (ball is between the vertical edges of the wall collider)
-				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
-					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
-					App->player->body.x + App->player->body.radius > wall.x + wall.w && //Ball's right-side is > wall's right-side
-					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
+				// Player on right of wall
+				//if(Player is at the right of the wall) && (Player is between the vertical edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Player's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y && // Player's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x + wall.w && //Player's right-side is > wall's right-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Player's left-side is < wall's right-side
 				{
 					App->player->body.x = wall.x + wall.w + App->player->body.radius;
 					// Elastic bounce with wall
 					App->player->body.vx = -App->player->body.vx * wall.bouncyness;
 					App->player->body.vy = App->player->body.vy * wall.bouncyness;
 				}
-				// Ball on left of wall
-				//if (ball is at the left of the wall) && (ball is between the edges of the wall collider)
-				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
-					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
-					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
-					App->player->body.x - App->player->body.radius < wall.x) // Ball's left-side is < wall's left-side
+				// Player on left of wall
+				//if (Player is at the left of the wall) && (Player is between the edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Player's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y && // Player's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x && //Player's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x) // Player's left-side is < wall's left-side
 				{
 					App->player->body.x = wall.x - App->player->body.radius;
 					// Elastic bounce with wall
 					App->player->body.vx = -App->player->body.vx * wall.bouncyness;
 					App->player->body.vy = App->player->body.vy * wall.bouncyness;
 				}
-				// Ball above wall
-				// if (ball is above the wall) && (ball is between the horizontal edges of the wall collider)
-				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Ball's bottom-side is below wall's top-side
-					App->player->body.y + App->player->body.radius > wall.y + wall.h && // Ball's top-side is above wall's top-side
-					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
-					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
+				// Player above wall
+				// if (Player is above the wall) && (Player is between the horizontal edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y + wall.h && //Player's bottom-side is below wall's top-side
+					App->player->body.y + App->player->body.radius > wall.y + wall.h && // Player's top-side is above wall's top-side
+					App->player->body.x + App->player->body.radius > wall.x && //Player's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Player's left-side is < wall's right-side
 				{
 					// Jump bool to true
 					App->player->onGround = true;
@@ -162,12 +162,12 @@ update_status ModulePhysics::PreUpdate()
 					App->player->body.vx = App->player->body.vx * wall.bouncyness;
 					App->player->body.vy = -App->player->body.vy * wall.bouncyness;
 				}
-				// Ball under wall
-				// if (ball is under the wall) &&  (ball is between the horizontal edges of the wall collider)
-				if (App->player->body.y - App->player->body.radius < wall.y && //Ball's bottom-side is below wall's bottom-side
-					App->player->body.y + App->player->body.radius > wall.y && // Ball's top-side is above wall's bottom-side
-					App->player->body.x + App->player->body.radius > wall.x && //Ball's right-side is > wall's left-side
-					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Ball's left-side is < wall's right-side
+				// Player under wall
+				// if (Player is under the wall) &&  (Player is between the horizontal edges of the wall collider)
+				if (App->player->body.y - App->player->body.radius < wall.y && //Player's bottom-side is below wall's bottom-side
+					App->player->body.y + App->player->body.radius > wall.y && // Player's top-side is above wall's bottom-side
+					App->player->body.x + App->player->body.radius > wall.x && //Player's right-side is > wall's left-side
+					App->player->body.x - App->player->body.radius < wall.x + wall.w) // Player's left-side is < wall's right-side
 				{
 					App->player->body.y = wall.y - App->player->body.radius;
 					// Elastic bounce with wall
@@ -203,26 +203,6 @@ update_status ModulePhysics::PreUpdate()
 			{
 				App->player->body.vy = -App->player->body.vy * 0.5f;
 			}
-
-
-			//// Hem decidit limitar la velocitat per evitar tunneling amb les colisions
-			//if (App->player->body.vx > 20.0f)
-			//{
-			//	App->player->body.vx = 19.99f;
-			//}
-			//if (App->player->body.vx < -20.0f)
-			//{
-			//	App->player->body.vx = -19.99f;
-			//}
-			//if (App->player->body.vy > 20.0f)
-			//{
-			//	App->player->body.vy = 19.99f;
-			//}
-			//if (App->player->body.vy < -20.0f)
-			//{
-			//	App->player->body.vy = -19.99f;
-			//}
-			//printf("%f\n", App->player->body.vx);
 		}
 	}
 	
@@ -292,9 +272,6 @@ update_status ModulePhysics::PreUpdate()
 
 		// Step #3: Integrate --> from accel to new velocity & new position
 		// ----------------------------------------------------------------------------------------
-
-		// We will use the 2nd order "Velocity Verlet" method for integration.
-
 		switch (integrador)
 		{
 		case 0:
@@ -329,7 +306,6 @@ update_status ModulePhysics::PreUpdate()
 		// Solve collision between ball and wall (and window borders)
 		for (auto& wall : App->scene_intro->walls)
 		{
-			// Wall - ball collision solver OLD code:
 			if (is_colliding_with_wall(ball, wall))
 			{
 				// Ball on right of wall
@@ -409,27 +385,9 @@ update_status ModulePhysics::PreUpdate()
 			{
 				ball.vy = -ball.vy * 0.5f;
 			}
-
-
-			//// Hem decidit limitar la velocitat per evitar tunneling amb les colisions
-			//if (ball.vx > 20.0f)
-			//{
-			//	ball.vx = 19.99f;
-			//}
-			//if (ball.vx < -20.0f)
-			//{
-			//	ball.vx = -19.99f;
-			//}
-			//if (ball.vy > 20.0f)
-			//{
-			//	ball.vy = 19.99f;
-			//}
-			//if (ball.vy < -20.0f)
-			//{
-			//	ball.vy = -19.99f;
-			//}
-			//printf("%f\n", ball.vx);
 		}
+
+		// Score Walls sensor
 		for (auto& sensor : App->scene_intro->sensorWalls)
 		{
 			

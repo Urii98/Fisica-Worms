@@ -76,7 +76,7 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && onGround)
 	{
-		body.vy += 1000 * dt;
+		body.vy += 700 * dt;
 		onGround = false;
 	}
 
@@ -95,11 +95,11 @@ update_status ModulePlayer::Update()
 		}*/
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			body.x -= 50 * dt;
+			body.x -= 20 * dt;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			body.x += 50 * dt;
+			body.x += 20 * dt;
 		}
 		break;
 	case FORCES:

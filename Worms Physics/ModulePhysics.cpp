@@ -124,6 +124,8 @@ update_status ModulePhysics::PreUpdate()
 		{
 			if (is_colliding_with_wall(App->player->body, wall))
 			{
+				App->player->onGround = true;
+
 				// App->player->body is on right
 				//if(wall is at the left of the App->player->body)&&(App->player->body is between the edges of the wall collider)
 				if (App->player->body.x - App->player->body.radius < wall.x + wall.w && App->player->body.x + App->player->body.radius > wall.x + wall.w &&

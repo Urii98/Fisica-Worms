@@ -142,6 +142,14 @@ public:
 	// Detect collision between circle and rectange
 	bool check_collision_circle_rectangle(float cx, float cy, float cr, float rx, float ry, float rw, float rh);
 
+	// Detect collision between circles
+	bool check_collision_circle_circle(float c1x, float c1y, float c1r, float c2x, float c2y, float c2r);
+
+	bool is_colliding_with_ball(const PhysBall& ball, const PhysBall& ball2);
+
+	// Calculate the force of collision between two balls
+	void collisionForce(PhysBall& ball1, PhysBall& ball2);
+
 	bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor);
 
 	// Misc

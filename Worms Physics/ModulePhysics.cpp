@@ -289,6 +289,19 @@ update_status ModulePhysics::PreUpdate()
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
 
+		// Solve collision between ball and player
+		if (is_colliding_with_ball(ball, App->player->body))
+		{
+			double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
+
+			collisionForce(ball, App->player->body);
+
+			ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
+			ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
+			App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
+			App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
+		}
+
 		// Solve collision between ball and ground
 		if (is_colliding_with_ground(ball, App->scene_intro->ground))
 		{
@@ -681,6 +694,26 @@ bool ModulePhysics::check_collision_circle_rectangle(float cx, float cy, float c
 	return (cornerDistance_sq <= (cr * cr));
 }
 
+// Detect collision with water
+bool ModulePhysics::is_colliding_with_ball(const PhysBall& ball, const PhysBall& ball2)
+{
+	// Maybe some code here
+
+	return check_collision_circle_circle(ball.x, ball.y, ball.radius, ball2.x, ball2.y, ball2.radius);
+}
+
+// Detect collision between circle and rectange
+bool ModulePhysics::check_collision_circle_circle(float c1x, float c1y, float c1r, float c2x, float c2y, float c2r)
+{
+	// Calculate the distance between the centers of the circles
+	float dx = c1x - c2x;
+	float dy = c1y - c2y;
+	float distance = std::sqrt(dx * dx + dy * dy);
+
+	// The circles collide if the distance between their centers is less than the sum of their radii
+	return distance < c1r + c2r;
+}
+
 // Convert from meters to pixels (for SDL drawing)
 SDL_Rect Ground::pixels()
 {
@@ -780,3 +813,31 @@ void PhysBall::AddForce(double forX, double forY)
 //	ball.vx *= ball.coef_friction;
 //	ball.vy *= ball.coef_restitution;
 //}
+
+
+// Calculate the force of collision between two balls
+void ModulePhysics::collisionForce(PhysBall& ball1, PhysBall& ball2)
+{
+	// Calculate the distance between the centers of the balls
+	double distance = std::sqrt(std::pow(ball1.x - ball2.x, 2) + std::pow(ball1.y - ball2.y, 2));
+
+	// Calculate the unit normal vector of the collision
+	double nx = (ball2.x - ball1.x) / distance;
+	double ny = (ball2.y - ball1.y) / distance;
+
+	// Calculate the unit tangent vector of the collision
+	double tx = -ny;
+	double ty = nx;
+
+	// Project the velocity of each ball onto the unit normal and unit tangent vectors
+	double dotProduct1 = ball1.vx * nx + ball1.vy * ny;
+	double dotProduct2 = ball2.vx * nx + ball2.vy * ny;
+	double dotProduct3 = ball1.vx * tx + ball1.vy * ty;
+	double dotProduct4 = ball2.vx * tx + ball2.vy * ty;
+
+	// Calculate the new velocities of the balls using the elastic collision equations
+	ball1.vx = dotProduct1 * nx + dotProduct4 * tx;
+	ball1.vy = dotProduct1 * ny + dotProduct4 * ty;
+	ball2.vx = dotProduct2 * nx + dotProduct3 * tx;
+	ball2.vy = dotProduct2 * ny + dotProduct3 * ty;
+}

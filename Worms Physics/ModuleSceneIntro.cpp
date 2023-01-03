@@ -231,28 +231,28 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		for (auto& ball : balls)
 		{
 			ball.vy += 50 * 0.016f;
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		for (auto& ball : balls)
 		{
 			ball.vy -= 50 * 0.016f;
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		for (auto& ball : balls)
 		{
 			ball.vx -= 50 * 0.016f;
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		for (auto& ball : balls)
 		{

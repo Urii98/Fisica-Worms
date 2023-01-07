@@ -21,7 +21,7 @@ bool ModulePlayer::Start()
 	score = 0;
 
 	strength = 3;
-	angle_shot = 0;
+	angle_shot = 0.5f;
 
 	body = PhysBall();
 
@@ -162,13 +162,13 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-		if (strength > 50)
+		if (strength >= 80)
 		{
-			strength = 50;
+			strength = 80;
 		}
 		else
 		{
-			strength += 0.5;
+			strength += 0.8;
 		}
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
@@ -191,13 +191,13 @@ update_status ModulePlayer::Update()
 	{
 		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 255, 0);
 	}
-	else if (strength > 50)
+	else if (strength > 80)
 	{
 		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 0, 255, 0);
 	}
 	else
 	{
-		App->renderer->DrawLine(px, py, px + objective_x * strength * 10, py - objective_y * strength * 10, 0, 255, 0);
+		App->renderer->DrawLine(px, py, px + objective_x * strength * 8, py - objective_y * strength * 8, 0, 255, 0);
 	}
 
 	return UPDATE_CONTINUE;

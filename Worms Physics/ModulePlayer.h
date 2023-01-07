@@ -31,6 +31,8 @@ public:
 
 	bool onGround;
 
+	int ballIdentification;
+
 	MoveType moveType;
 
 	float dt;

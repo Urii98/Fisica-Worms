@@ -18,7 +18,6 @@ public:
 
 	void AddForce(double fx, double fy);
 
-
 	// Position
 	// You could also use an array/vector
 	float x;
@@ -54,6 +53,9 @@ public:
 
 	// Shape
 	float radius;
+
+	// Identification
+	int id;
 
 	// Has physics enabled?
 	bool physics_enabled = true;
@@ -151,6 +153,8 @@ public:
 	void collisionForce(PhysBall& ball1, PhysBall& ball2);
 
 	bool is_colliding_with_sensor(const PhysBall& ball, const SensorWall& sensor);
+
+	void CreateBall(float radius, float x, float y, float vx, float vy, int id);
 
 	// Misc
 	float dt = 1.0 / 60.0;

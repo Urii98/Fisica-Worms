@@ -192,27 +192,8 @@ bool ModuleSceneIntro::Start()
 	atmosphere.windy = 5.0f; // [m/s]
 	atmosphere.density = 1.0f; // [kg/m^3]
 
-	// Create a ball
-	PhysBall ball = PhysBall();
-
-	// Set static properties of the ball
-	ball.mass = 10.0f; // [kg]
-	ball.surface = 1.0f; // [m^2]
-	ball.radius = 0.5f; // [m]
-	ball.cd = 0.4f; // [-]
-	ball.cl = 1.2f; // [-]
-	ball.b = 10.0f; // [...]
-	ball.coef_friction = 0.9f; // [-]
-	ball.coef_restitution = 0.8f; // [-]
-
-	// Set initial position and velocity of the ball
-	ball.x = 25.0f;
-	ball.y = 15.0f;
-	ball.vx = 0.0f;
-	ball.vy = 0.0f;
-
-	// Add ball to the collection
-	balls.emplace_back(ball);
+	// Test ball creation
+	App->physics->CreateBall(0.5f, 25.0f, 15.0f, 0.0f, 0.0f, 1);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	App->fonts->initialValuePhysParams();

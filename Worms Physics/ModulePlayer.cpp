@@ -38,10 +38,15 @@ bool ModulePlayer::Start()
 	body.vx = 0.0f;
 	body.vy = 0.0f;
 
+	// Nice
+	body.id = 69;
+
 	moveType = VELOCITY;
 
 	isDead = false;
 	onGround = true;
+
+	ballIdentification = 0;
 
 	return true;
 }
@@ -127,6 +132,12 @@ update_status ModulePlayer::Update()
 		break;
 	default:
 		break;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	{
+		App->physics->CreateBall(0.5f, body.x + 10, body.y + 10, 0.0f, 5.0f, ballIdentification);
+		ballIdentification++;
 	}
 
 	return UPDATE_CONTINUE;

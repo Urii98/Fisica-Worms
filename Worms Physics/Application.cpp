@@ -116,6 +116,16 @@ update_status Application::Update()
 
 	FinishUpdate();
 
+	if (input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		maxFrameDuration++;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		if(maxFrameDuration >1)
+		maxFrameDuration--;
+	}
 
 	return ret;
 }
@@ -161,10 +171,13 @@ void Application::FinishUpdate()
 		//LOG("No wait");
 	}
 
+	float expectedFrames = (1.0 / (float)maxFrameDuration) * 1000;
+
+
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
-		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount);
+	sprintf_s(title, 256, "Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u Frame duration in ms: %i FPS: %.2f",
+		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount, maxFrameDuration, expectedFrames);
 
 	window->SetTitle(title);
 

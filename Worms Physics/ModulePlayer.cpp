@@ -140,5 +140,9 @@ update_status ModulePlayer::Update()
 		ballIdentification++;
 	}
 
+	if (ballIdentification >= 7) {
+		App->physics->winLose = false;
+	}
+
 	return UPDATE_CONTINUE;
 }

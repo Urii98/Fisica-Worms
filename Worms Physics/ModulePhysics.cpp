@@ -182,26 +182,27 @@ update_status ModulePhysics::PreUpdate()
 		}
 
 		// Left Border
-		if (App->player->body.x + App->player->body.radius <= 0)
+		if (App->player->body.x - App->player->body.radius <= 0)
 		{
 			App->player->body.x = 0 + App->player->body.radius;
 			App->player->body.vx = -App->player->body.vx * 0.5f;
 		}
 		// Right Border
-		if (App->player->body.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
+		if (App->player->body.x + App->player->body.radius >= PIXEL_TO_METERS(SCREEN_WIDTH))
 		{
 			App->player->body.x = PIXEL_TO_METERS(SCREEN_WIDTH) - App->player->body.radius;
 			App->player->body.vx = -App->player->body.vx * 0.5f;
 		}
-		// Top Border
-		if (App->player->body.y <= 0)
+		// Bottom Border
+		if (App->player->body.y - App->player->body.radius <= 0)
 		{
 			App->player->body.y = 0 + App->player->body.radius;
 			App->player->body.vy = -App->player->body.vy * 0.5f;
 		}
-		// Bottom Border
-		if (App->player->body.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+		// Top Border
+		if (App->player->body.y + App->player->body.radius >= PIXEL_TO_METERS(SCREEN_HEIGHT))
 		{
+			App->player->body.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - App->player->body.radius;
 			App->player->body.vy = -App->player->body.vy * 0.5f;
 		}
 
@@ -384,26 +385,27 @@ update_status ModulePhysics::PreUpdate()
 		}
 
 		// Left Border
-		if (ball.x + ball.radius <= 0)
+		if (ball.x - ball.radius <= 0)
 		{
 			ball.x = 0 + ball.radius;
 			ball.vx = -ball.vx * 0.5f;
 		}
 		// Right Border
-		if (ball.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
+		if (ball.x + ball.radius >= PIXEL_TO_METERS(SCREEN_WIDTH))
 		{
 			ball.x = PIXEL_TO_METERS(SCREEN_WIDTH) - ball.radius;
 			ball.vx = -ball.vx * 0.5f;
 		}
-		// Top Border
-		if (ball.y <= 0)
+		// Bottom Border
+		if (ball.y - ball.radius <= 0)
 		{
 			ball.y = 0 + ball.radius;
 			ball.vy = -ball.vy * 0.5f;
 		}
-		// Bottom Border
-		if (ball.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+		// Top Border
+		if (ball.y + ball.radius >= PIXEL_TO_METERS(SCREEN_HEIGHT))
 		{
+			ball.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - ball.radius;
 			ball.vy = -ball.vy * 0.5f;
 		}
 

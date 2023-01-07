@@ -34,6 +34,8 @@ bool ModulePhysics::Start()
 	hidroDragXEnabled = true;
 	hidroDragYEnabled = true;
 
+	winLose = true;
+
 	return true;
 }
 
@@ -289,36 +291,17 @@ update_status ModulePhysics::PreUpdate()
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
 
-		//// Solve collision between ball and player
-		//if (is_colliding_with_ball(ball, App->player->body))
-		//{
-		//	double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
-
-		//	collisionForce(ball, App->player->body);
-
-		//	ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
-		//	ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
-		//	App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
-		//	App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
-		//}
-
-		// Solve collision between ball and ball
-		for (auto& ball2 : App->scene_intro->balls)
+		// Solve collision between ball and player
+		if (is_colliding_with_ball(ball, App->player->body))
 		{
-			if (ball2.id!= ball.id)
-			{
-				if (is_colliding_with_ball(ball, ball2))
-				{
-					double distance = std::sqrt(std::pow(ball.x - ball2.x, 2) + std::pow(ball.y - ball2.y, 2));
+			double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
 
-					collisionForce(ball, ball2);
+			collisionForce(ball, App->player->body);
 
-					ball.x += (ball.radius - distance / 2) * (ball.x - ball2.x) / distance;
-					ball.y += (ball.radius - distance / 2) * (ball.y - ball2.y) / distance;
-					ball2.x += (ball2.radius - distance / 2) * (ball2.x - ball.x) / distance;
-					ball2.y += (ball2.radius - distance / 2) * (ball2.y - ball.y) / distance;
-				}
-			}
+			ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
+			ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
+			App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
+			App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
 		}
 
 		// Solve collision between ball and ground
@@ -433,6 +416,11 @@ update_status ModulePhysics::PreUpdate()
 			}
 		}		
 	}
+
+	if (App->player->score == 30) {
+		winLose = false;
+	}
+
 
 	// -------------------- ATTENTION ------------------------------------
 	// ------------------- ¡¡DANGER!! ------------------------------------
@@ -859,31 +847,4 @@ void ModulePhysics::collisionForce(PhysBall& ball1, PhysBall& ball2)
 	ball1.vy = dotProduct1 * ny + dotProduct4 * ty;
 	ball2.vx = dotProduct2 * nx + dotProduct3 * tx;
 	ball2.vy = dotProduct2 * ny + dotProduct3 * ty;
-}
-
-void ModulePhysics::CreateBall(float radius, float x, float y, float vx, float vy, int id)
-{
-	// Create a ball
-	PhysBall ball = PhysBall();
-
-	// Set static properties of the ball
-	ball.mass = 10.0f; // [kg]
-	ball.surface = 1.0f; // [m^2]
-	ball.radius = 0.5f; // [m]
-	ball.cd = 0.4f; // [-]
-	ball.cl = 1.2f; // [-]
-	ball.b = 10.0f; // [...]
-	ball.coef_friction = 0.9f; // [-]
-	ball.coef_restitution = 0.8f; // [-]
-
-	// Set initial position and velocity of the ball
-	ball.x = x;
-	ball.y = y;
-	ball.vx = vx;
-	ball.vy = vy;
-
-	ball.id = id;
-
-	// Add ball to the collection
-	App->scene_intro->balls.emplace_back(ball);
 }

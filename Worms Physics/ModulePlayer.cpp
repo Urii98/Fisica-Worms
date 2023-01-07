@@ -83,7 +83,7 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && onGround)
 	{
-		body.vy += 700 * dt;
+		body.vy += 700 * 1/60;
 		onGround = false;
 	}
 
@@ -94,11 +94,11 @@ update_status ModulePlayer::Update()
 	case POSITION:
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			body.x -= 20 * dt;
+			body.x -= 20 * 0.016f;
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			body.x += 20 * dt;
+			body.x += 20 * 0.016f;
 		}
 		break;
 	case FORCES:
@@ -122,14 +122,14 @@ update_status ModulePlayer::Update()
 		{
 			if (body.vx >= -15)
 			{
-				body.vx = -500 * dt;
+				body.vx = -500 * 1 / 60;
 			}			
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
-				body.vx = 500 * dt;
+				body.vx = 500 * 1 / 60;
 			}
 		}
 		break;
@@ -140,12 +140,12 @@ update_status ModulePlayer::Update()
 	// Ball shot
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		angle_shot -= 0.5 * dt;
+		angle_shot -= 0.5 * 1 / 60;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		angle_shot += 0.5 * dt;
+		angle_shot += 0.5 * 1 / 60;
 	}
 
 	if (angle_shot > 1)

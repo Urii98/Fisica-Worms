@@ -212,34 +212,35 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		for (auto& ball : balls)
-		{
-			ball.vy += 50 * 0.016f;
-		}
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		for (auto& ball : balls)
-		{
-			ball.vy -= 50 * 0.016f;
-		}
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		for (auto& ball : balls)
-		{
-			ball.vx -= 50 * 0.016f;
-		}
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		for (auto& ball : balls)
-		{
-			ball.vx += 50 * 0.016f;
-		}
-	}
+	//// Debug ball move
+	//if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	//{
+	//	for (auto& ball : balls)
+	//	{
+	//		ball.vy += 50 * 0.016f;
+	//	}
+	//}
+	//else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	//{
+	//	for (auto& ball : balls)
+	//	{
+	//		ball.vy -= 50 * 0.016f;
+	//	}
+	//}
+	//else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	//{
+	//	for (auto& ball : balls)
+	//	{
+	//		ball.vx -= 50 * 0.016f;
+	//	}
+	//}
+	//else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	//{
+	//	for (auto& ball : balls)
+	//	{
+	//		ball.vx += 50 * 0.016f;
+	//	}
+	//}
 		
 
 	return UPDATE_CONTINUE;

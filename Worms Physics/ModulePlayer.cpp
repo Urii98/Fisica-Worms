@@ -20,6 +20,9 @@ bool ModulePlayer::Start()
 
 	score = 0;
 
+	strength = 3;
+	angle_shot = 0.5f;
+
 	body = PhysBall();
 
 	// Set static properties of the ball
@@ -78,7 +81,7 @@ update_status ModulePlayer::Update()
 		body.physics_enabled = true;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && onGround)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && onGround)
 	{
 		body.vy += 700 * dt;
 		onGround = false;
@@ -89,24 +92,24 @@ update_status ModulePlayer::Update()
 	case NONE:
 		break;
 	case POSITION:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			body.x -= 20 * dt;
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			body.x += 20 * dt;
 		}
 		break;
 	case FORCES:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			if (body.vx >= -15)
 			{
 				body.AddForce(-500, 0);
 			}
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
@@ -115,14 +118,14 @@ update_status ModulePlayer::Update()
 		}
 		break;
 	case VELOCITY:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			if (body.vx >= -15)
 			{
 				body.vx = -500 * dt;
 			}			
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
@@ -134,10 +137,70 @@ update_status ModulePlayer::Update()
 		break;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	// Ball shot
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		App->physics->CreateBall(0.5f, body.x, body.y, 0.0f, 5.0f, ballIdentification);
+		angle_shot -= 0.2 * dt;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		angle_shot += 0.2 * dt;
+	}
+
+	if (angle_shot > 1)
+	{
+		angle_shot = 1;
+	}
+	else if (angle_shot < -1)
+	{
+		angle_shot = -1;
+	}
+
+	objective_x = angle_shot;
+	objective_y = sqrt(1 - pow(angle_shot, 2));
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		if (strength >= 80)
+		{
+			strength = 80;
+		}
+		else
+		{
+			strength += 0.8;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, -objective_y * strength, ballIdentification);
 		ballIdentification++;
+		strength = 0;
+	}
+
+	printf("Angle Shot: %f \n", angle_shot);
+	printf("Strenght: %f \n", strength);
+
+	double px = METERS_TO_PIXELS(body.x);
+	double py = SCREEN_HEIGHT - METERS_TO_PIXELS(body.y);
+
+	printf("PX: %f, PY: %f\n", px, py);
+
+	// SHOT DIRECTION LINE DRAWING STARTS HERE -------------------------------------------------------------
+	if (strength < 3)
+	{
+		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 250, 150);
+	}
+	else if (strength >= 80)
+	{
+		// Max lenght Draw
+		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 255, 0, 0);
+	}
+	else
+	{
+		// Initial Draw
+		App->renderer->DrawLine(px, py, px + objective_x * strength * 8, py - objective_y * strength * 8, 0, 255, 0);
+		printf("AAAAAAAAAAAAAAAAAAAAAAAA %f, %f", px + objective_x * strength * 8, py - objective_y * strength * 8);
 	}
 
 	if (ballIdentification >= 7) {

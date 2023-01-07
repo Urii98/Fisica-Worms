@@ -33,6 +33,11 @@ public:
 
 	int ballIdentification;
 
+	float angle_shot;
+	float strength;
+	float objective_x;
+	float objective_y;
+
 	MoveType moveType;
 
 	float dt;

@@ -173,7 +173,7 @@ update_status ModulePlayer::Update()
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, -objective_y * strength, ballIdentification);
+		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, objective_y * strength, ballIdentification);
 		ballIdentification++;
 		strength = 3;
 	}

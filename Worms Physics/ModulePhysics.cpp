@@ -289,18 +289,18 @@ update_status ModulePhysics::PreUpdate()
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
 
-		// Solve collision between ball and player
-		if (is_colliding_with_ball(ball, App->player->body))
-		{
-			double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
+		//// Solve collision between ball and player
+		//if (is_colliding_with_ball(ball, App->player->body))
+		//{
+		//	double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
 
-			collisionForce(ball, App->player->body);
+		//	collisionForce(ball, App->player->body);
 
-			ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
-			ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
-			App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
-			App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
-		}
+		//	ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
+		//	ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
+		//	App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
+		//	App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
+		//}
 
 		// Solve collision between ball and ball
 		for (auto& ball2 : App->scene_intro->balls)

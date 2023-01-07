@@ -20,6 +20,9 @@ bool ModulePlayer::Start()
 
 	score = 0;
 
+	strength = 3;
+	angle_shot = 0;
+
 	body = PhysBall();
 
 	// Set static properties of the ball
@@ -177,6 +180,25 @@ update_status ModulePlayer::Update()
 
 	printf("Angle Shot: %f \n", angle_shot);
 	printf("Strenght: %f \n", strength);
+
+	double px = METERS_TO_PIXELS(body.x);
+	double py = SCREEN_HEIGHT - METERS_TO_PIXELS(body.y);
+
+	printf("PX: %f, PY: %f\n", px, py);
+
+	// SHOT DIRECTION LINE DRAWING STARTS HERE -------------------------------------------------------------
+	if (strength < 3)
+	{
+		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 255, 0);
+	}
+	else if (strength > 50)
+	{
+		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 0, 255, 0);
+	}
+	else
+	{
+		App->renderer->DrawLine(px, py, px + objective_x * strength * 10, py - objective_y * strength * 10, 0, 255, 0);
+	}
 
 	return UPDATE_CONTINUE;
 }

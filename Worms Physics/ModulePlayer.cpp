@@ -66,7 +66,7 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	std::cout << "XXXXXXXXXXXXXXXXXXXX" << App->scene_intro->balls.size() << std::endl;
+	
 	if (ballIdentification >= 7) {
 		App->physics->winLose = false;
 	}
@@ -233,12 +233,13 @@ update_status ModulePlayer::Update()
 		body.y = 10.0f;
 		body.vx = 0.0f;
 		body.vy = 0.0f;
-		for (int i = App->scene_intro->balls.size(); i >0 ; i--) {
+		for (float i = App->scene_intro->balls.size(); i > 1 ; i--) { //HAURIA DE SER 0 QUAN ES TREGUI LA BOLA INICIAL
 			App->scene_intro->balls.pop_back();
 		}
-		/*for (int i = ballIdentification; i >0; i--) {
-			App->scene_intro->balls.pop_back();
-		}*/
+		for (auto& sensor : App->scene_intro->sensorWalls)
+		{
+			if (!sensor.sbool) sensor.sbool = true;
+		}
 		ballIdentification = 0;
 		score = 0;
 

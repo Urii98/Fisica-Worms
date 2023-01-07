@@ -14,6 +14,9 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleFonts.h"
 
+#include "Timer.h"
+#include "PerfTimer.h"
+
 class ModuleFonts; 
 
 class Application
@@ -32,6 +35,24 @@ public:
 private:
 
 	p2List<Module*> list_modules;
+	uint frames;
+	float dt;
+
+	// L13: TODO 4: Calculate some timing measures
+	// required variables are provided:
+	Timer timer;
+	PerfTimer ptimer;
+
+	Timer startupTime;
+	Timer frameTime;
+	Timer lastSecFrameTime;
+
+	uint64 frameCount = 0;
+	uint32 framesPerSecond = 0;
+	uint32 lastSecFrameCount = 0;
+
+	float averageFps = 0.0f;
+	float secondsSinceStartup = 0.0f;
 
 public:
 
@@ -41,6 +62,10 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	void FinishUpdate();
+	void PrepareUpdate();
+	
 
 private:
 

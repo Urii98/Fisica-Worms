@@ -11,8 +11,8 @@ public:
 	Timer();
 
 	void Start();
-	uint32 Read() const;
-	float ReadSec() const;
+	uint32 ReadSec() const;
+	float ReadMSec() const;
 
 private:
 	uint32 startTime;

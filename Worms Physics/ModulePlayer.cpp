@@ -140,12 +140,12 @@ update_status ModulePlayer::Update()
 	// Ball shot
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		angle_shot -= 0.2 * dt;
+		angle_shot -= 0.5 * dt;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
-		angle_shot += 0.2 * dt;
+		angle_shot += 0.5 * dt;
 	}
 
 	if (angle_shot > 1)

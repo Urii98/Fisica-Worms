@@ -173,9 +173,9 @@ update_status ModulePlayer::Update()
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
-		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, -objective_y * strength, ballIdentification);
+		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, objective_y * strength, ballIdentification);
 		ballIdentification++;
-		strength = 0;
+		strength = 3;
 	}
 
 	printf("Angle Shot: %f \n", angle_shot);
@@ -187,20 +187,15 @@ update_status ModulePlayer::Update()
 	printf("PX: %f, PY: %f\n", px, py);
 
 	// SHOT DIRECTION LINE DRAWING STARTS HERE -------------------------------------------------------------
-	if (strength < 3)
-	{
-		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 250, 150);
-	}
-	else if (strength >= 80)
+	if (strength >= 80)
 	{
 		// Max lenght Draw
-		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 255, 0, 0);
+		App->renderer->DrawLine(px, py, px + objective_x * strength * 8, py - objective_y * strength * 8, 255, 0, 0);
 	}
 	else
 	{
-		// Initial Draw
+		// Initial and increasing Draw
 		App->renderer->DrawLine(px, py, px + objective_x * strength * 8, py - objective_y * strength * 8, 0, 255, 0);
-		printf("AAAAAAAAAAAAAAAAAAAAAAAA %f, %f", px + objective_x * strength * 8, py - objective_y * strength * 8);
 	}
 
 	return UPDATE_CONTINUE;

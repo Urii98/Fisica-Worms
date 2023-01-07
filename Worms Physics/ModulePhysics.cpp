@@ -179,31 +179,32 @@ update_status ModulePhysics::PreUpdate()
 				App->player->body.vx *= App->player->body.coef_friction;
 				App->player->body.vy *= App->player->body.coef_restitution;
 			}
-
-			// Left Border
-			if (App->player->body.x + App->player->body.radius <= 0)
-			{
-				App->player->body.x = 0 + App->player->body.radius;
-				App->player->body.vx = -App->player->body.vx * 0.5f;
-			}
-			// Right Border
-			if (App->player->body.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
-			{
-				App->player->body.x = PIXEL_TO_METERS(SCREEN_WIDTH) - App->player->body.radius;
-				App->player->body.vx = -App->player->body.vx * 0.5f;
-			}
-			// Top Border
-			if (App->player->body.y <= 0)
-			{
-				App->player->body.y = 0 + App->player->body.radius;
-				App->player->body.vy = -App->player->body.vy * 0.5f;
-			}
-			// Bottom Border
-			if (App->player->body.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
-			{
-				App->player->body.vy = -App->player->body.vy * 0.5f;
-			}
 		}
+
+		// Left Border
+		if (App->player->body.x + App->player->body.radius <= 0)
+		{
+			App->player->body.x = 0 + App->player->body.radius;
+			App->player->body.vx = -App->player->body.vx * 0.5f;
+		}
+		// Right Border
+		if (App->player->body.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
+		{
+			App->player->body.x = PIXEL_TO_METERS(SCREEN_WIDTH) - App->player->body.radius;
+			App->player->body.vx = -App->player->body.vx * 0.5f;
+		}
+		// Top Border
+		if (App->player->body.y <= 0)
+		{
+			App->player->body.y = 0 + App->player->body.radius;
+			App->player->body.vy = -App->player->body.vy * 0.5f;
+		}
+		// Bottom Border
+		if (App->player->body.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+		{
+			App->player->body.vy = -App->player->body.vy * 0.5f;
+		}
+
 	}
 	
 
@@ -288,19 +289,6 @@ update_status ModulePhysics::PreUpdate()
 
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------
-
-		//// Solve collision between ball and player
-		//if (is_colliding_with_ball(ball, App->player->body))
-		//{
-		//	double distance = std::sqrt(std::pow(ball.x - App->player->body.x, 2) + std::pow(ball.y - App->player->body.y, 2));
-
-		//	collisionForce(ball, App->player->body);
-
-		//	ball.x += (ball.radius - distance / 2) * (ball.x - App->player->body.x) / distance;
-		//	ball.y += (ball.radius - distance / 2) * (ball.y - App->player->body.y) / distance;
-		//	App->player->body.x += (App->player->body.radius - distance / 2) * (App->player->body.x - ball.x) / distance;
-		//	App->player->body.y += (App->player->body.radius - distance / 2) * (App->player->body.y - ball.y) / distance;
-		//}
 
 		// Solve collision between ball and ball
 		for (auto& ball2 : App->scene_intro->balls)
@@ -393,30 +381,30 @@ update_status ModulePhysics::PreUpdate()
 				ball.vx *= ball.coef_friction;
 				ball.vy *= ball.coef_restitution;
 			}
+		}
 
-			// Left Border
-			if (ball.x + ball.radius <= 0)
-			{
-				ball.x = 0 + ball.radius;
-				ball.vx = -ball.vx * 0.5f;
-			}
-			// Right Border
-			if (ball.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
-			{
-				ball.x = PIXEL_TO_METERS(SCREEN_WIDTH) - ball.radius;
-				ball.vx = -ball.vx * 0.5f;
-			}
-			// Top Border
-			if (ball.y <= 0)
-			{
-				ball.y = 0 + ball.radius;
-				ball.vy = -ball.vy * 0.5f;
-			}
-			// Bottom Border
-			if (ball.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
-			{
-				ball.vy = -ball.vy * 0.5f;
-			}
+		// Left Border
+		if (ball.x + ball.radius <= 0)
+		{
+			ball.x = 0 + ball.radius;
+			ball.vx = -ball.vx * 0.5f;
+		}
+		// Right Border
+		if (ball.x >= PIXEL_TO_METERS(SCREEN_WIDTH))
+		{
+			ball.x = PIXEL_TO_METERS(SCREEN_WIDTH) - ball.radius;
+			ball.vx = -ball.vx * 0.5f;
+		}
+		// Top Border
+		if (ball.y <= 0)
+		{
+			ball.y = 0 + ball.radius;
+			ball.vy = -ball.vy * 0.5f;
+		}
+		// Bottom Border
+		if (ball.y >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+		{
+			ball.vy = -ball.vy * 0.5f;
 		}
 
 		// Score Walls sensor

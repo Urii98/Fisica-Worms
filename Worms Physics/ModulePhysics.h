@@ -178,4 +178,6 @@ public:
 	bool aeroDragYEnabled;
 	bool hidroDragXEnabled;
 	bool hidroDragYEnabled;
+
+	bool winLose;
 };

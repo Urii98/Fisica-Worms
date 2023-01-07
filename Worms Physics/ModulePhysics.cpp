@@ -34,6 +34,8 @@ bool ModulePhysics::Start()
 	hidroDragXEnabled = true;
 	hidroDragYEnabled = true;
 
+	winLose = true;
+
 	return true;
 }
 
@@ -425,6 +427,11 @@ update_status ModulePhysics::PreUpdate()
 			
 			if (is_colliding_with_sensor(ball, sensor))
 			{
+				for (int i = 0; i < App->scene_intro->balls.size(); i++) {
+					if(App->scene_intro->balls[i].id == ball.id)
+					App->scene_intro->balls.erase(App->scene_intro->balls.begin()+i);
+				}
+				
 				if (sensor.sbool) {
 					App->player->score += 10;
 					sensor.sbool = false;
@@ -432,6 +439,10 @@ update_status ModulePhysics::PreUpdate()
 				}
 			}
 		}		
+	}
+
+	if (App->player->score == 30) {
+		winLose = false;
 	}
 
 	// -------------------- ATTENTION ------------------------------------

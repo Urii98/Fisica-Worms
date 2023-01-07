@@ -136,12 +136,9 @@ update_status ModulePlayer::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
-		App->physics->CreateBall(0.5f, body.x + 10, body.y + 10, 0.0f, 5.0f, ballIdentification);
+		App->physics->CreateBall(0.5f, body.x, body.y, 0.0f, 5.0f, ballIdentification);
 		ballIdentification++;
 	}
 
 	return UPDATE_CONTINUE;
 }
-
-
-

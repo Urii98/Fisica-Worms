@@ -176,10 +176,12 @@ void Application::FinishUpdate()
 
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u Frame duration in ms: %i FPS: %.2f",
-		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount, maxFrameDuration, expectedFrames);
+	sprintf_s(title, 256, "Av.FPS: %.2f Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u Frame duration in ms: %i FPS: %.2f Physics dt: %.2f",
+		averageFps, framesPerSecond, dt, secondsSinceStartup, frameCount, maxFrameDuration, expectedFrames, physics->dt);
 
 	window->SetTitle(title);
+
+	physics->dt = this->dt / 1000;
 
 }
 

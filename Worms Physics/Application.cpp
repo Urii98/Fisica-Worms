@@ -127,6 +127,8 @@ update_status Application::Update()
 		maxFrameDuration--;
 	}
 
+	physics->dt = this->dt / 1000;
+
 	return ret;
 }
 

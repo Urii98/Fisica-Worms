@@ -852,8 +852,8 @@ update_status ModuleFonts::PostUpdate()
 	}
 
 	
-	/*std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
-	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;*/
+	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
+	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
 
 
 	const char* integradorChar;
@@ -906,12 +906,33 @@ update_status ModuleFonts::PostUpdate()
 		BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 738 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
 	}
 	
-
 	//SCORE PLAYER
 	std::string scoreString = PhysicsParamsToString((float)App->player->score, 0, "Score: ");
 	const char* scoreChar = scoreString.c_str();
-	BlitText(SCREEN_WIDTH / 2 -30 , SCREEN_HEIGHT / 2 - 30, textFont, scoreChar);
+	BlitText(SCREEN_WIDTH / 2 - 60 , SCREEN_HEIGHT / 2 - 30, textFont, scoreChar);
 
+	
+	//670
 
+	const char* moveTypeChar;
+	switch (App->player->moveType)
+	{
+	case MoveType::POSITION:
+		moveTypeChar = "Control Scheme: Position";
+		BlitText(242, 725, textFont, moveTypeChar);
+			break;
+	case MoveType::FORCES:
+		moveTypeChar = "Control Scheme: Forces";
+		BlitText(242, 725, textFont, moveTypeChar);
+			break;
+	case MoveType::VELOCITY:
+		moveTypeChar = "Control Scheme: Velocity";
+		BlitText(242, 725, textFont, moveTypeChar);
+		break;
+	default:
+		break;
+
+	}
+	
 	return UPDATE_CONTINUE;
 }

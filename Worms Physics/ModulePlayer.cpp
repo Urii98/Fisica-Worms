@@ -189,15 +189,18 @@ update_status ModulePlayer::Update()
 	// SHOT DIRECTION LINE DRAWING STARTS HERE -------------------------------------------------------------
 	if (strength < 3)
 	{
-		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 255, 0);
+		App->renderer->DrawLine(px, py, px + objective_x * 30, py - objective_y * 30, 0, 250, 150);
 	}
-	else if (strength > 80)
+	else if (strength >= 80)
 	{
-		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 0, 255, 0);
+		// Max lenght Draw
+		App->renderer->DrawLine(px, py, px + objective_x * 150, py - objective_y * 150, 255, 0, 0);
 	}
 	else
 	{
+		// Initial Draw
 		App->renderer->DrawLine(px, py, px + objective_x * strength * 8, py - objective_y * strength * 8, 0, 255, 0);
+		printf("AAAAAAAAAAAAAAAAAAAAAAAA %f, %f", px + objective_x * strength * 8, py - objective_y * strength * 8);
 	}
 
 	return UPDATE_CONTINUE;

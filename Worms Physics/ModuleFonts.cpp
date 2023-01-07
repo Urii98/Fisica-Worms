@@ -907,6 +907,10 @@ update_status ModuleFonts::PostUpdate()
 	}
 	
 
+	//SCORE PLAYER
+	std::string scoreString = PhysicsParamsToString((float)App->player->score, 0, "Score: ");
+	const char* scoreChar = scoreString.c_str();
+	BlitText(SCREEN_WIDTH / 2 -30 , SCREEN_HEIGHT / 2 - 30, textFont, scoreChar);
 
 
 	return UPDATE_CONTINUE;

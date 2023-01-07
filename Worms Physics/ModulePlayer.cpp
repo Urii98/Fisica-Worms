@@ -78,7 +78,7 @@ update_status ModulePlayer::Update()
 		body.physics_enabled = true;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN && onGround)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && onGround)
 	{
 		body.vy += 700 * dt;
 		onGround = false;
@@ -89,24 +89,24 @@ update_status ModulePlayer::Update()
 	case NONE:
 		break;
 	case POSITION:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			body.x -= 20 * dt;
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			body.x += 20 * dt;
 		}
 		break;
 	case FORCES:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			if (body.vx >= -15)
 			{
 				body.AddForce(-500, 0);
 			}
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
@@ -115,14 +115,14 @@ update_status ModulePlayer::Update()
 		}
 		break;
 	case VELOCITY:
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			if (body.vx >= -15)
 			{
 				body.vx = -500 * dt;
 			}			
 		}
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			if (body.vx <= 15)
 			{
@@ -134,11 +134,49 @@ update_status ModulePlayer::Update()
 		break;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+	// Ball shot
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
-		App->physics->CreateBall(0.5f, body.x, body.y, 0.0f, 5.0f, ballIdentification);
-		ballIdentification++;
+		angle_shot -= 0.2 * dt;
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		angle_shot += 0.2 * dt;
+	}
+
+	if (angle_shot > 1)
+	{
+		angle_shot = 1;
+	}
+	else if (angle_shot < -1)
+	{
+		angle_shot = -1;
+	}
+
+	objective_x = angle_shot;
+	objective_y = sqrt(1 - pow(angle_shot, 2));
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		if (strength > 50)
+		{
+			strength = 50;
+		}
+		else
+		{
+			strength += 0.5;
+		}
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, -objective_y * strength, ballIdentification);
+		ballIdentification++;
+		strength = 0;
+	}
+
+	printf("Angle Shot: %f \n", angle_shot);
+	printf("Strenght: %f \n", strength);
 
 	return UPDATE_CONTINUE;
 }

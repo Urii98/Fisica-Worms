@@ -911,6 +911,8 @@ update_status ModuleFonts::PostUpdate()
 	const char* scoreChar = scoreString.c_str();
 	BlitText(SCREEN_WIDTH / 2 - 60 , SCREEN_HEIGHT / 2 - 30, textFont, scoreChar);
 
+	
+	//670
 
 	const char* moveTypeChar;
 	switch (App->player->moveType)
@@ -929,6 +931,7 @@ update_status ModuleFonts::PostUpdate()
 		break;
 	default:
 		break;
+
 	}
 	
 	return UPDATE_CONTINUE;

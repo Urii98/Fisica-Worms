@@ -18,7 +18,6 @@ public:
 
 	void AddForce(double fx, double fy);
 
-
 	// Position
 	// You could also use an array/vector
 	float x;
@@ -55,10 +54,11 @@ public:
 	// Shape
 	float radius;
 
+	// Identification
+	int id;
+
 	// Has physics enabled?
 	bool physics_enabled = true;
-
-	int id;
 
 };
 
@@ -178,6 +178,4 @@ public:
 	bool aeroDragYEnabled;
 	bool hidroDragXEnabled;
 	bool hidroDragYEnabled;
-
-	bool winLose;
 };

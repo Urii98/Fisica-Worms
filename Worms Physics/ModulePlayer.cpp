@@ -203,9 +203,5 @@ update_status ModulePlayer::Update()
 		printf("AAAAAAAAAAAAAAAAAAAAAAAA %f, %f", px + objective_x * strength * 8, py - objective_y * strength * 8);
 	}
 
-	if (ballIdentification >= 7) {
-		App->physics->winLose = false;
-	}
-
 	return UPDATE_CONTINUE;
 }

@@ -49,14 +49,14 @@ bool ModuleSceneIntro::Start()
 	wall3.bouncyness = 1.0f;
 
 	wall4 = Wall();
-	wall4.w = 5.0f; // [m]
+	wall4.w = 8.0f; // [m]
 	wall4.h = 1.5f; // [m]
-	wall4.x = wall3.x + wall4.h; // [m]
+	wall4.x = wall3.x + wall4.h - 1.5f; // [m]
 	wall4.y = wall3.y - wall4.h; // [m]
 	wall4.bouncyness = 1.0f;
 
 	wall5 = Wall();
-	wall5.x = wall4.x + wall4.w; // [m]
+	wall5.x = wall4.x + wall4.w - 1.5f; // [m]
 	wall5.y = wall3.y; // [m]
 	wall5.w = wall3.w; // [m]
 	wall5.h = wall3.h; // [m]
@@ -71,14 +71,14 @@ bool ModuleSceneIntro::Start()
 	wall6.bouncyness = 1.0f;
 
 	wall7 = Wall();
-	wall7.w = 8.0f; // [m]
+	wall7.w = 11.0f; // [m]
 	wall7.h = 1.5f; // [m]
-	wall7.x = wall6.x + wall7.h; // [m]
+	wall7.x = wall6.x + wall7.h - 1.5f; // [m]
 	wall7.y = wall6.y - wall7.h; // [m]
 	wall7.bouncyness = 1.0f;
 
 	wall8 = Wall();
-	wall8.x = wall7.x + wall7.w; // [m]
+	wall8.x = wall7.x + wall7.w - 1.5f; // [m]
 	wall8.y = wall6.y; // [m]
 	wall8.w = wall6.w; // [m]
 	wall8.h = wall6.h; // [m]
@@ -93,14 +93,14 @@ bool ModuleSceneIntro::Start()
 	wall9.bouncyness = 1.0f;
 
 	wall10 = Wall();
-	wall10.w = 5.0f; // [m]
+	wall10.w = 8.0f; // [m]
 	wall10.h = 1.5f; // [m]
-	wall10.x = wall9.x + wall10.h; // [m]
+	wall10.x = wall9.x + wall10.h - 1.5f; // [m]
 	wall10.y = wall9.y - wall10.h; // [m]
 	wall10.bouncyness = 1.0f;
 
 	wall11 = Wall();
-	wall11.x = wall10.x + wall10.w; // [m]
+	wall11.x = wall10.x + wall10.w - 1.5f; // [m]
 	wall11.y = wall9.y; // [m]
 	wall11.w = wall9.w; // [m]
 	wall11.h = wall9.h; // [m]

@@ -99,7 +99,7 @@ update_status ModulePhysics::PreUpdate()
 			integrator_forward_euler(App->player->body, dt);
 			break;
 		}
-		printf("\nPLAYER ACCEL: %f, %f\n", App->player->body.ax, App->player->body.ay);
+		//printf("\nPLAYER ACCEL: %f, %f\n", App->player->body.ax, App->player->body.ay);
 
 		// Step #4: solve collisions
 		// ----------------------------------------------------------------------------------------

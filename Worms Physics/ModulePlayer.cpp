@@ -186,13 +186,13 @@ update_status ModulePlayer::Update()
 			strength = 0;
 		}
 
-		printf("Angle Shot: %f \n", angle_shot);
-		printf("Strenght: %f \n", strength);
+		/*printf("Angle Shot: %f \n", angle_shot);
+		printf("Strenght: %f \n", strength);*/
 
 		double px = METERS_TO_PIXELS(body.x);
 		double py = SCREEN_HEIGHT - METERS_TO_PIXELS(body.y);
 
-		printf("PX: %f, PY: %f\n", px, py);
+		/*printf("PX: %f, PY: %f\n", px, py);*/
 
 		// SHOT DIRECTION LINE DRAWING STARTS HERE -------------------------------------------------------------
 		if (strength < 3)

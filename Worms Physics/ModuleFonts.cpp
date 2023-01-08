@@ -903,8 +903,8 @@ update_status ModuleFonts::PostUpdate()
 	}
 
 	
-	std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
-	std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
+	//std::cout << "Mouse.x" << App->input->GetMouseX() << std::endl;
+	//std::cout << "Mouse.y" << App->input->GetMouseY() << std::endl;
 
 
 	const char* integradorChar;

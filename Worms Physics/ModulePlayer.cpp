@@ -19,6 +19,8 @@ bool ModulePlayer::Start()
 
 	dt = App->physics->dt;
 
+	introParameters = false;
+
 	score = 0;
 
 	strength = 3;
@@ -178,7 +180,8 @@ update_status ModulePlayer::Update()
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 		{
-			App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, -objective_y * strength, ballIdentification);
+			App->physics->CreateBall(0.5f, body.x, body.y, objective_x * strength, objective_y * strength, ballIdentification);
+			introParameters = true;
 			ballIdentification++;
 			strength = 0;
 		}
@@ -233,7 +236,7 @@ update_status ModulePlayer::Update()
 			body.y = 10.0f;
 			body.vx = 0.0f;
 			body.vy = 0.0f;
-			for (float i = App->scene_intro->balls.size(); i > 1 ; i--) { //HAURIA DE SER 0 QUAN ES TREGUI LA BOLA INICIAL
+			for (float i = App->scene_intro->balls.size(); i > 0 ; i--) { // GRACIES PAU PEL COMENTARI
 				App->scene_intro->balls.pop_back();
 			}
 			for (auto& sensor : App->scene_intro->sensorWalls)

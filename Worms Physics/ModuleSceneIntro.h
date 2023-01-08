@@ -126,6 +126,10 @@ public:
 	// Right bouncy wall
 	Wall wall13{};
 
+	// Water limits
+	Wall wall14{};
+	Wall wall15{};
+
 
 	// Bounce wall 1
 

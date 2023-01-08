@@ -122,6 +122,21 @@ bool ModuleSceneIntro::Start()
 	wall13.h = 3.0f; // [m]
 	wall13.bouncyness = 2.0f;
 
+	// Water limits
+	wall14 = Wall();
+	wall14.x = 0;
+	wall14.y = 0;
+	wall14.w = 0.1f;
+	wall14.h = 5.0f;
+	wall14.bouncyness = 1.0f;
+
+	wall15 = Wall();
+	wall15.y = 0;
+	wall15.w = 0.1f;
+	wall15.h = 5.0f;
+	wall15.x = PIXEL_TO_METERS(SCREEN_WIDTH - .1);
+	wall15.bouncyness = 1.0f;
+
 	walls.emplace_back(wall1);
 	walls.emplace_back(wall2);
 	walls.emplace_back(wall3);
@@ -135,6 +150,8 @@ bool ModuleSceneIntro::Start()
 	walls.emplace_back(wall11);
 	walls.emplace_back(wall12);
 	walls.emplace_back(wall13);
+	walls.emplace_back(wall14);
+	walls.emplace_back(wall15);
 
 	//Sensor esquerra
 	sensor1 = SensorWall();
@@ -192,11 +209,8 @@ bool ModuleSceneIntro::Start()
 	atmosphere.windy = 5.0f; // [m/s]
 	atmosphere.density = 1.0f; // [kg/m^3]
 
-	// Test ball creation
-	App->physics->CreateBall(0.5f, 25.0f, 15.0f, 0.0f, 0.0f, 1);
-
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	App->fonts->initialValuePhysParams();
+	
 
 	return ret;
 }
@@ -212,36 +226,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	//// Debug ball move
-	//if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	//{
-	//	for (auto& ball : balls)
-	//	{
-	//		ball.vy += 50 * 0.016f;
-	//	}
-	//}
-	//else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	//{
-	//	for (auto& ball : balls)
-	//	{
-	//		ball.vy -= 50 * 0.016f;
-	//	}
-	//}
-	//else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	//{
-	//	for (auto& ball : balls)
-	//	{
-	//		ball.vx -= 50 * 0.016f;
-	//	}
-	//}
-	//else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	//{
-	//	for (auto& ball : balls)
-	//	{
-	//		ball.vx += 50 * 0.016f;
-	//	}
-	//}
-		
-
+	App->fonts->initialValuePhysParams();
 	return UPDATE_CONTINUE;
 }

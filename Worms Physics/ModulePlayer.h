@@ -43,5 +43,7 @@ public:
 	float dt;
 	bool isDead;
 
+	bool introParameters;
+
 	int score;
 };

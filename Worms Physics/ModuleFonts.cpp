@@ -75,13 +75,17 @@ void ModuleFonts::initialValuePhysParams()
 	initialWaterVely = App->scene_intro->water1.vy;
 	initialWaterDensity = App->scene_intro->water1.density;
 	initialWallBouncyness = App->scene_intro->walls[11].bouncyness;
-	initialBallMass = App->scene_intro->balls[0].mass;
-	initialBallFriction = App->scene_intro->balls[0].coef_friction;
-	initialBallRestitution = App->scene_intro->balls[0].coef_restitution;
-	initialBallAeroDrag = App->scene_intro->balls[0].cd;
-	initialBallHidroDrag = App->scene_intro->balls[0].b;
-	initialBallHidroDrag = App->scene_intro->balls[0].surface;
-
+	
+	// If a ball is created
+	if (!App->scene_intro->balls.empty())
+	{
+		initialBallMass = App->scene_intro->balls[0].mass;
+		initialBallFriction = App->scene_intro->balls[0].coef_friction;
+		initialBallRestitution = App->scene_intro->balls[0].coef_restitution;
+		initialBallAeroDrag = App->scene_intro->balls[0].cd;
+		initialBallHidroDrag = App->scene_intro->balls[0].b;
+		initialBallHidroDrag = App->scene_intro->balls[0].surface;
+	}
 }
 // Load new texture from file path
 int ModuleFonts::Load(const char* texture_path, const char* characters, uint rows)
@@ -391,7 +395,11 @@ update_status ModuleFonts::PostUpdate()
 		break;
 
 	case enumPhysParams::BALLMASS:
-		App->scene_intro->balls[0].mass += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.mass += toSum;
+		}
+		
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 1, "Ball Mass   : ");
@@ -400,13 +408,19 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].mass = initialBallMass;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.mass = initialBallMass;
+			}
 			reset = false;
 		}
 		break;
 
 	case enumPhysParams::BALLFRICTION:
-		App->scene_intro->balls[0].coef_friction += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.coef_friction += toSum;
+		}
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.  : ");
@@ -415,13 +429,20 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].coef_friction = initialBallFriction;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.coef_friction = initialBallFriction;
+			}
+			
 			reset = false;
 		}
 		break;
 
 	case enumPhysParams::BALLRESTITUION:
-		App->scene_intro->balls[0].coef_restitution += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.coef_restitution += toSum;
+		}
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.  : ");
@@ -431,13 +452,19 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].coef_restitution = initialBallRestitution;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.coef_restitution = initialBallRestitution;
+			}
 			reset = false;
 		}
 		break;
 
 	case enumPhysParams::BALLAERODRAGCOEFF:
-		App->scene_intro->balls[0].cd += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.cd += toSum;
+		}
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].cd, 2, "Ball A.Drag.: ");
@@ -446,12 +473,20 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].cd = initialBallAeroDrag;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.cd = initialBallAeroDrag;
+			}
+			
 			reset = false;
 		}
 		break;
 	case enumPhysParams::BALLHIDRODRAGCOEFF:
-		App->scene_intro->balls[0].b += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.b += toSum;
+		}
+		
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].b, 2, "Ball H.Drag.: ");
@@ -460,12 +495,19 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].b = initialBallHidroDrag;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.b = initialBallHidroDrag;
+			}
 			reset = false;
 		}
 		break;
 	case enumPhysParams::BALLSURFACE:
-		App->scene_intro->balls[0].surface += toSum;
+		for (auto& ball : App->scene_intro->balls)
+		{
+			ball.surface += toSum;
+		}
+
 		toSum = 0.0f;
 
 		auxString = PhysicsParamsToString(App->scene_intro->balls[0].surface, 2, "Ball Surface: ");
@@ -474,7 +516,11 @@ update_status ModuleFonts::PostUpdate()
 
 		if (reset)
 		{
-			App->scene_intro->balls[0].surface = initialBallSurface;
+			for (auto& ball : App->scene_intro->balls)
+			{
+				ball.surface = initialBallSurface;
+			}
+
 			reset = false;
 		}
 		break;
@@ -678,47 +724,52 @@ update_status ModuleFonts::PostUpdate()
 		BlitText(0, 115, textFont, "Wall.Bouncy.:*");
 	}
 
-	if (iterador != 9)
+	if (!App->scene_intro->balls.empty())
 	{
-		std::string ballMassString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 1, "Ball Mass   : ");
-		const char* ballMassChar = ballMassString.c_str();
-		BlitText(242, 600, textFont, ballMassChar);
+		if (iterador != 9)
+		{
+			std::string ballMassString = PhysicsParamsToString(App->scene_intro->balls[0].mass, 1, "Ball Mass   : ");
+			const char* ballMassChar = ballMassString.c_str();
+			BlitText(242, 600, textFont, ballMassChar);
+		}
+
+		if (iterador != 10)
+		{
+			std::string ballFrictionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.  : ");
+			const char* ballFrictionChar = ballFrictionString.c_str();
+			BlitText(242, 614, textFont, ballFrictionChar);
+		}
+
+		if (iterador != 11)
+		{
+			std::string ballRestitutionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.  : ");
+			const char* ballRestitutionChar = ballRestitutionString.c_str();
+			BlitText(242, 628, textFont, ballRestitutionChar);
+		}
+
+		if (iterador != 12)
+		{
+			std::string ballAeroDragString = PhysicsParamsToString(App->scene_intro->balls[0].cd, 2, "Ball A.Drag.: ");
+			const char* ballAeroDragChar = ballAeroDragString.c_str();
+			BlitText(242, 642, textFont, ballAeroDragChar);
+		}
+
+		if (iterador != 13)
+		{
+			std::string ballHidroDragString = PhysicsParamsToString(App->scene_intro->balls[0].b, 2, "Ball H.Drag.: ");
+			const char* ballHidroDragChar = ballHidroDragString.c_str();
+			BlitText(242, 656, textFont, ballHidroDragChar);
+		}
+
+		if (iterador != 14)
+		{
+			std::string ballSurfaceString = PhysicsParamsToString(App->scene_intro->balls[0].surface, 2, "Ball Surface: ");
+			const char* ballSurfaceChar = ballSurfaceString.c_str();
+			BlitText(242, 670, textFont, ballSurfaceChar);
+		}
 	}
 
-	if (iterador != 10)
-	{
-		std::string ballFrictionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_friction, 2, "Ball Fric.  : ");
-		const char* ballFrictionChar = ballFrictionString.c_str();
-		BlitText(242, 614, textFont, ballFrictionChar);
-	}
 
-	if (iterador != 11)
-	{
-		std::string ballRestitutionString = PhysicsParamsToString(App->scene_intro->balls[0].coef_restitution, 2, "Ball Rest.  : ");
-		const char* ballRestitutionChar = ballRestitutionString.c_str();
-		BlitText(242, 628, textFont, ballRestitutionChar);
-	}
-	
-	if (iterador != 12)
-	{
-		std::string ballAeroDragString = PhysicsParamsToString(App->scene_intro->balls[0].cd, 2, "Ball A.Drag.: ");
-		const char* ballAeroDragChar = ballAeroDragString.c_str();
-		BlitText(242, 642, textFont, ballAeroDragChar);
-	}
-
-	if (iterador != 13)
-	{
-		std::string ballHidroDragString = PhysicsParamsToString(App->scene_intro->balls[0].b, 2, "Ball H.Drag.: ");
-		const char* ballHidroDragChar = ballHidroDragString.c_str();
-		BlitText(242, 656, textFont, ballHidroDragChar);
-	}
-
-	if (iterador != 14)
-	{
-		std::string ballSurfaceString = PhysicsParamsToString(App->scene_intro->balls[0].surface, 2, "Ball Surface: ");
-		const char* ballSurfaceChar = ballSurfaceString.c_str();
-		BlitText(242, 670, textFont, ballSurfaceChar);
-	}
 
 
 	BlitText(242, 570, textFont, "Ball ");
@@ -875,36 +926,45 @@ update_status ModuleFonts::PostUpdate()
 		break;
 	}
 
-	//Ball Pos.x
-	std::string ballPosXString = PhysicsParamsToString(METERS_TO_PIXELS(App->scene_intro->balls[0].x), 0, "X.");
-	const char* ballPosXChar = ballPosXString.c_str();
-	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 758 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosXChar);
-
-	//Ball Pos.y
-	std::string ballPosYString = PhysicsParamsToString(METERS_TO_PIXELS(App->scene_intro->balls[0].y), 0, "Y.");
-	std::string ballPosYStringCut = ballPosYString.substr(0, 1);
-	const char* ballPosYChar = ballPosYStringCut.c_str();
-	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 698 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
-
-	ballPosYStringCut = ballPosYString.substr(1, 1);
-	ballPosYChar = ballPosYStringCut.c_str();
-	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 708 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
-
-	ballPosYStringCut = ballPosYString.substr(2, 1);
-	ballPosYChar = ballPosYStringCut.c_str();
-	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 718 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
-
-	ballPosYStringCut = ballPosYString.substr(3, 1);
-	ballPosYChar = ballPosYStringCut.c_str();
-	BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 728 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
-
-	//std::cout << ballPosYStringCut << std::endl;
-	if (METERS_TO_PIXELS(App->scene_intro->balls[0].y) > 100)
+	if (!App->scene_intro->balls.empty())
 	{
-		ballPosYStringCut = ballPosYString.substr(4, 1);
-		ballPosYChar = ballPosYStringCut.c_str();
-		BlitText(METERS_TO_PIXELS(App->scene_intro->balls[0].x) + 8, 738 - METERS_TO_PIXELS(App->scene_intro->balls[0].y), textFont, ballPosYChar);
+		for (auto& ball : App->scene_intro->balls)
+		{
+			//Ball Pos.x
+			std::string ballPosXString = PhysicsParamsToString(METERS_TO_PIXELS(ball.x), 0, "X.");
+			const char* ballPosXChar = ballPosXString.c_str();
+			BlitText(METERS_TO_PIXELS(ball.x) + 8, 758 - METERS_TO_PIXELS(ball.y), textFont, ballPosXChar);
+
+			//Ball Pos.y
+			std::string ballPosYString = PhysicsParamsToString(METERS_TO_PIXELS(ball.y), 0, "Y.");
+			std::string ballPosYStringCut = ballPosYString.substr(0, 1);
+			const char* ballPosYChar = ballPosYStringCut.c_str();
+			BlitText(METERS_TO_PIXELS(ball.x) + 8, 698 - METERS_TO_PIXELS(ball.y), textFont, ballPosYChar);
+
+			ballPosYStringCut = ballPosYString.substr(1, 1);
+			ballPosYChar = ballPosYStringCut.c_str();
+			BlitText(METERS_TO_PIXELS(ball.x) + 8, 708 - METERS_TO_PIXELS(ball.y), textFont, ballPosYChar);
+
+			ballPosYStringCut = ballPosYString.substr(2, 1);
+			ballPosYChar = ballPosYStringCut.c_str();
+			BlitText(METERS_TO_PIXELS(ball.x) + 8, 718 - METERS_TO_PIXELS(ball.y), textFont, ballPosYChar);
+
+			ballPosYStringCut = ballPosYString.substr(3, 1);
+			ballPosYChar = ballPosYStringCut.c_str();
+			BlitText(METERS_TO_PIXELS(ball.x) + 8, 728 - METERS_TO_PIXELS(ball.y), textFont, ballPosYChar);
+
+			//std::cout << ballPosYStringCut << std::endl;
+			if (METERS_TO_PIXELS(ball.y) > 100)
+			{
+				ballPosYStringCut = ballPosYString.substr(4, 1);
+				ballPosYChar = ballPosYStringCut.c_str();
+				BlitText(METERS_TO_PIXELS(ball.x) + 8, 738 - METERS_TO_PIXELS(ball.y), textFont, ballPosYChar);
+			}
+		}
+		
 	}
+
+	
 	
 	//SCORE PLAYER
 	std::string scoreString = PhysicsParamsToString((float)App->player->score, 0, "Score: ");

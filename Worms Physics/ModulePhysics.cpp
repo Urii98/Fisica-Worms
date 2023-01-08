@@ -83,8 +83,6 @@ update_status ModulePhysics::PreUpdate()
 		App->player->body.ax = App->player->body.fx / App->player->body.mass;
 		App->player->body.ay = App->player->body.fy / App->player->body.mass;
 
-		
-		
 
 		// Step #3: Integrate --> from accel to new velocity & new position
 		// ----------------------------------------------------------------------------------------
@@ -386,29 +384,37 @@ update_status ModulePhysics::PreUpdate()
 			}
 		}
 
-		// Left Border
-		if (ball.x - ball.radius <= 0)
+		//// Left Border
+		//if (ball.x - ball.radius <= 0)
+		//{
+		//	ball.x = 0 + ball.radius;
+		//	ball.vx = -ball.vx * 0.5f;
+		//}
+		//// Right Border
+		//if (ball.x + ball.radius >= PIXEL_TO_METERS(SCREEN_WIDTH))
+		//{
+		//	ball.x = PIXEL_TO_METERS(SCREEN_WIDTH) - ball.radius;
+		//	ball.vx = -ball.vx * 0.5f;
+		//}
+		//// Bottom Border
+		//if (ball.y - ball.radius <= 0)
+		//{
+		//	ball.y = 0 + ball.radius;
+		//	ball.vy = -ball.vy * 0.5f;
+		//}
+		//// Top Border
+		//if (ball.y + ball.radius >= PIXEL_TO_METERS(SCREEN_HEIGHT))
+		//{
+		//	ball.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - ball.radius;
+		//	ball.vy = -ball.vy * 0.5f;
+		//}
+
+		if (ball.x > PIXEL_TO_METERS(SCREEN_WIDTH + 10) || ball.x < PIXEL_TO_METERS(-10) || ball.y > PIXEL_TO_METERS(SCREEN_HEIGHT + 10) || ball.y < PIXEL_TO_METERS(-10))
 		{
-			ball.x = 0 + ball.radius;
-			ball.vx = -ball.vx * 0.5f;
-		}
-		// Right Border
-		if (ball.x + ball.radius >= PIXEL_TO_METERS(SCREEN_WIDTH))
-		{
-			ball.x = PIXEL_TO_METERS(SCREEN_WIDTH) - ball.radius;
-			ball.vx = -ball.vx * 0.5f;
-		}
-		// Bottom Border
-		if (ball.y - ball.radius <= 0)
-		{
-			ball.y = 0 + ball.radius;
-			ball.vy = -ball.vy * 0.5f;
-		}
-		// Top Border
-		if (ball.y + ball.radius >= PIXEL_TO_METERS(SCREEN_HEIGHT))
-		{
-			ball.y = PIXEL_TO_METERS(SCREEN_HEIGHT) - ball.radius;
-			ball.vy = -ball.vy * 0.5f;
+			for (int i = 0; i < App->scene_intro->balls.size(); i++) {
+				if (App->scene_intro->balls[i].id == ball.id)
+  					App->scene_intro->balls.erase(App->scene_intro->balls.begin() + i);
+			}
 		}
 
 		// Score Walls sensor
@@ -498,6 +504,8 @@ update_status ModulePhysics::PostUpdate()
 	App->renderer->DrawQuad(App->scene_intro->wall12.pixels(), color_r, color_g, color_b);
 	App->renderer->DrawQuad(App->scene_intro->wall13.pixels(), color_r, color_g, color_b);
 
+
+
 	// Draw water1
 	color_r = 0; color_g = 0; color_b = 255;
 	App->renderer->DrawQuad(App->scene_intro->water1.pixels(), color_r, color_g, color_b);
@@ -505,6 +513,11 @@ update_status ModulePhysics::PostUpdate()
 	// Draw water2
 	color_r = 0; color_g = 0; color_b = 255;
 	App->renderer->DrawQuad(App->scene_intro->water2.pixels(), color_r, color_g, color_b);
+
+	// Draw water walls
+	color_r = 255; color_g = 155; color_b = 0;
+	App->renderer->DrawQuad(App->scene_intro->wall14.pixels(), color_r, color_g, color_b);
+	App->renderer->DrawQuad(App->scene_intro->wall15.pixels(), color_r, color_g, color_b);
 
 	//// Draw Sensors
 	//color_r = 0; color_g = 255; color_b = 255;

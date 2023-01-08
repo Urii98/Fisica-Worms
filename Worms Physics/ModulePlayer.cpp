@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
+#include "ModuleFonts.h"
 #include "PhysBody.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
